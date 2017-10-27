@@ -9,17 +9,16 @@ Expires: April 30, 2018                                    Cisco Systems
                                                         October 27, 2017
 
 
-       Using XMPP Protocol and its Extensions for Use with IODEF
+              Using XMPP for Security Information Exchange
                       draft-ietf-mile-xmpp-grid-04
 
 Abstract
 
-   This document describes how the Extensible Messaging and Presence
-   Protocol (XMPP) [RFC6120] can be used as the transport protocol for
-   collecting and distributing observed information used by security
-   applications between any network connected device.  As an example,
-   this document describes how XMPP can be used to transport the
-   Incident Object Description Exchange Format (IODEF) information.
+   This document describes how to use the Extensible Messaging and
+   Presence Protocol (XMPP) as a transport for collecting and
+   distributing security-relevant information between network-connected
+   devices.  As an example, this document describes such a usage for the
+   Incident Object Description Exchange Format (IODEF).
 
 Status of This Memo
 
@@ -53,6 +52,7 @@ Copyright Notice
 
 
 
+
 Cam-Winget, et al.       Expires April 30, 2018                 [Page 1]
 
 Internet-Draft                  XMPP Grid                   October 2017
@@ -64,7 +64,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-     1.1.  Glossary of Terms . . . . . . . . . . . . . . . . . . . .   3
+     1.1.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   3
      1.2.  Overview of XMPP-Grid . . . . . . . . . . . . . . . . . .   4
      1.3.  Benefits of XMPP-Grid . . . . . . . . . . . . . . . . . .   5
    2.  XMPP-Grid Architecture  . . . . . . . . . . . . . . . . . . .   6
@@ -102,10 +102,10 @@ Table of Contents
 
 1.  Introduction
 
-   XMPP-Grid is intended for use as a secure transport and
-   communications ecosystem for devices, applications and organizations
-   to interconnect, forming an information grid for the exchange of
-   formatted data (e.g.  XML, JSON, etc).  This document describes how
+   This document describes "XMPP-Grid": a method for using the
+   Extensible Messaging and Presence Protocol (XMPP) [RFC6120] as a
+   transport for collecting and distributing security-relevant
+   information among network platforms, endpoints, and any network-
 
 
 
@@ -114,16 +114,12 @@ Cam-Winget, et al.       Expires April 30, 2018                 [Page 2]
 Internet-Draft                  XMPP Grid                   October 2017
 
 
-   XMPP [RFC6120] serves as the framework and protocols for securely
-   collecting and distributing security relevant information between and
-   among network platforms, endpoints, and most any network connected
-   device.
+   connected device.  Although such information can take the form of any
+   structured data (XML, JSON, etc.), this document uses the Incident
+   Object Description Exchange Format (IODEF) [RFC5070] to illustrate
+   the principles of XMPP-Grid.
 
-   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-   document are to be interpreted as described in [RFC2119].
-
-1.1.  Glossary of Terms
+1.1.  Terminology
 
    Publisher
 
@@ -158,6 +154,10 @@ Internet-Draft                  XMPP Grid                   October 2017
 
       Platform or device that implements XMPP to connect to XMPP-Grid
       and share or consume security data.
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in [RFC2119].
 
 
 
@@ -1267,6 +1267,11 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 8.2.  Informative References
 
+   [RFC5070]  Danyliw, R., Meijer, J., and Y. Demchenko, "The Incident
+              Object Description Exchange Format", RFC 5070,
+              DOI 10.17487/RFC5070, December 2007, <https://www.rfc-
+              editor.org/info/rfc5070>.
+
    [RFC5246]  Dierks, T. and E. Rescorla, "The Transport Layer Security
               (TLS) Protocol Version 1.2", RFC 5246,
               DOI 10.17487/RFC5246, August 2008, <https://www.rfc-
@@ -1276,11 +1281,6 @@ Internet-Draft                  XMPP Grid                   October 2017
               RFC 6545, DOI 10.17487/RFC6545, April 2012,
               <https://www.rfc-editor.org/info/rfc6545>.
 
-   [RFC7970]  Danyliw, R., "The Incident Object Description Exchange
-              Format Version 2", RFC 7970, DOI 10.17487/RFC7970,
-              November 2016, <https://www.rfc-editor.org/info/rfc7970>.
-
-
 
 
 
@@ -1289,6 +1289,10 @@ Cam-Winget, et al.       Expires April 30, 2018                [Page 23]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
+
+   [RFC7970]  Danyliw, R., "The Incident Object Description Exchange
+              Format Version 2", RFC 7970, DOI 10.17487/RFC7970,
+              November 2016, <https://www.rfc-editor.org/info/rfc7970>.
 
 Authors' Addresses
 
@@ -1318,10 +1322,6 @@ Authors' Addresses
    USA
 
    Email: scottp@cisco.com
-
-
-
-
 
 
 

@@ -8,6 +8,7 @@
   <!ENTITY RFC3923 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3923.xml">
   <!ENTITY RFC4422 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4422.xml">
   <!ENTITY RFC7970 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7970.xml">
+  <!ENTITY RFC5070 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5070.xml">
   <!ENTITY RFC5246 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml">
   <!ENTITY RFC6545 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6545.xml">
   ]>
@@ -38,7 +39,7 @@
 <!-- end of popular PIs -->
 <rfc category="std" docName="draft-ietf-mile-xmpp-grid-04" ipr="trust200902">
   <front>
-    <title abbrev="XMPP Grid">Using XMPP Protocol and its Extensions for Use with IODEF</title>
+    <title abbrev="XMPP Grid">Using XMPP for Security Information Exchange</title>
     <author fullname="Nancy Cam-Winget" initials="N" surname="Cam-Winget" role="editor">
       <organization>Cisco Systems</organization>
       <address>
@@ -88,21 +89,14 @@
     <!-- <keyword/> -->
     <abstract>
       <t>
-        This document describes how the Extensible
-        Messaging and Presence Protocol (XMPP) <xref target="RFC6120"/> can be used as the transport protocol for collecting and distributing observed information used by security applications between any network connected device. As an example, this document describes how XMPP can be used to transport the Incident Object Description Exchange Format (IODEF) information.      </t>
+        This document describes how to use the Extensible
+        Messaging and Presence Protocol (XMPP) as a transport for collecting and distributing security-relevant information between network-connected devices. As an example, this document describes such a usage for the Incident Object Description Exchange Format (IODEF).</t>
     </abstract>
   </front>
   <middle>
     <section title="Introduction">
-      <t>XMPP-Grid is intended for use as a secure transport and communications ecosystem for devices, applications and organizations to interconnect, forming an information grid for the exchange of formatted data (e.g. XML, JSON, etc).  This document describes how XMPP <xref target="RFC6120"/> serves as the framework and protocols for securely collecting and distributing security relevant information between and among network platforms, endpoints, and most any network connected device.  </t>
-      <t>
-        The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-        "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in
-        this document are to be interpreted as described in
-        <xref target="RFC2119"/>.
-      </t>
-      <t>  </t>
-      <section title="Glossary of Terms">
+      <t>This document describes "XMPP-Grid": a method for using the Extensible Messaging and Presence Protocol (XMPP) <xref target="RFC6120"/> as a transport for collecting and distributing security-relevant information among network platforms, endpoints, and any network-connected device.  Although such information can take the form of any structured data (XML, JSON, etc.), this document uses the Incident Object Description Exchange Format (IODEF) <xref target='RFC5070'/> to illustrate the principles of XMPP-Grid.</t>
+      <section title="Terminology">
         
          <!-- <t>Capability Provider
           <list><t>
@@ -139,6 +133,12 @@
           <list><t>
               Platform or device that implements XMPP to connect to XMPP-Grid and
               share or consume security data.</t></list> </t>
+      <t>
+        The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+        "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in
+        this document are to be interpreted as described in
+        <xref target="RFC2119"/>.
+      </t>
       </section>
 
       <section title="Overview of XMPP-Grid">
@@ -648,6 +648,7 @@
     <references title="Informative References">
       &RFC7970;
       &RFC5246;
+      &RFC5070;
       &RFC6545;
       <!--
            <reference anchor="IF-MAP">
