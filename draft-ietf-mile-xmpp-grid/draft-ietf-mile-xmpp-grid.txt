@@ -1,11 +1,12 @@
 
 
 
+
 MILE                                                  N. Cam-Winget, Ed.
 Internet-Draft                                                 S. Appala
 Intended status: Standards Track                                 S. Pope
-Expires: April 26, 2018                                    Cisco Systems
-                                                        October 23, 2017
+Expires: April 30, 2018                                    Cisco Systems
+                                                        October 27, 2017
 
 
        Using XMPP Protocol and its Extensions for Use with IODEF
@@ -14,11 +15,11 @@ Expires: April 26, 2018                                    Cisco Systems
 Abstract
 
    This document describes how the Extensible Messaging and Presence
-   Protocol (XMPP) [RFC7590] can be used as the framework as transport
-   protocol for collecting and distributing observed information used by
-   security applications between any network connected device.  As an
-   example, this document describes how XMPP can be used to transport
-   the Incident Object Description Exchange Format (IODEF) information.
+   Protocol (XMPP) [RFC6120] can be used as the transport protocol for
+   collecting and distributing observed information used by security
+   applications between any network connected device.  As an example,
+   this document describes how XMPP can be used to transport the
+   Incident Object Description Exchange Format (IODEF) information.
 
 Status of This Memo
 
@@ -28,14 +29,14 @@ Status of This Memo
    Internet-Drafts are working documents of the Internet Engineering
    Task Force (IETF).  Note that other groups may also distribute
    working documents as Internet-Drafts.  The list of current Internet-
-   Drafts is at https://datatracker.ietf.org/drafts/current/.
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
 
    Internet-Drafts are draft documents valid for a maximum of six months
    and may be updated, replaced, or obsoleted by other documents at any
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on April 26, 2018.
+   This Internet-Draft will expire on April 30, 2018.
 
 Copyright Notice
 
@@ -44,7 +45,7 @@ Copyright Notice
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
-   (https://trustee.ietf.org/license-info) in effect on the date of
+   (http://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
@@ -52,7 +53,7 @@ Copyright Notice
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                 [Page 1]
+Cam-Winget, et al.       Expires April 30, 2018                 [Page 1]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -108,12 +109,12 @@ Table of Contents
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                 [Page 2]
+Cam-Winget, et al.       Expires April 30, 2018                 [Page 2]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
 
-   XMPP [RFC7590] serves as the framework and protocols for securely
+   XMPP [RFC6120] serves as the framework and protocols for securely
    collecting and distributing security relevant information between and
    among network platforms, endpoints, and most any network connected
    device.
@@ -164,7 +165,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                 [Page 3]
+Cam-Winget, et al.       Expires April 30, 2018                 [Page 3]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -220,7 +221,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                 [Page 4]
+Cam-Winget, et al.       Expires April 30, 2018                 [Page 4]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -276,7 +277,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                 [Page 5]
+Cam-Winget, et al.       Expires April 30, 2018                 [Page 5]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -332,7 +333,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                 [Page 6]
+Cam-Winget, et al.       Expires April 30, 2018                 [Page 6]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -388,7 +389,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                 [Page 7]
+Cam-Winget, et al.       Expires April 30, 2018                 [Page 7]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -415,19 +416,7 @@ Internet-Draft                  XMPP Grid                   October 2017
    servers deployed within the cluster.  XMPP has been used extensively
    for publish-subscribe systems, file transfer, video, VoIP, Internet
    of Things, Smart Grid Software Defined Networks (SDN) and other
-   collaboration and social networking applications.  The following are
-   the 4 IETF specifications produced by the XMPP working group:
-
-   o  [RFC7590] Extensible Messaging and Presence Protocol (XMPP): Core
-
-   o  [RFC6121] Extensible Messaging and Presence Protocol (XMPP):
-      Instant Messaging and Presence
-
-   o  [RFC3922] Mapping the Extensible Messaging and Presence Protocol
-      (XMPP) to Common Presence and Instant Messaging (CPIM)
-
-   o  [RFC3923] End-to-End Signing and Object Encryption for the
-      Extensible Messaging and Presence Protocol (XMPP)
+   collaboration and social networking applications.
 
    XMPP offers several of the following salient features for building a
    security data interexchange protocol:
@@ -442,13 +431,6 @@ Internet-Draft                  XMPP Grid                   October 2017
    o  Real-time event management/exchange - using publish, subscribe
       notifications
 
-
-
-Cam-Winget, et al.       Expires April 26, 2018                 [Page 8]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
    o  Flexibility and Extensibility - XMPP is XML based and is easily
       extensible to adapt to new use-cases.  Custom functionality can be
       built on top of it.
@@ -459,6 +441,14 @@ Internet-Draft                  XMPP Grid                   October 2017
    o
 
       *  Real-time event notifications through publish and subscribe.
+
+
+
+
+Cam-Winget, et al.       Expires April 30, 2018                 [Page 8]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
 
       *  On-demand or directed queries between the clients communicated
          through the XMPP server
@@ -481,7 +471,7 @@ Internet-Draft                  XMPP Grid                   October 2017
       participating nodes eases turnkey deployment.
 
    The XMPP most of the extensions used in XMPP-Grid are now part (e.g.
-   publish/subscribe) of the main XMPP specification [RFC7590] and the
+   publish/subscribe) of the main XMPP specification [RFC6120] and the
    presence in [RFC6121].  However, to facilitate the discovery of
    available information to be shared and nodes that can act as
    publishers, the XMPP Service Discovery extension [XEP-0060] and the
@@ -497,16 +487,24 @@ Internet-Draft                  XMPP Grid                   October 2017
    may be consumed thru the [XEP-0060] service.  As such, the XMPP-Grid
    Controller provides the PubSub service that can be identified as
    'pubsub.xmpp-controller-host.com', where 'xmpp-controller-host.com'
+   is the XMPP-Controller host.  Below is an example for how an entity
+   can query for available information from the XMPP-Controller:
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                 [Page 9]
+
+
+
+
+
+
+
+
+
+Cam-Winget, et al.       Expires April 30, 2018                 [Page 9]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
-
-   is the XMPP-Controller host.  Below is an example for how an entity
-   can query for available information from the XMPP-Controller:
 
    XMPP-Grid node 'xmpp-grid-client@mile-host.com' requests the XMPP-
    Grid Controller hosted on 'xmpp-controller-host.com' for available
@@ -556,14 +554,17 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                [Page 10]
+
+
+
+Cam-Winget, et al.       Expires April 30, 2018                [Page 10]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
 
    o  Publish/Subscribe: to facilitate unsolicited notifications to new
       or updated security information, Nodes MUST support the XMPP
-      Publish/Subscribe protocol as defined in [RFC7590].
+      Publish/Subscribe protocol as defined in [XEP-0060].
 
    Once a Node has authenticated with the XMPP-Grid controller, it may
    further register a topic (e.g. information type) to be shared or use
@@ -612,7 +613,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                [Page 11]
+Cam-Winget, et al.       Expires April 30, 2018                [Page 11]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -668,7 +669,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                [Page 12]
+Cam-Winget, et al.       Expires April 30, 2018                [Page 12]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -724,7 +725,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                [Page 13]
+Cam-Winget, et al.       Expires April 30, 2018                [Page 13]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -780,7 +781,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                [Page 14]
+Cam-Winget, et al.       Expires April 30, 2018                [Page 14]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -836,7 +837,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                [Page 15]
+Cam-Winget, et al.       Expires April 30, 2018                [Page 15]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -892,7 +893,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                [Page 16]
+Cam-Winget, et al.       Expires April 30, 2018                [Page 16]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -948,7 +949,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                [Page 17]
+Cam-Winget, et al.       Expires April 30, 2018                [Page 17]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -972,23 +973,24 @@ Internet-Draft                  XMPP Grid                   October 2017
    To address network attacks, the XMPP-Grid transport protocol
    described in this document requires that the XMPP-Grid messages MUST
    be carried over TLS (minimally TLS 1.2 [RFC5246]) as described in
-   [RFC2818].  The XMPP-Grid Node MUST verify the XMPP-Grid Controller's
-   certificate and determine whether the XMPP-Grid Controller is trusted
-   by this XMPP-Grid Node before completing the TLS handshake.  The
-   XMPP-Grid Controller MUST authenticate the XMPP-Grid Node either
-   using mutual certificate-based authentication in the TLS handshake or
-   using Basic Authentication as described in IETF RFC 2617.  XMPP-Grid
-   Controller MUST use Simple Authentication and Security Layer (SASL),
-   described in [RFC4422], to support the aforesaid authentication
-   mechanisms.  SASL offers authentication mechanism negotiations
-   between the XMPP-Grid Controller and XMPP-Grid node during the
-   connection establishment phase.  XMPP-Grid Nodes and XMPP-Grid
-   Controllers using mutual certificate-based authentication SHOULD each
-   verify the revocation status of the other party's certificate.  All
-   XMPP-Grid Controllers and XMPP-Grid Nodes MUST implement both mutual
-   certificate-based authentication and Basic Authentication.  The
-   selection of which XMPP-Grid Node authentication technique to use in
-   any particular deployment is left to the administrator.
+   [RFC6120] and updated by [RFC7590].  The XMPP-Grid Node MUST verify
+   the XMPP-Grid Controller's certificate and determine whether the
+   XMPP-Grid Controller is trusted by this XMPP-Grid Node before
+   completing the TLS handshake.  The XMPP-Grid Controller MUST
+   authenticate the XMPP-Grid Node either using mutual certificate-based
+   authentication in the TLS handshake or using Basic Authentication as
+   described in IETF RFC 2617.  XMPP-Grid Controller MUST use Simple
+   Authentication and Security Layer (SASL), described in [RFC4422], to
+   support the aforesaid authentication mechanisms.  SASL offers
+   authentication mechanism negotiations between the XMPP-Grid
+   Controller and XMPP-Grid node during the connection establishment
+   phase.  XMPP-Grid Nodes and XMPP-Grid Controllers using mutual
+   certificate-based authentication SHOULD each verify the revocation
+   status of the other party's certificate.  All XMPP-Grid Controllers
+   and XMPP-Grid Nodes MUST implement both mutual certificate-based
+   authentication and Basic Authentication.  The selection of which
+   XMPP-Grid Node authentication technique to use in any particular
+   deployment is left to the administrator.
 
    An XMPP-Grid Controller MAY also support a local, configurable set of
    Basic Authentication userid-password pairs.  If so, it is
@@ -1000,23 +1002,21 @@ Internet-Draft                  XMPP Grid                   October 2017
    the HTTP specification, when basic authentication is in use, an XMPP-
    Grid Controller MAY respond to any request that lacks credentials
    with an error code similar to HTTP code 401.  An XMPP-Grid Node
-   SHOULD avoid this code by submitting basic auth credentials with
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                [Page 18]
+Cam-Winget, et al.       Expires April 30, 2018                [Page 18]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
 
+   SHOULD avoid this code by submitting basic auth credentials with
    every request when basic authentication is in use.  If it does not do
    so, an XMPP-Grid Node MUST respond to this code by resubmitting the
    same request with credentials (unless the XMPP-Grid Node is shutting
    down).
 
-   As XMPP uses TLS as the transport and security mechanisms, it is
-   understood that best practices such as those in
-   [I-D.ietf-uta-tls-bcp] are followed.
+   Best practices for the use of TLS in XMPP are defined in [RFC7590].
 
    These protocol security measures provide protection against all the
    network attacks listed in the above document section except denial of
@@ -1056,17 +1056,15 @@ Internet-Draft                  XMPP Grid                   October 2017
    hardened against attack and minimized to reduce their attack surface.
    They should be well managed to minimize vulnerabilities in the
    underlying platform and in systems upon which the XMPP-Grid Node
+   depends.  Personnel with administrative access should be carefully
+   screened and monitored to detect problems as soon as possible.
 
 
 
-
-Cam-Winget, et al.       Expires April 26, 2018                [Page 19]
+Cam-Winget, et al.       Expires April 30, 2018                [Page 19]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
-
-   depends.  Personnel with administrative access should be carefully
-   screened and monitored to detect problems as soon as possible.
 
 5.3.3.  Securing XMPP-Grid Controllers
 
@@ -1114,14 +1112,15 @@ Internet-Draft                  XMPP Grid                   October 2017
    Synchronization Source Identifier (SSRC).  The XMPP-Grid Controller
    SHOULD employ both of the following strategies:
 
+   o  session-ids SHOULD be cryptographically random
 
 
-Cam-Winget, et al.       Expires April 26, 2018                [Page 20]
+
+
+Cam-Winget, et al.       Expires April 30, 2018                [Page 20]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
-
-   o  session-ids SHOULD be cryptographically random
 
    o  The HTTPS transport for the SSRC and the ARC SHOULD be
       authenticated using the same credentials.  SSL session resumption
@@ -1169,16 +1168,15 @@ Internet-Draft                  XMPP Grid                   October 2017
    authorization model and other provisions, and best practices for
    managing and protecting XMPP-Grid systems have been described.  Taken
    together, these measures should provide protection commensurate with
+   the threat to XMPP-Grid systems, thus ensuring that they fulfill
+   their promise as a network security clearing-house.
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                [Page 21]
+Cam-Winget, et al.       Expires April 30, 2018                [Page 21]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
-
-   the threat to XMPP-Grid systems, thus ensuring that they fulfill
-   their promise as a network security clearing-house.
 
 6.  Privacy Considerations
 
@@ -1223,30 +1221,27 @@ Internet-Draft                  XMPP Grid                   October 2017
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997,
-              <https://www.rfc-editor.org/info/rfc2119>.
+              DOI 10.17487/RFC2119, March 1997, <https://www.rfc-
+              editor.org/info/rfc2119>.
 
 
 
-Cam-Winget, et al.       Expires April 26, 2018                [Page 22]
+
+
+
+Cam-Winget, et al.       Expires April 30, 2018                [Page 22]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
 
-   [RFC3922]  Saint-Andre, P., "Mapping the Extensible Messaging and
-              Presence Protocol (XMPP) to Common Presence and Instant
-              Messaging (CPIM)", RFC 3922, DOI 10.17487/RFC3922, October
-              2004, <https://www.rfc-editor.org/info/rfc3922>.
-
-   [RFC3923]  Saint-Andre, P., "End-to-End Signing and Object Encryption
-              for the Extensible Messaging and Presence Protocol
-              (XMPP)", RFC 3923, DOI 10.17487/RFC3923, October 2004,
-              <https://www.rfc-editor.org/info/rfc3923>.
-
    [RFC4422]  Melnikov, A., Ed. and K. Zeilenga, Ed., "Simple
               Authentication and Security Layer (SASL)", RFC 4422,
-              DOI 10.17487/RFC4422, June 2006,
-              <https://www.rfc-editor.org/info/rfc4422>.
+              DOI 10.17487/RFC4422, June 2006, <https://www.rfc-
+              editor.org/info/rfc4422>.
+
+   [RFC6120]  Saint-Andre, P., "Extensible Messaging and Presence
+              Protocol (XMPP): Core", RFC 6120, DOI 10.17487/RFC6120,
+              March 2011, <https://www.rfc-editor.org/info/rfc6120>.
 
    [RFC6121]  Saint-Andre, P., "Extensible Messaging and Presence
               Protocol (XMPP): Instant Messaging and Presence",
@@ -1272,44 +1267,28 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 8.2.  Informative References
 
-   [I-D.ietf-mile-rolie]
-              Field, J., Banghart, S., and D. Waltermire, "Resource-
-              Oriented Lightweight Information Exchange", draft-ietf-
-              mile-rolie-11 (work in progress), October 2017.
-
-   [I-D.ietf-uta-tls-bcp]
-              Sheffer, Y., Holz, R., and P. Saint-Andre,
-              "Recommendations for Secure Use of TLS and DTLS", draft-
-              ietf-uta-tls-bcp-11 (work in progress), February 2015.
-
-
-
-Cam-Winget, et al.       Expires April 26, 2018                [Page 23]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
-   [RFC2818]  Rescorla, E., "HTTP Over TLS", RFC 2818,
-              DOI 10.17487/RFC2818, May 2000,
-              <https://www.rfc-editor.org/info/rfc2818>.
-
    [RFC5246]  Dierks, T. and E. Rescorla, "The Transport Layer Security
               (TLS) Protocol Version 1.2", RFC 5246,
-              DOI 10.17487/RFC5246, August 2008,
-              <https://www.rfc-editor.org/info/rfc5246>.
+              DOI 10.17487/RFC5246, August 2008, <https://www.rfc-
+              editor.org/info/rfc5246>.
 
    [RFC6545]  Moriarty, K., "Real-time Inter-network Defense (RID)",
               RFC 6545, DOI 10.17487/RFC6545, April 2012,
               <https://www.rfc-editor.org/info/rfc6545>.
 
-   [RFC6546]  Trammell, B., "Transport of Real-time Inter-network
-              Defense (RID) Messages over HTTP/TLS", RFC 6546,
-              DOI 10.17487/RFC6546, April 2012,
-              <https://www.rfc-editor.org/info/rfc6546>.
-
    [RFC7970]  Danyliw, R., "The Incident Object Description Exchange
               Format Version 2", RFC 7970, DOI 10.17487/RFC7970,
               November 2016, <https://www.rfc-editor.org/info/rfc7970>.
+
+
+
+
+
+
+Cam-Winget, et al.       Expires April 30, 2018                [Page 23]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
 
 Authors' Addresses
 
@@ -1329,20 +1308,6 @@ Authors' Addresses
    USA
 
    Email: syam1@cisco.com
-
-
-
-
-
-
-
-
-
-
-
-Cam-Winget, et al.       Expires April 26, 2018                [Page 24]
-
-Internet-Draft                  XMPP Grid                   October 2017
 
 
    Scott Pope
@@ -1376,24 +1341,4 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Cam-Winget, et al.       Expires April 26, 2018                [Page 25]
+Cam-Winget, et al.       Expires April 30, 2018                [Page 24]

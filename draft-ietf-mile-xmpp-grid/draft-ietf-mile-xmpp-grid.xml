@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
   <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
-  <!ENTITY RFC2818 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2818.xml">
   <!ENTITY RFC7590 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7590.xml">
+  <!ENTITY RFC6120 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6120.xml">
   <!ENTITY RFC6121 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6121.xml">
   <!ENTITY RFC3922 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3922.xml">
   <!ENTITY RFC3923 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3923.xml">
@@ -10,9 +10,6 @@
   <!ENTITY RFC7970 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7970.xml">
   <!ENTITY RFC5246 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml">
   <!ENTITY RFC6545 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6545.xml">
-  <!ENTITY RFC6546 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6546.xml">
-  <!ENTITY I-D.ietf-mile-rolie SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-mile-rolie.xml">
-  <!ENTITY I-D.ietf-uta-tls-bcp SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-uta-tls-bcp.xml">
   ]>
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?>
 <!-- used by XSLT processors -->
@@ -92,12 +89,12 @@
     <abstract>
       <t>
         This document describes how the Extensible
-        Messaging and Presence Protocol (XMPP) <xref target="RFC7590"/> can be used as the framework as transport protocol for collecting and distributing observed information used by security applications between any network connected device. As an example, this document describes how XMPP can be used to transport the Incident Object Description Exchange Format (IODEF) information.      </t>
+        Messaging and Presence Protocol (XMPP) <xref target="RFC6120"/> can be used as the transport protocol for collecting and distributing observed information used by security applications between any network connected device. As an example, this document describes how XMPP can be used to transport the Incident Object Description Exchange Format (IODEF) information.      </t>
     </abstract>
   </front>
   <middle>
     <section title="Introduction">
-      <t>XMPP-Grid is intended for use as a secure transport and communications ecosystem for devices, applications and organizations to interconnect, forming an information grid for the exchange of formatted data (e.g. XML, JSON, etc).  This document describes how XMPP <xref target="RFC7590"/> serves as the framework and protocols for securely collecting and distributing security relevant information between and among network platforms, endpoints, and most any network connected device.  </t>
+      <t>XMPP-Grid is intended for use as a secure transport and communications ecosystem for devices, applications and organizations to interconnect, forming an information grid for the exchange of formatted data (e.g. XML, JSON, etc).  This document describes how XMPP <xref target="RFC6120"/> serves as the framework and protocols for securely collecting and distributing security relevant information between and among network platforms, endpoints, and most any network connected device.  </t>
       <t>
         The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
         "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in
@@ -298,16 +295,7 @@
       </t>
       
       <section title="Using XMPP">
-        <t>XMPP is used as the foundation message routing protocol for exchanging security data between systems across XMPP-Grid.  XMPP is a communications protocol for message-oriented middleware based on XML. Designed to be extensible, the protocol uses de-centralized client-server architecture where the clients connect to the servers securely and the messages between the clients are routed through the XMPP servers deployed within the cluster. XMPP has been used extensively for publish-subscribe systems, file transfer, video, VoIP, Internet of Things, Smart Grid Software Defined Networks (SDN) and other collaboration and social networking applications.  The following are the 4 IETF specifications produced by the XMPP working group:</t>
-        <t>
-          <list style="symbols">
-            <t><xref target="RFC7590"/> Extensible Messaging and Presence Protocol (XMPP): Core </t>
-            <t><xref target="RFC6121"/> Extensible Messaging and Presence Protocol (XMPP): Instant Messaging and Presence </t>
-            <t><xref target="RFC3922"/> Mapping the Extensible Messaging and Presence Protocol (XMPP) to Common Presence and Instant Messaging (CPIM) </t>
-            <t><xref target="RFC3923"/> End-to-End Signing and Object Encryption for the Extensible Messaging and Presence Protocol (XMPP)
-            </t>
-          </list>
-        </t>
+        <t>XMPP is used as the foundation message routing protocol for exchanging security data between systems across XMPP-Grid.  XMPP is a communications protocol for message-oriented middleware based on XML. Designed to be extensible, the protocol uses de-centralized client-server architecture where the clients connect to the servers securely and the messages between the clients are routed through the XMPP servers deployed within the cluster. XMPP has been used extensively for publish-subscribe systems, file transfer, video, VoIP, Internet of Things, Smart Grid Software Defined Networks (SDN) and other collaboration and social networking applications.</t>
         <t>XMPP offers several of the following salient features for building a security data interexchange protocol:</t>
         <t>
           <list style="symbols">
@@ -331,7 +319,7 @@
             <t>XMPP offers Node availability, Node service capability discovery, and Node presence within the XMPP network. Nodes ability to detect the availability, presence and capabilities of other participating nodes eases turnkey deployment. </t>
           </list>
         </t>
-        <t> The XMPP most of the extensions used in XMPP-Grid are now part (e.g. publish/subscribe) of the main XMPP specification <xref target="RFC7590"/> and the presence in <xref target="RFC6121"/>.  However, to facilitate the discovery of available information to be shared and nodes that can act as publishers, the XMPP Service Discovery extension <xref target="XEP-0060"/> and the means for publishers to define their ability to share information is described in <xref target="XEP-0248"/>.  More explicitly, <xref target="XEP-0060"/> allows for nodes to define their features.  A full list of XMPP Extension Protocols (XEPs)
+        <t> The XMPP most of the extensions used in XMPP-Grid are now part (e.g. publish/subscribe) of the main XMPP specification <xref target="RFC6120"/> and the presence in <xref target="RFC6121"/>.  However, to facilitate the discovery of available information to be shared and nodes that can act as publishers, the XMPP Service Discovery extension <xref target="XEP-0060"/> and the means for publishers to define their ability to share information is described in <xref target="XEP-0248"/>.  More explicitly, <xref target="XEP-0060"/> allows for nodes to define their features.  A full list of XMPP Extension Protocols (XEPs)
           can be found in
           http://xmpp.org/extensions/xep-0001.html .</t>
       </section>
@@ -395,7 +383,7 @@
           <t> <list style="symbols">
               <t>Authentication and Authorization: Nodes participating in XMPP-Grid MUST mutually authenticate to the controller using XMPP's authentication mechanisms. Authorization is affected by the controller.</t>
               <t>Topic Discovery: to facilitate dynamic discovery, Nodes SHOULD support the XMPP Service Discovery <xref target="XEP-0030"/>.</t>
-              <t>Publish/Subscribe: to facilitate unsolicited notifications to new or updated security information, Nodes MUST support the XMPP Publish/Subscribe protocol as defined in <xref target="RFC7590"/>.</t>
+              <t>Publish/Subscribe: to facilitate unsolicited notifications to new or updated security information, Nodes MUST support the XMPP Publish/Subscribe protocol as defined in <xref target="XEP-0060"/>.</t>
               </list> </t>
           <t>Once a Node has authenticated with the XMPP-Grid controller, it may further register a topic (e.g. information type) to be shared or use the discovery mechanism for determining topics to be consumed.               Sharing Information: security information may be shared using registered topics. As IODEF 1.0 is an already standardized schema, its namespace can be used as the data model to be shared XXX. </t>
           </section>
@@ -556,15 +544,14 @@
         <t>Below are countermeasures for specific attack scenarios to the XMPP-Grid infrastructure.</t>
         <section title="Securing the XMPP-Grid Transport Protocol">
           <t>To address network attacks, the XMPP-Grid transport protocol described in this document requires that the XMPP-Grid messages MUST be carried over TLS (minimally TLS 1.2 <xref target="RFC5246"/>) as described in
-            <xref target="RFC2818"/>. The XMPP-Grid Node MUST verify the XMPP-Grid Controller's certificate and determine whether the XMPP-Grid Controller is trusted by this XMPP-Grid Node before completing the TLS handshake. The XMPP-Grid Controller MUST authenticate the XMPP-Grid Node either using mutual certificate-based authentication in the TLS handshake or using Basic Authentication as described in IETF RFC 2617. XMPP-Grid Controller MUST use Simple Authentication and Security Layer (SASL), described in <xref target="RFC4422"/>, to support the aforesaid authentication mechanisms. SASL offers authentication mechanism negotiations between the XMPP-Grid Controller and XMPP-Grid node during the connection establishment phase. XMPP-Grid Nodes and XMPP-Grid Controllers using mutual certificate-based authentication SHOULD each verify the revocation status of the other party's certificate.  All XMPP-Grid Controllers and XMPP-Grid Nodes MUST implement both mutual certificate-based authentication and Basic Authentication. The selection of which XMPP-Grid Node authentication technique to use in any particular deployment is left to the administrator. </t>
+            <xref target="RFC6120"/> and updated by <xref target='RFC7590'/>. The XMPP-Grid Node MUST verify the XMPP-Grid Controller's certificate and determine whether the XMPP-Grid Controller is trusted by this XMPP-Grid Node before completing the TLS handshake. The XMPP-Grid Controller MUST authenticate the XMPP-Grid Node either using mutual certificate-based authentication in the TLS handshake or using Basic Authentication as described in IETF RFC 2617. XMPP-Grid Controller MUST use Simple Authentication and Security Layer (SASL), described in <xref target="RFC4422"/>, to support the aforesaid authentication mechanisms. SASL offers authentication mechanism negotiations between the XMPP-Grid Controller and XMPP-Grid node during the connection establishment phase. XMPP-Grid Nodes and XMPP-Grid Controllers using mutual certificate-based authentication SHOULD each verify the revocation status of the other party's certificate.  All XMPP-Grid Controllers and XMPP-Grid Nodes MUST implement both mutual certificate-based authentication and Basic Authentication. The selection of which XMPP-Grid Node authentication technique to use in any particular deployment is left to the administrator. </t>
           <t>An XMPP-Grid Controller MAY also support a local, configurable set of Basic Authentication userid-password pairs. If so, it is implementation dependent whether an XMPP-Grid Controller ends a session when an administrator changes the configured password. Since Basic Authentication has many security disadvantages (especially the transmission of reusable XMPP-Grid Node passwords to the XMPP-Grid Controller), it SHOULD only be used when absolutely necessary. Per the HTTP specification, when basic authentication is in use, an XMPP-Grid Controller MAY respond to any request that lacks credentials with an error code similar to
             HTTP code 401. An XMPP-Grid Node SHOULD avoid this code by submitting
             basic auth credentials with every request when basic authentication is
             in use. If it does not do so, an XMPP-Grid Node MUST respond to this
             code by resubmitting the same request with credentials (unless the
             XMPP-Grid Node is shutting down). </t>
-          <t> As XMPP uses TLS as the transport and security mechanisms, it is understood that best practices such as those in <xref target="I-D.ietf-uta-tls-bcp"/> are followed.
-          </t>
+          <t>Best practices for the use of TLS in XMPP are defined in <xref target="RFC7590"/>.</t>
           <t>These protocol security measures provide protection against all the network attacks listed in the above document section except denial of service attacks. If protection against these denial of service attacks is desired, ingress filtering, rate limiting per source IP address, and other denial of service mitigation measures may be employed. In addition, an XMPP-Grid Controller MAY automatically disable a misbehaving XMPP-Grid Node.</t>
         </section>
         <section title="Securing XMPP-Grid Nodes">
@@ -623,10 +610,9 @@
   <back>
     <references title="Normative References">
       &RFC2119;
-      &RFC7590;
+      &RFC6120;
       &RFC6121;
-      &RFC3922;
-      &RFC3923;
+      &RFC7590;
       &RFC4422;
       <reference anchor="XEP-0060">
           <front>
@@ -660,13 +646,9 @@
       </reference>
     </references>
     <references title="Informative References">
-      &I-D.ietf-uta-tls-bcp;
       &RFC7970;
       &RFC5246;
-      &RFC2818;
       &RFC6545;
-      &RFC6546;
-      &I-D.ietf-mile-rolie;
       <!--
            <reference anchor="IF-MAP">
            <front>
