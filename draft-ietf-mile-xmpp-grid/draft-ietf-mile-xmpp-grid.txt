@@ -5,8 +5,9 @@
 MILE                                                  N. Cam-Winget, Ed.
 Internet-Draft                                                 S. Appala
 Intended status: Standards Track                                 S. Pope
-Expires: April 30, 2018                                    Cisco Systems
-                                                        October 27, 2017
+Expires: May 1, 2018                                       Cisco Systems
+                                                          P. Saint-Andre
+                                                        October 28, 2017
 
 
               Using XMPP for Security Information Exchange
@@ -15,7 +16,7 @@ Expires: April 30, 2018                                    Cisco Systems
 Abstract
 
    This document describes how to use the Extensible Messaging and
-   Presence Protocol (XMPP) as a transport for collecting and
+   Presence Protocol (XMPP) as a transfer protocol for collecting and
    distributing security-relevant information between network-connected
    devices.  As an example, this document describes such a usage for the
    Incident Object Description Exchange Format (IODEF).
@@ -35,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on April 30, 2018.
+   This Internet-Draft will expire on May 1, 2018.
 
 Copyright Notice
 
@@ -52,8 +53,7 @@ Copyright Notice
 
 
 
-
-Cam-Winget, et al.       Expires April 30, 2018                 [Page 1]
+Cam-Winget, et al.         Expires May 1, 2018                  [Page 1]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -104,26 +104,29 @@ Table of Contents
 
    This document describes "XMPP-Grid": a method for using the
    Extensible Messaging and Presence Protocol (XMPP) [RFC6120] as a
-   transport for collecting and distributing security-relevant
+   transfer protocol for collecting and distributing security-relevant
    information among network platforms, endpoints, and any network-
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                 [Page 2]
+Cam-Winget, et al.         Expires May 1, 2018                  [Page 2]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
 
-   connected device.  Although such information can take the form of any
-   structured data (XML, JSON, etc.), this document uses the Incident
-   Object Description Exchange Format (IODEF) [RFC5070] to illustrate
-   the principles of XMPP-Grid.
+   connected device.  In using an XMPP implementation, the XMPP provides
+   the Publish-Subscribe service that acts as a broker, providing
+   control-plane functions by which entities can discover available
+   information to be published or consumed.  Although such information
+   can take the form of any structured data (XML, JSON, etc.), this
+   document uses the Incident Object Description Exchange Format (IODEF)
+   [RFC5070] to illustrate the principles of XMPP-Grid.
 
 1.1.  Terminology
 
    Publisher
 
-      An entity participating in the XMPP0Grid that is capable of
+      An entity participating in the XMPP-Grid that is capable of
       sharing content information to other devices participating on
       XMPP-Grid.
 
@@ -142,8 +145,9 @@ Internet-Draft                  XMPP Grid                   October 2017
    XMPP-Grid
 
       Set of standards-based XMPP messages with extensions, intended for
-      use as a transport and communications protocol framework between
-      devices forming an information grid for sharing information.
+      use as a transfer, transport and communications protocol framework
+      between devices forming an information grid for sharing
+      information.
 
    XMPP-Grid Controller
 
@@ -161,11 +165,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-
-
-
-
-Cam-Winget, et al.       Expires April 30, 2018                 [Page 3]
+Cam-Winget, et al.         Expires May 1, 2018                  [Page 3]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -221,7 +221,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                 [Page 4]
+Cam-Winget, et al.         Expires May 1, 2018                  [Page 4]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -277,7 +277,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                 [Page 5]
+Cam-Winget, et al.         Expires May 1, 2018                  [Page 5]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -333,7 +333,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                 [Page 6]
+Cam-Winget, et al.         Expires May 1, 2018                  [Page 6]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -389,7 +389,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                 [Page 7]
+Cam-Winget, et al.         Expires May 1, 2018                  [Page 7]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -445,7 +445,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                 [Page 8]
+Cam-Winget, et al.         Expires May 1, 2018                  [Page 8]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -501,7 +501,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                 [Page 9]
+Cam-Winget, et al.         Expires May 1, 2018                  [Page 9]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -557,7 +557,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                [Page 10]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 10]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -613,7 +613,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                [Page 11]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 11]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -669,7 +669,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                [Page 12]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 12]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -725,7 +725,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                [Page 13]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 13]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -781,7 +781,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                [Page 14]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 14]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -837,7 +837,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                [Page 15]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 15]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -893,7 +893,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                [Page 16]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 16]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -949,7 +949,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                [Page 17]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 17]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -1005,7 +1005,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                [Page 18]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 18]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -1061,7 +1061,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                [Page 19]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 19]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -1117,7 +1117,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                [Page 20]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 20]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -1173,7 +1173,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                [Page 21]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 21]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -1229,7 +1229,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                [Page 22]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 22]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -1285,7 +1285,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.       Expires April 30, 2018                [Page 23]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 23]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -1324,6 +1324,9 @@ Authors' Addresses
    Email: scottp@cisco.com
 
 
+   Peter Saint-Andre
+
+   Email: stpeter@stpeter.im
 
 
 
@@ -1338,7 +1341,4 @@ Authors' Addresses
 
 
 
-
-
-
-Cam-Winget, et al.       Expires April 30, 2018                [Page 24]
+Cam-Winget, et al.         Expires May 1, 2018                 [Page 24]

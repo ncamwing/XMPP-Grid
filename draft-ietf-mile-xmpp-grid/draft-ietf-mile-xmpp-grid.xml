@@ -80,6 +80,11 @@
         <email>scottp@cisco.com</email>
       </address>
     </author>
+    <author fullname="Peter Saint-Andre" initials="P" surname="Saint-Andre">
+        <address>
+             <email>stpeter@stpeter.im</email>
+        </address>
+    </author>
     <date year="2017"/>
     <area>Security</area>
     <workgroup>MILE</workgroup>
@@ -90,12 +95,12 @@
     <abstract>
       <t>
         This document describes how to use the Extensible
-        Messaging and Presence Protocol (XMPP) as a transport for collecting and distributing security-relevant information between network-connected devices. As an example, this document describes such a usage for the Incident Object Description Exchange Format (IODEF).</t>
+        Messaging and Presence Protocol (XMPP) as a transfer protocol for collecting and distributing security-relevant information between network-connected devices. As an example, this document describes such a usage for the Incident Object Description Exchange Format (IODEF).</t>
     </abstract>
   </front>
   <middle>
     <section title="Introduction">
-      <t>This document describes "XMPP-Grid": a method for using the Extensible Messaging and Presence Protocol (XMPP) <xref target="RFC6120"/> as a transport for collecting and distributing security-relevant information among network platforms, endpoints, and any network-connected device.  Although such information can take the form of any structured data (XML, JSON, etc.), this document uses the Incident Object Description Exchange Format (IODEF) <xref target='RFC5070'/> to illustrate the principles of XMPP-Grid.</t>
+      <t>This document describes "XMPP-Grid": a method for using the Extensible Messaging and Presence Protocol (XMPP) <xref target="RFC6120"/> as a transfer protocol for collecting and distributing security-relevant information among network platforms, endpoints, and any network-connected device.  In using an XMPP implementation, the XMPP provides the Publish-Subscribe service that acts as a broker, providing control-plane functions by which entities can discover available information to be published or consumed. Although such information can take the form of any structured data (XML, JSON, etc.), this document uses the Incident Object Description Exchange Format (IODEF) <xref target='RFC5070'/> to illustrate the principles of XMPP-Grid.</t>
       <section title="Terminology">
         
          <!-- <t>Capability Provider
@@ -109,7 +114,7 @@
          -->
         <t>Publisher
           <list><t>
-              An entity participating in the XMPP0Grid that is capable of sharing content information to other devices participating on XMPP-Grid.</t></list> </t>
+              An entity participating in the XMPP-Grid that is capable of sharing content information to other devices participating on XMPP-Grid.</t></list> </t>
         <t>Subscriber
           <list><t>
               An entity participating in XMPP-Grid by consuming information on a subscription basis
@@ -122,7 +127,7 @@
         <t>XMPP-Grid
           <list><t>
               Set of standards-based XMPP messages with
-              extensions, intended for use as a transport
+              extensions, intended for use as a transfer, transport
               and communications protocol framework between
               devices forming an information grid for sharing information.</t></list> </t>
         <t>XMPP-Grid Controller
@@ -385,7 +390,7 @@
               <t>Topic Discovery: to facilitate dynamic discovery, Nodes SHOULD support the XMPP Service Discovery <xref target="XEP-0030"/>.</t>
               <t>Publish/Subscribe: to facilitate unsolicited notifications to new or updated security information, Nodes MUST support the XMPP Publish/Subscribe protocol as defined in <xref target="XEP-0060"/>.</t>
               </list> </t>
-          <t>Once a Node has authenticated with the XMPP-Grid controller, it may further register a topic (e.g. information type) to be shared or use the discovery mechanism for determining topics to be consumed.               Sharing Information: security information may be shared using registered topics. As IODEF 1.0 is an already standardized schema, its namespace can be used as the data model to be shared XXX. </t>
+          <t>Once a Node has authenticated with the XMPP-Grid controller, it may further register a topic (e.g. information type) to be shared or use the discovery mechanism for determining topics to be consumed.               Sharing Information: security information may be shared using registered topics. As IODEF 1.0 is an already standardized schema, its namespace can be used as the data model to be shared. </t>
           </section>
       
       
