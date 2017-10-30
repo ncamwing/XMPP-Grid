@@ -119,7 +119,6 @@
           <t hangText='Node:'>The term used in the XMPP publish-subscribe specification <xref target='XEP-0060'/> for a Topic.</t>
           <t hangText='Platform:'>Any entity that implements connects to the XMPP-Grid in order to publisher or consume security-related data.</t>
           <t hangText='Provider:'>As defined in draft-ietf-sacm-terminology, a Provider is a component that contains functions to provide information to other components; as used here, the term refers to an XMPP publish-subscribe Publisher.</t>
-          <t hangText='Proxy Flow:'>A method by which security-related information is published and consumed in a mediated fashion through a Broker. In this flow, the Broker handles authorization of Subscribers and Publishers to Topics, receives messages from Publishers, and delivers published messages to Subscribers.</t>
           <t hangText='Publisher:'>The term used in the XMPP publish-subscribe specification <xref target='XEP-0060'/> for a Provider.</t>
           <t hangText='Publish-Subscribe Service:'>A Broker that implements the XMPP publish-subscribe extension <xref target='XEP-0060'/>.</t>
           <t hangText='Subscriber:'>The term used in the XMPP publish-subscribe specification <xref target='XEP-0060'/> for a Consumer.</t>
@@ -170,114 +169,57 @@
                 +------------------------------------+ |
                   +------------------------------------+
 ]]></artwork>
-        <postamble>Figure 1: XMPP-Grid Architecture</postamble>
       </figure>
-      <t>Platforms connect to the Controller (XMPP server) to authenticate and and then establish appropriate authorizations and relationships (e.g., Publisher or Subscriber) at the Broker (XMPP publish-subscribe service). The control plane messaging is established through XMPP and shown as "A" (Control plane interface) in Figure 1.  Authorized nodes may then share data either thru the Broker (shown as "B" in Figure 1) or in some cases directly (shown as "C" in Figure 1).  This document focuses primarily on the Broker Flow for information sharing (although "direct flow" interactions can be used for specialized purposes such as bulk data transfer, methods for doing so are outside the scope of this document).</t>
+      <t>Platforms connect to the Controller (XMPP server) to authenticate and and then establish appropriate authorizations and relationships (e.g., Publisher or Subscriber) at the Broker (XMPP publish-subscribe service). The control plane messaging is established through XMPP and shown as "A" (control plane interface) in Figure 1.  Authorized nodes may then share data either thru the Broker (shown as "B" in Figure 1) or in some cases directly (shown as "C" in Figure 1).  This document focuses primarily on the Broker Flow for information sharing (although "direct flow" interactions can be used for specialized purposes such as bulk data transfer, methods for doing so are outside the scope of this document).</t>
+    </section>
 
-      <!--  SYAM: Lets move this as an Appendix and make it also a code snippet example
-      <section title="Example Workflow">
-                   <t>
-            A typical XMPP-Grid workflow is an XMPP workflow where:
-          <list style="letters">
-            <t>	The XMPP-Grid Controller establishes a grid for Nodes wanting to exchange security data.</t>
-            <t>	A Node with a source of security data requests connection to the XMPP-Grid. </t>
-            <t>	The XMPP-Grid Controller authenticates and establishes authorized privileges (e.g. privilege to publish and/or subscribe to security data Topics) for the requesting Node. </t>
-            <t>	The Node may either publish a security data Topic, subscribe to a security data Topic, query a Node or Topic, or any combination of these operations. </t>
-            <t>	Publishing Nodes unicast Topic updates to the Grid in real-time.  The Grid handles replication and distribution of the Topic to subscribing Nodes.  A Node may publish multiple Topics, thereby allowing for customized relevance of the security data shared.     </t>
-            <t>	Subscribing Nodes receive continuous real-time stream of updates to the Topic to which they are subscribed. </t>
-            <t>	Any Node on the Grid may subscribe to any Topics published to the Grid (as permitted by authorization policy), thereby allowing for one-to-one, one-to-many and many-to-many meshed security data sharing between Nodes.  </t>
-          </list>
-          </t>
-          <t>As the intent of XMPP-Grid is to also allow for the use of other interfaces beyond XMPP on the data plane, the workflow is executed using a non-XMPP interface for the registration and authorization of the Nodes and their registration of topics.
-        </t>
-      </section>
-        -->
+    <section title="Workflow">
+      <t>A typical XMPP-Grid workflow is as follows:
+        <list style="letters">
+          <t>A Platform with a source of security data requests connection to the XMPP-Grid via a Controller (XMPP server).</t>
+          <t>The Controller authenticates the Platform.</t>
+          <t>The Platform establishes authorized privileges (e.g. privilege to publish and/or subscribe to security data Topics) with a Broker.</t>
+          <t>The Platform may publish security-related data to a Topic, subscribe to a Topic, query a Topic, or any combination of these operations.</t>
+          <t>A Publisher unicasts its Topic updates to the Grid in real time through a Broker.  The Broker handles replication and distribution of the Topic to Subscribers.  A Publisher may publish the same or different data to multiple Topics.</t>
+          <t>Any Platform on the Grid may subscribe to any Topics published to the Grid (as permitted by authorization policy), and (as Subscribers) will then receive a continuous, real-time stream of updates from the Topics to which they are subscribed.</t>
+        </list>
+      </t>
+    </section>
 
-      
-      <section title="Using XMPP">
-        <t>XMPP is used as the foundation message routing protocol for exchanging security data between systems across XMPP-Grid.  XMPP is a communications protocol for message-oriented middleware based on XML. Designed to be extensible, the protocol uses de-centralized client-server architecture where the clients connect to the servers securely and the messages between the clients are routed through the XMPP servers deployed within the cluster. XMPP has been used extensively for publish-subscribe systems, file transfer, video, VoIP, Internet of Things, Smart Grid Software Defined Networks (SDN) and other collaboration and social networking applications.</t>
-        <t>XMPP offers several of the following salient features for building a security data interexchange protocol:</t>
-        <t>
-          <list style="symbols">
-            <t>Open - standards-based, decentralized and federated architecture, with no single point of failure </t>
-            <t>Security - Supports domain segregations and federation. Offers strong security via Simple Authentication and Security Layer (SASL) <xref target="RFC4422"/> and Transport Layer Security (TLS) <xref target="RFC5246"/>. </t>
-            <t>Real-time event management/exchange - using publish, subscribe notifications </t>
-            <t>Flexibility and Extensibility - XMPP is XML based and is easily extensible to adapt to new use-cases. Custom functionality can be built on top of it. </t>
-            <t>Multiple information exchanges - XMPP offers multiple information
-              exchange mechanisms between the participating clients - </t>
-            <t>
-              <list style="symbols">
-                <t>Real-time event notifications through publish and subscribe. </t>
-                <t>On-demand or directed queries between the clients communicated through the XMPP server </t>
-                <t>Facilitates out-of-band, direct communication between participating
-                  clients </t>
-              </list>
-            </t>
-            <t>Bi-directional - avoids firewall tunneling and avoids opening up a new connection in each direction between client and server. </t>
-            <t>Scalable - supports cluster mode deployment with fan-out and message routing </t>
-            <t>Peer-to-peer communications also enables scale - directed queries and out-of-band file transfer support </t>
-            <t>XMPP offers Node availability, Node service capability discovery, and Node presence within the XMPP network. Nodes ability to detect the availability, presence and capabilities of other participating nodes eases turnkey deployment. </t>
-          </list>
-        </t>
-        <t> The XMPP most of the extensions used in XMPP-Grid are now part (e.g. publish/subscribe) of the main XMPP specification <xref target="RFC6120"/> and the presence in <xref target="RFC6121"/>.  However, to facilitate the discovery of available information to be shared and nodes that can act as publishers, the XMPP Service Discovery extension <xref target="XEP-0060"/> and the means for publishers to define their ability to share information is described in <xref target="XEP-0248"/>.  More explicitly, <xref target="XEP-0060"/> allows for nodes to define their features.  A full list of XMPP Extension Protocols (XEPs)
-          can be found in
-          http://xmpp.org/extensions/xep-0001.html .</t>
-      </section>
-      <!--
-      <section title="XMPP-Grid Protocol Extensions to XMPP">
-        <t>XMPP-Grid defines an infrastructure protocol that hides the nuances of
-          the XMPP data plane protocol and makes the information sharing models
-          extensible with simple intuitive APIs. XMPP-Grid Nodes connect to the
-          Grid using the XMPP-Grid Protocol. The XMPP-Grid Protocol makes use of
-          the XMPP transport protocol and introduces an application layer
-          protocol leveraging XML and XMPP extensions to define the
-          protocol. The capability providers on the Grid extend the XMPP-Grid
-          Protocol infrastructure model and define capability specific models
-          and schemas, allowing a cleaner separation of infrastructure and
-          capabilities that can run on the infrastructure.</t>
-      </section>
-       -->
-      <section title="XMPP-Grid Service Discovery">
-          <t>An XMPP-Grid Controller enables nodes to discover what information may be consumed thru the <xref target="XEP-0060"/> service.  As such, the XMPP-Grid Controller provides the PubSub service that can be identified as 'pubsub.xmpp-controller-host.com', where 'xmpp-controller-host.com' is the XMPP-Controller host. Below is an example for how an entity can query for available information from the XMPP-Controller:</t>
-          <figure>
-              <preamble>XMPP-Grid node 'xmpp-grid-client@mile-host.com' requests the XMPP-Grid Controller hosted on 'xmpp-controller-host.com' for available information that can be consumed.</preamble>
-              <artwork align="center"><![CDATA[
+    <section title="Service Discovery">
+      <t>A Controller enables Platforms to discover what information may be consumed through the Broker (publish-subscribe service).  For instance, the Controller might provide a Broker at 'broker.security-grid.example', where 'security-grid.example' is the Controller host. Below is an example for how a Platform can query for available information from the XMPP-Controller:</t>
+      <figure>
+        <preamble>Resulting set of capabilities.</preamble>
+        <artwork><![CDATA[
 <iq type='get'
-    from='xmpp-grid-client@mile-host.com/postures'
-    to='pubsub.xmpp-controller-host.com'
+    from='xmpp-grid-client@mile-host.example/postures'
+    to='broker.security-grid.example'
     id='disco1'>
   <query xmlns='http://jabber.org/protocol/disco#items'/>
 </iq>              ]]></artwork>
-          </figure>
-          
-          <t> The XMPP-Controller responds with the different types of information it can publish:</t>
-          <figure>
-              <preamble>Resulting set of capabilities.</preamble>
-              <artwork align="center"><![CDATA[
+      </figure>
+
+      <t> The XMPP-Controller responds with the different types of information it can publish:</t>
+      <figure>
+        <preamble>Resulting set of capabilities.</preamble>
+        <artwork><![CDATA[
 <iq type='result'
-    from='pubsub.xmpp-controller-host.com'
-    to='xmpp-grid-client@mile-host.com/postures'
+    from='broker.security-grid.example'
+    to='xmpp-grid-client@mile-host.example/postures'
     id='disco1'>
   <query xmlns='http://jabber.org/protocol/disco#items'
          node='secinfo'>
     <item node='NEA1'
           name='endpoint-posture'
-          jid='pubsub.xmpp-controller-host.com'/>
+          jid='broker.security-grid.example'/>
     <item node='MILEHost'
           name='iodef-1.0'
-          jid='pubsub.xmpp-controller-host.com'/>
+          jid='broker.security-grid.example'/>
   </query>
 </iq>              ]]></artwork>
           </figure>
-          <!--
-         <t>To enable the XMPP-Grid Controller to advertise multiple XMPP-Grid nodes as being able to publish the same information, the use of <xref target="XEP-0248"/t> is used to allow the XMPP-Grid Controller to publish on behalf on the one or more nodes.  Section 5.2 in <xref target="XEP-0248"/> demonstrates how multiple nodes may be discovered.</t>
-             <t> PETER and SYAM: I am not sure this is quite correct??? How do multiple nodes register to the PubSub service to be able to Publish??</t>
-             -->
-             
-
-          
       </section>
-      <section title="XMPP-Grid Requirements for enabling Information Sharing">
+      <section title="XMPP-Grid Requirements for Enabling Information Sharing">
           <t>This section summarizes the requirements and the extensions used to facilitate the secure sharing of information using XMPP.  Knowledge of the XMPP Protocol and extensions is required to understand this section. </t>
           
           <t> <list style="symbols">
@@ -533,16 +475,6 @@
               <date month="July" year="2010"></date>
           </front>
           <seriesInfo name="XSF" value="XEP 0030"/>
-      </reference>
-      <reference anchor="XEP-0248">
-          <front>
-              <title>Service Discovery</title>
-              <author initials ="P" surname="Saint-Andre"></author>
-              <author initials ="R" surname="Meijer"></author>
-              <author initials ="B" surname="Cully"></author>
-              <date month="September" year="2010"></date>
-          </front>
-          <seriesInfo name="XSF" value="XEP 0248"/>
       </reference>
     </references>
     <references title="Informative References">
