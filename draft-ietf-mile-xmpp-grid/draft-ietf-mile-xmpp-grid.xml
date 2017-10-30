@@ -3,7 +3,6 @@
   <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
   <!ENTITY RFC7590 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7590.xml">
   <!ENTITY RFC6120 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6120.xml">
-  <!ENTITY RFC6121 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6121.xml">
   <!ENTITY RFC3922 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3922.xml">
   <!ENTITY RFC3923 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3923.xml">
   <!ENTITY RFC4422 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4422.xml">
@@ -109,16 +108,16 @@
     </section>
 
     <section title="Terminology">
-      <t>This document uses XMPP terminology defined in <xref target="RFC6120"/> and <xref target="XEP-0060"/> as well as Security Automation and Continuous Monitoring (SACM) terminology defined in draft-ietf-sacm-terminology. Because the intended audience for this document consists of those who implement and deploy security reporting systems, in general the SACM terms are used here (however, mappings are provided for the benefit of XMPP developers and operators).</t>
+      <t>This document uses XMPP terminology defined in <xref target="RFC6120"/> and <xref target="XEP-0060"/> as well as Security Automation and Continuous Monitoring (SACM) terminology defined in <xref target='I-D.ietf-sacm-terminology'/>. Because the intended audience for this document consists of those who implement and deploy security reporting systems, in general the SACM terms are used here (however, mappings are provided for the benefit of XMPP developers and operators).</t>
       <t>
         <list style='hanging'>
-          <t hangText='Broker:'>As defined in draft-ietf-sacm-terminology, a Broker is a specific type of controller containing control plane functions; as used here, the term refers to an XMPP publish-subscribe service.</t>
+          <t hangText='Broker:'>As defined in <xref target='I-D.ietf-sacm-terminology'/>, a Broker is a specific type of controller containing control plane functions; as used here, the term refers to an XMPP publish-subscribe service.</t>
           <t hangText='Broker Flow:'>A method by which security-related information is published and consumed in a mediated fashion through a Broker. In this flow, the Broker handles authorization of Subscribers and Publishers to Topics, receives messages from Publishers, and delivers published messages to Subscribers.</t>
-          <t hangText='Consumer:'>As defined in draft-ietf-sacm-terminology, a Consumer is a component that contains functions to receive information from other components; as used here, the term refers to an XMPP publish-subscribe Subscriber.</t>
-          <t hangText='Controller:'>As defined in draft-ietf-sacm-terminology, a controller is a "component containing control plane functions that manage and facilitate information sharing or execute on security functions"; as used here, the term refers to either an XMPP server, which provides both core message delivery <xref target='RFC6120'/> used by publish-subscribe entities.</t>
+          <t hangText='Consumer:'>As defined in <xref target='I-D.ietf-sacm-terminology'/>, a Consumer is a component that contains functions to receive information from other components; as used here, the term refers to an XMPP publish-subscribe Subscriber.</t>
+          <t hangText='Controller:'>As defined in <xref target='I-D.ietf-sacm-terminology'/>, a controller is a "component containing control plane functions that manage and facilitate information sharing or execute on security functions"; as used here, the term refers to either an XMPP server, which provides both core message delivery <xref target='RFC6120'/> used by publish-subscribe entities.</t>
           <t hangText='Node:'>The term used in the XMPP publish-subscribe specification <xref target='XEP-0060'/> for a Topic.</t>
           <t hangText='Platform:'>Any entity that implements connects to the XMPP-Grid in order to publisher or consume security-related data.</t>
-          <t hangText='Provider:'>As defined in draft-ietf-sacm-terminology, a Provider is a component that contains functions to provide information to other components; as used here, the term refers to an XMPP publish-subscribe Publisher.</t>
+          <t hangText='Provider:'>As defined in <xref target='I-D.ietf-sacm-terminology'/>, a Provider is a component that contains functions to provide information to other components; as used here, the term refers to an XMPP publish-subscribe Publisher.</t>
           <t hangText='Publisher:'>The term used in the XMPP publish-subscribe specification <xref target='XEP-0060'/> for a Provider.</t>
           <t hangText='Publish-Subscribe Service:'>A Broker that implements the XMPP publish-subscribe extension <xref target='XEP-0060'/>.</t>
           <t hangText='Subscriber:'>The term used in the XMPP publish-subscribe specification <xref target='XEP-0060'/> for a Consumer.</t>
@@ -187,7 +186,7 @@
     </section>
 
     <section title="Service Discovery">
-      <t>A Controller enables Platforms to discover what information may be consumed through the Broker (publish-subscribe service).  For instance, the Controller might provide a Broker at 'broker.security-grid.example', where 'security-grid.example' is the Controller host. Below is an example for how a Platform can query for available information from the XMPP-Controller:</t>
+      <t>Using the XMPP service discovery extension <xref target='XEP-0030'/>, a Controller enables Platforms to discover what information may be consumed through the Broker (publish-subscribe service).  For instance, the Controller might provide a Broker at 'broker.security-grid.example', where 'security-grid.example' is the Controller host. Below is an example for how a Platform can query for available information from the XMPP-Controller:</t>
       <figure>
         <preamble>Resulting set of capabilities.</preamble>
         <artwork><![CDATA[
@@ -219,21 +218,11 @@
 </iq>              ]]></artwork>
           </figure>
       </section>
-      <section title="XMPP-Grid Requirements for Enabling Information Sharing">
-          <t>This section summarizes the requirements and the extensions used to facilitate the secure sharing of information using XMPP.  Knowledge of the XMPP Protocol and extensions is required to understand this section. </t>
-          
-          <t> <list style="symbols">
-              <t>Authentication and Authorization: Nodes participating in XMPP-Grid MUST mutually authenticate to the controller using XMPP's authentication mechanisms. Authorization is affected by the controller.</t>
-              <t>Topic Discovery: to facilitate dynamic discovery, Nodes SHOULD support the XMPP Service Discovery <xref target="XEP-0030"/>.</t>
-              <t>Publish/Subscribe: to facilitate unsolicited notifications to new or updated security information, Nodes MUST support the XMPP Publish/Subscribe protocol as defined in <xref target="XEP-0060"/>.</t>
-              </list> </t>
-          <t>Once a Node has authenticated with the XMPP-Grid controller, it may further register a topic (e.g. information type) to be shared or use the discovery mechanism for determining topics to be consumed.               Sharing Information: security information may be shared using registered topics. As IODEF 1.0 is an already standardized schema, its namespace can be used as the data model to be shared. </t>
-          </section>
-    </section>
-    <section title="Example use of XMPP-Grid for IODEF">
+
+    <section title="Example Use of XMPP-Grid for IODEF">
         <t> A Node follows the standard XMPP workflow for connecting to the Controller as well as using the XMPP discovery mechanisms to discover the availability to consume IODEF information. The general workflow is summarized in the figure below: </t>
         
-        <figure title="IODEF Example XMPP Workflow" anchor="iodef-example-flow">
+        <figure title="IODEF Example Workflow" anchor="iodef-example-flow">
             <artwork><![CDATA[
 +----------------+         +----------------+         +----------------+
 | IODEF Client   |         | XMPP Server    |         | IODEF Service  |
@@ -275,27 +264,27 @@
         
         <t>An example XMPP discovery request for an IODEF 1.0 topic is shown below: </t>
         <figure> <artwork><![CDATA[
-            <iq type='get'
-            from='iodefclientabc@company.com'
-            to='pubsub.company.com'
-            id='nodes1'>
-            <query xmlns='http://jabber.org/protocol/disco#items'/>
-            </iq>
+<iq type='get'
+    from='iodefclientabc@company.com'
+    to='pubsub.company.com'
+    id='nodes1'>
+  <query xmlns='http://jabber.org/protocol/disco#items'/>
+</iq>
             ]]></artwork>
         </figure>
         
         <t>An example XMPP discovery response for an IODEF 1.0 topic is shown below: </t>
         <figure> <artwork><![CDATA[
-            <iq type='result'
-            from='pubsub.company.com'
-            to='iodefclientabc@company.com'
-            id='nodes1'>
-            <query xmlns='http://jabber.org/protocol/disco#items'>
-            <item jid='pubsub.company.com'
-            node='incident'
-            name='IODEF incident report'/>
-            </query>
-            </iq>
+<iq type='result'
+    from='pubsub.company.com'
+    to='iodefclientabc@company.com'
+    id='nodes1'>
+  <query xmlns='http://jabber.org/protocol/disco#items'>
+    <item jid='pubsub.company.com'
+          node='incident'
+          name='IODEF incident report'/>
+  </query>
+</iq>
         ]]></artwork>
         </figure>
     <!--SYAM: the other alternative is to have short descriptions for all the sections above and in the Annex, tie them altogether to show how to publish/subscribe an IODEF report??
@@ -444,16 +433,13 @@
       <t>Another consideration for deployers is to enable end-to-end encryption to ensure the data is protected from the data layer to data layer and thus protect it from the transport layer.</t>
     </section>
     <section anchor="Acknowledgements" title="Acknowledgements">
-      <t>The authors would like to acknowledge the contributions, authoring
-        and/or editing of the following people: Joseph Salowey, Lisa Lorenzin, Clifford Kahn, Henk Birkholz, Jessica
-        Fitzgerald-McKay, Steve Hanna, and Steve Venema.  In addition, we want to thank Takeshi Takahashi, Panos Kampanakis, Adam Montville and Chris Inacio for reviewing and providing valuable comments.</t>
+      <t>The authors would like to acknowledge the contributions, authoring and/or editing of the following people: Joseph Salowey, Lisa Lorenzin, Clifford Kahn, Henk Birkholz, Jessica Fitzgerald-McKay, Steve Hanna, and Steve Venema.  In addition, we want to thank Takeshi Takahashi, Panos Kampanakis, Adam Montville, Chris Inacio, and Dave Cridland for reviewing and providing valuable comments.</t>
     </section>
   </middle>
   <back>
     <references title="Normative References">
       &RFC2119;
       &RFC6120;
-      &RFC6121;
       &RFC7590;
       &RFC4422;
       <reference anchor="XEP-0060">
@@ -476,6 +462,36 @@
           </front>
           <seriesInfo name="XSF" value="XEP 0030"/>
       </reference>
+<reference anchor='I-D.ietf-sacm-terminology'>
+<front>
+<title>Secure Automation and Continuous Monitoring (SACM) Terminology</title>
+
+<author initials='H' surname='Birkholz' fullname='Henk Birkholz'>
+    <organization />
+</author>
+
+<author initials='J' surname='Lu' fullname='Jarrett Lu'>
+    <organization />
+</author>
+
+<author initials='J' surname='Strassner' fullname='John Strassner'>
+    <organization />
+</author>
+
+<author initials='N' surname='Cam-Winget' fullname='Nancy Cam-Winget'>
+    <organization />
+</author>
+
+<date month='September' day='12' year='2016' />
+
+<abstract><t>This memo documents terminology used in the documents produced by SACM (Security Automation and Continuous Monitoring).</t></abstract>
+
+</front>
+
+<seriesInfo name='Internet-Draft' value='draft-ietf-sacm-terminology-11' />
+<format type='TXT'
+        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-terminology-11.txt' />
+</reference>
     </references>
     <references title="Informative References">
       &RFC7970;
