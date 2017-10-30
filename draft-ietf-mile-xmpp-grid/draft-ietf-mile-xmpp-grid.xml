@@ -84,7 +84,7 @@
           <street>P.O. Box 787</street>
           <city>Parker</city>
           <country>USA</country>
-          <code>80138</code>
+          <code>80134</code>
           <region>CO</region>
         </postal>
         <email>stpeter@jabber.org</email>
@@ -188,7 +188,6 @@
     <section title="Service Discovery">
       <t>Using the XMPP service discovery extension <xref target='XEP-0030'/>, a Controller enables Platforms to discover what information may be consumed through the Broker (publish-subscribe service).  For instance, the Controller might provide a Broker at 'broker.security-grid.example', where 'security-grid.example' is the Controller host. Below is an example for how a Platform can query for available information from the XMPP-Controller:</t>
       <figure>
-        <preamble>Resulting set of capabilities.</preamble>
         <artwork><![CDATA[
 <iq type='get'
     from='xmpp-grid-client@mile-host.example/postures'
@@ -200,7 +199,6 @@
 
       <t> The XMPP-Controller responds with the different types of information it can publish:</t>
       <figure>
-        <preamble>Resulting set of capabilities.</preamble>
         <artwork><![CDATA[
 <iq type='result'
     from='broker.security-grid.example'
@@ -219,8 +217,8 @@
           </figure>
       </section>
 
-    <section title="Example Use of XMPP-Grid for IODEF">
-        <t> A Node follows the standard XMPP workflow for connecting to the Controller as well as using the XMPP discovery mechanisms to discover the availability to consume IODEF information. The general workflow is summarized in the figure below: </t>
+    <section title="IODEF Example">
+        <t>A Platform follows the standard XMPP workflow for connecting to the Controller as well as using the XMPP discovery mechanisms to discover the availability to consume IODEF information. The general workflow is summarized in the figure below:</t>
         
         <figure title="IODEF Example Workflow" anchor="iodef-example-flow">
             <artwork><![CDATA[
@@ -232,8 +230,8 @@
         |     IODEF Client         |                         |
         |     Authentication       |                         |
         |<------------------------>|                         |
-        |                          |   IODEF Service         |
-        |                          |   Authentication        |
+        |                          | IODEF Service           |
+        |                          | Authentication          |
         |                          |<----------------------->|
         |                          | Create IODEF as a Topic |
         |                          | (XEP-0060)              |
@@ -257,16 +255,13 @@
         |<-------------------------|                         |
         |                          |                         |
         ]]></artwork>
-         <!--
-         <postamble>Figure 2: Example XMPP-Grid Workflow for IODEF</postamble>
-          -->
          </figure>
         
         <t>An example XMPP discovery request for an IODEF 1.0 topic is shown below: </t>
         <figure> <artwork><![CDATA[
 <iq type='get'
-    from='iodefclientabc@company.com'
-    to='pubsub.company.com'
+    from='iodefclientabc@company.example'
+    to='pubsub.company.example'
     id='nodes1'>
   <query xmlns='http://jabber.org/protocol/disco#items'/>
 </iq>
@@ -276,11 +271,11 @@
         <t>An example XMPP discovery response for an IODEF 1.0 topic is shown below: </t>
         <figure> <artwork><![CDATA[
 <iq type='result'
-    from='pubsub.company.com'
-    to='iodefclientabc@company.com'
+    from='pubsub.company.example'
+    to='iodefclientabc@company.example'
     id='nodes1'>
   <query xmlns='http://jabber.org/protocol/disco#items'>
-    <item jid='pubsub.company.com'
+    <item jid='pubsub.company.example'
           node='incident'
           name='IODEF incident report'/>
   </query>
@@ -289,15 +284,13 @@
         </figure>
     <!--SYAM: the other alternative is to have short descriptions for all the sections above and in the Annex, tie them altogether to show how to publish/subscribe an IODEF report??
       <t> The Incident Object Description and Exchange Format (IODEF) <xref target="RFC7970"/> defines a common data format and common exchange procedures for sharing incidents and related data between CSIRTs. RFC7970 provides the information and data model for IODEF specified with XML schema.</t>
-      <t>XEP-0268 (http://xmpp.org/extensions/xep-0268.html), Incident Handling, defines ways for XMPP server deployments to share incident reports with each other using the IODEF format and handle attacks on the servers in real-time.</t>
       <t>Providers of incident reports, across administrative domains, could participate as publishers to an XMPP topic (for example: IODEF). Trust is achieved through authentication, authorization and account approval as defined in <xref target="grid-flow"/>. The providers could expose IODEF incident attributes such as Authority as message filter criteria for the topic in order for subscribing systems to subscribe to incident reports from administrative domains of interest. The providers could further expose other IODEF attributes such as Assessment, Method, Attacker etc as message filter criteria for subscribers to selectively choose events of interest that are published from administrative domain(s). Privacy and regulatory requirements of information shared across administrative domains is beyond the scope of this document.</t> -->
     </section>
     <section anchor="IANA" title="IANA Considerations">
-      <t>XXX Not sure if we need to define IANA Considerations for registering Topics?. </t>
-      
+      <t>This document has no actions for IANA.</t>
     </section>
     <section anchor="Security" title="Security Considerations">
-      <t>An XMPP-Grid Controller serves as an controlling broker for XMPP-Grid Nodes such as Enforcement Points, Policy Servers, CMDBs, and Sensors, using a publish-subscribe-search model of information exchange and lookup. By increasing the ability of XMPP-Grid Nodes to learn about and respond to security-relevant events and data, XMPP-Grid can improve the timeliness and utility of the security system. However, this integrated security system can also be exploited by attackers if they can compromise it. Therefore, strong security protections for XMPP-Grid are essential.</t>
+      <t>An XMPP-Grid Controller serves as an controlling broker for XMPP-Grid Platforms such as Enforcement Points, Policy Servers, CMDBs, and Sensors, using a publish-subscribe-search model of information exchange and lookup. By increasing the ability of XMPP-Grid Platforms to learn about and respond to security-relevant events and data, XMPP-Grid can improve the timeliness and utility of the security system. However, this integrated security system can also be exploited by attackers if they can compromise it. Therefore, strong security protections for XMPP-Grid are essential.</t>
       <t>This section provides a security analysis of the XMPP-Grid transport protocol and the architectural elements that employ it, specifically with respect to their use of this protocol. Three subsections define the trust model (which elements are trusted to do what), the threat model (attacks that may be mounted on the system), and the countermeasures (ways to address or mitigate the threats previously identified).</t>
       <section title="Trust Model">
         <t>The first step in analyzing the security of the XMPP-Grid transport
@@ -313,8 +306,8 @@
             (trusted) to:
             <list style="symbols"><t>Provide confidentiality or integrity protection for messages sent over it</t><t>Provide timely or reliable service</t></list></t>
         </section>
-        <section title="XMPP-Grid Nodes">
-          <t>Authorized XMPP-Grid Nodes are trusted to:
+        <section title="XMPP-Grid Platforms">
+          <t>Authorized XMPP-Grid Platforms are trusted to:
             <list style="symbols"><t>
                 Preserve the confidentiality of sensitive data retrieved via the XMPP-Grid Controller
               </t></list></t>
@@ -327,7 +320,7 @@
         </section>
         <section title="Certification Authority">
           <t>The Certification Authority (CA) that issues certificates for the
-            XMPP-Grid Controller and/or XMPP-Grid Nodes (or each CA, if there are
+            XMPP-Grid Controller and/or XMPP-Grid Platforms (or each CA, if there are
             several) is trusted to:
             <list style="symbols"><t>Ensure that only proper certificates are issued and that all certificates are issued in accordance with the CA's policies </t><t>Revoke certificates previously issued when necessary </t><t>Regularly and securely distribute certificate revocation information </t><t>Promptly detect and report any violations of this trust so that they can be handled </t></list></t>
           <t>The CA is not expected (trusted) to:
@@ -343,31 +336,31 @@
             may be mounted by network elements, by parties who control network
             elements, and (in many cases) by parties who control network-attached
             devices.
-            <list style="symbols"><t>	Network traffic may be passively monitored to glean information from any unencrypted traffic </t><t>	Even if all traffic is encrypted, valuable information can be gained by traffic analysis (volume, timing, source and destination addresses, etc.) </t><t>	Network traffic may be modified in transit </t><t>	Previously transmitted network traffic may be replayed </t><t>	New network traffic may be added </t><t>	Network traffic may be blocked, perhaps selectively </t><t>	A "Man In The Middle" (MITM) attack may be mounted where an attacker interposes itself between two communicating parties and poses as the other end to either party or impersonates the other end to either or both parties </t><t>	Resist attacks (including denial of service and other attacks from XMPP-Grid Nodes) </t><t>	Undesired network traffic may be sent in an effort to overload an architectural component, thus mounting a denial of service attack
+            <list style="symbols"><t>	Network traffic may be passively monitored to glean information from any unencrypted traffic </t><t>	Even if all traffic is encrypted, valuable information can be gained by traffic analysis (volume, timing, source and destination addresses, etc.) </t><t>	Network traffic may be modified in transit </t><t>	Previously transmitted network traffic may be replayed </t><t>	New network traffic may be added </t><t>	Network traffic may be blocked, perhaps selectively </t><t>	A "Man In The Middle" (MITM) attack may be mounted where an attacker interposes itself between two communicating parties and poses as the other end to either party or impersonates the other end to either or both parties </t><t>	Resist attacks (including denial of service and other attacks from XMPP-Grid Platforms) </t><t>	Undesired network traffic may be sent in an effort to overload an architectural component, thus mounting a denial of service attack
               </t></list></t>
         </section>
-        <section title="XMPP-Grid Nodes">
-          <t>An unauthorized XMPP-Grid Nodes (one which is not recognized by the XMPP-Grid Controller or is recognized but not authorized to perform any actions) cannot mount any attacks other than those listed in the Network Attacks section above. </t>
-          <t>An authorized XMPP-Grid Node, on the other hand, can mount many attacks. These attacks might occur because the XMPP-Grid Node is controlled by a malicious, careless, or incompetent party (whether because its owner is malicious, careless, or incompetent or because the XMPP-Grid Node has been compromised and is now controlled by a party other than its owner). They might also occur because the XMPP-Grid Node is running malicious software; because the XMPP-Grid Node is running buggy software (which may fail in a state that floods the network with traffic); or because the XMPP-Grid Node has been configured improperly. From a security standpoint, it generally makes no difference why an attack is initiated. The same countermeasures can be employed in any case. </t>
+        <section title="XMPP-Grid Platforms">
+          <t>An unauthorized XMPP-Grid Platforms (one which is not recognized by the XMPP-Grid Controller or is recognized but not authorized to perform any actions) cannot mount any attacks other than those listed in the Network Attacks section above. </t>
+          <t>An authorized XMPP-Grid Platform, on the other hand, can mount many attacks. These attacks might occur because the XMPP-Grid Platform is controlled by a malicious, careless, or incompetent party (whether because its owner is malicious, careless, or incompetent or because the XMPP-Grid Platform has been compromised and is now controlled by a party other than its owner). They might also occur because the XMPP-Grid Platform is running malicious software; because the XMPP-Grid Platform is running buggy software (which may fail in a state that floods the network with traffic); or because the XMPP-Grid Platform has been configured improperly. From a security standpoint, it generally makes no difference why an attack is initiated. The same countermeasures can be employed in any case. </t>
           <t>Here is a list of attacks that may be mounted by an authorized
-            XMPP-Grid Node:
-            <list style="symbols"><t>	Cause many false alarms or otherwise overload the XMPP-Grid Controller or other elements in the network security system (including human administrators) leading to a denial of service or disabling parts of the network security system </t><t>	Omit important actions (such as posting incriminating data), resulting in incorrect access </t><t>	Use confidential information obtained from the XMPP-Grid Controller to enable further attacks (such as using endpoint health check results to exploit vulnerable endpoints) </t><t>	Advertise data crafted to exploit vulnerabilities in the XMPP-Grid Controller or in other XMPP-Grid Nodes, with a goal of compromising those systems </t><t>	Issue a search request or set up a subscription that matches an enormous result, leading to resource exhaustion on the XMPP-Grid Controller, the publishing XMPP-Grid Node, and/or the network </t><t>	Establish a communication channel using another XMPP-Grid Node's session-id
+            XMPP-Grid Platform:
+            <list style="symbols"><t>	Cause many false alarms or otherwise overload the XMPP-Grid Controller or other elements in the network security system (including human administrators) leading to a denial of service or disabling parts of the network security system </t><t>	Omit important actions (such as posting incriminating data), resulting in incorrect access </t><t>	Use confidential information obtained from the XMPP-Grid Controller to enable further attacks (such as using endpoint health check results to exploit vulnerable endpoints) </t><t>	Advertise data crafted to exploit vulnerabilities in the XMPP-Grid Controller or in other XMPP-Grid Platforms, with a goal of compromising those systems </t><t>	Issue a search request or set up a subscription that matches an enormous result, leading to resource exhaustion on the XMPP-Grid Controller, the publishing XMPP-Grid Platform, and/or the network </t><t>	Establish a communication channel using another XMPP-Grid Platform's session-id
               </t></list></t>
-          <t>Dependencies of or vulnerabilities of authorized XMPP-Grid Nodes may be exploited to effect these attacks. Another way to effect these attacks is to gain the ability to impersonate an XMPP-Grid Node (through theft of the XMPP-Grid Node's identity credentials or through other means).  Even a clock skew between the XMPP-Grid Node and XMPP-Grid Controller can cause problems if the XMPP-Grid Node assumes that old XMPP-Grid Node data should be ignored.</t>
+          <t>Dependencies of or vulnerabilities of authorized XMPP-Grid Platforms may be exploited to effect these attacks. Another way to effect these attacks is to gain the ability to impersonate an XMPP-Grid Platform (through theft of the XMPP-Grid Platform's identity credentials or through other means).  Even a clock skew between the XMPP-Grid Platform and XMPP-Grid Controller can cause problems if the XMPP-Grid Platform assumes that old XMPP-Grid Platform data should be ignored.</t>
         </section>
         <section title=" XMPP-Grid Controllers">
-          <t>An unauthorized XMPP-Grid Controller (one which is not trusted by XMPP-Grid Nodes) cannot mount any attacks other than those listed in the Network Attacks section above.</t>
-          <t>An authorized XMPP-Grid Controller can mount many attacks. Similar to the XMPP-Grid Node case described above, these attacks might occur because the XMPP-Grid Controller is controlled by a malicious, careless, or incompetent party (either an XMPP-Grid Controller administrator or an attacker who has seized control of the XMPP-Grid Controller). They might also occur because the XMPP-Grid Controller is running malicious software, because the XMPP-Grid Controller is running buggy software (which may fail in a state that corrupts data or floods the network with traffic), or because the XMPP-Grid Controller has been configured improperly. </t>
-          <t>All of the attacks listed for XMPP-Grid Node above can be mounted by the XMPP-Grid Controller. Detection of these attacks will be more difficult since the XMPP-Grid Controller can create false operational attributes and/or logs that imply some other party created any bad data. </t>
+          <t>An unauthorized XMPP-Grid Controller (one which is not trusted by XMPP-Grid Platforms) cannot mount any attacks other than those listed in the Network Attacks section above.</t>
+          <t>An authorized XMPP-Grid Controller can mount many attacks. Similar to the XMPP-Grid Platform case described above, these attacks might occur because the XMPP-Grid Controller is controlled by a malicious, careless, or incompetent party (either an XMPP-Grid Controller administrator or an attacker who has seized control of the XMPP-Grid Controller). They might also occur because the XMPP-Grid Controller is running malicious software, because the XMPP-Grid Controller is running buggy software (which may fail in a state that corrupts data or floods the network with traffic), or because the XMPP-Grid Controller has been configured improperly. </t>
+          <t>All of the attacks listed for XMPP-Grid Platform above can be mounted by the XMPP-Grid Controller. Detection of these attacks will be more difficult since the XMPP-Grid Controller can create false operational attributes and/or logs that imply some other party created any bad data. </t>
           <t>Additional XMPP-Grid Controller attacks may include:
-            <list style="symbols"><t>	Expose different data to different XMPP-Grid Nodes to mislead investigators or cause inconsistent behavior </t><t>	Mount an even more effective denial of service attack than a single XMPP-Grid Node could </t><t>	Obtain and cache XMPP-Grid Node credentials so they can be used to impersonate XMPP-Grid Nodes even after a breach of the XMPP-Grid Controller is repaired </t><t>	Obtain and cache XMPP-Grid Controller administrator credentials so they can be used to regain control of the XMPP-Grid Controller after the breach of the XMPP-Grid Controller is repaired 
+            <list style="symbols"><t>	Expose different data to different XMPP-Grid Platforms to mislead investigators or cause inconsistent behavior </t><t>	Mount an even more effective denial of service attack than a single XMPP-Grid Platform could </t><t>	Obtain and cache XMPP-Grid Platform credentials so they can be used to impersonate XMPP-Grid Platforms even after a breach of the XMPP-Grid Controller is repaired </t><t>	Obtain and cache XMPP-Grid Controller administrator credentials so they can be used to regain control of the XMPP-Grid Controller after the breach of the XMPP-Grid Controller is repaired 
               </t></list></t>
           <t>Dependencies of or vulnerabilities of the XMPP-Grid Controller may be exploited to obtain control of the XMPP-Grid Controller and effect these attacks. </t>
         </section>
         <section title="Certification Authority">
           <t>A Certification Authority trusted to issue certificates for the
-            XMPP-Grid Controller and/or XMPP-Grid Nodes can mount several attacks:
-            <list style="symbols"><t>	Issue certificates for unauthorized parties, enabling them to impersonate authorized parties such as the XMPP-Grid Controller or an XMPP-Grid Node. This can lead to all the threats that can be mounted by the certificate's subject. </t><t>	Issue certificates without following all of the CA's policies. Because this can result in issuing certificates that may be used to impersonate authorized parties, this can lead to all the threats that can be mounted by the certificate's subject. </t><t>	Fail to revoke previously issued certificates that need to be revoked. This can lead to undetected impersonation of the certificate's subject or failure to revoke authorization of the subject, and therefore can lead to all of the threats that can be mounted by that subject. </t><t>	Fail to regularly and securely distribute certificate revocation information. This may cause a relying party to accept a revoked certificate, leading to undetected impersonation of the certificate's subject or failure to revoke authorization of the subject, and therefore can lead to all of the threats that can be mounted by that subject. It can also cause a relying party to refuse to proceed with a transaction because timely revocation information is not available, even though the transaction should be permitted to proceed. </t><t>	Allow the CA's private key to be revealed to an unauthorized party. This can lead to all the threats above. Even worse, the actions taken with the private key will not be known to the CA. </t><t>	Fail to promptly detect and report errors and violations of trust so that relying parties can be promptly notified. This can cause the threats listed earlier in this section to persist longer than necessary, leading to many knock-on effects.
+            XMPP-Grid Controller and/or XMPP-Grid Platforms can mount several attacks:
+            <list style="symbols"><t>	Issue certificates for unauthorized parties, enabling them to impersonate authorized parties such as the XMPP-Grid Controller or an XMPP-Grid Platform. This can lead to all the threats that can be mounted by the certificate's subject. </t><t>	Issue certificates without following all of the CA's policies. Because this can result in issuing certificates that may be used to impersonate authorized parties, this can lead to all the threats that can be mounted by the certificate's subject. </t><t>	Fail to revoke previously issued certificates that need to be revoked. This can lead to undetected impersonation of the certificate's subject or failure to revoke authorization of the subject, and therefore can lead to all of the threats that can be mounted by that subject. </t><t>	Fail to regularly and securely distribute certificate revocation information. This may cause a relying party to accept a revoked certificate, leading to undetected impersonation of the certificate's subject or failure to revoke authorization of the subject, and therefore can lead to all of the threats that can be mounted by that subject. It can also cause a relying party to refuse to proceed with a transaction because timely revocation information is not available, even though the transaction should be permitted to proceed. </t><t>	Allow the CA's private key to be revealed to an unauthorized party. This can lead to all the threats above. Even worse, the actions taken with the private key will not be known to the CA. </t><t>	Fail to promptly detect and report errors and violations of trust so that relying parties can be promptly notified. This can cause the threats listed earlier in this section to persist longer than necessary, leading to many knock-on effects.
               </t></list></t>
         </section>
       </section>
@@ -375,34 +368,34 @@
         <t>Below are countermeasures for specific attack scenarios to the XMPP-Grid infrastructure.</t>
         <section title="Securing the XMPP-Grid Transport Protocol">
           <t>To address network attacks, the XMPP-Grid transport protocol described in this document requires that the XMPP-Grid messages MUST be carried over TLS (minimally TLS 1.2 <xref target="RFC5246"/>) as described in
-            <xref target="RFC6120"/> and updated by <xref target='RFC7590'/>. The XMPP-Grid Node MUST verify the XMPP-Grid Controller's certificate and determine whether the XMPP-Grid Controller is trusted by this XMPP-Grid Node before completing the TLS handshake. The XMPP-Grid Controller MUST authenticate the XMPP-Grid Node either using mutual certificate-based authentication in the TLS handshake or using Basic Authentication as described in IETF RFC 2617. XMPP-Grid Controller MUST use Simple Authentication and Security Layer (SASL), described in <xref target="RFC4422"/>, to support the aforesaid authentication mechanisms. SASL offers authentication mechanism negotiations between the XMPP-Grid Controller and XMPP-Grid node during the connection establishment phase. XMPP-Grid Nodes and XMPP-Grid Controllers using mutual certificate-based authentication SHOULD each verify the revocation status of the other party's certificate.  All XMPP-Grid Controllers and XMPP-Grid Nodes MUST implement both mutual certificate-based authentication and Basic Authentication. The selection of which XMPP-Grid Node authentication technique to use in any particular deployment is left to the administrator. </t>
-          <t>An XMPP-Grid Controller MAY also support a local, configurable set of Basic Authentication userid-password pairs. If so, it is implementation dependent whether an XMPP-Grid Controller ends a session when an administrator changes the configured password. Since Basic Authentication has many security disadvantages (especially the transmission of reusable XMPP-Grid Node passwords to the XMPP-Grid Controller), it SHOULD only be used when absolutely necessary. Per the HTTP specification, when basic authentication is in use, an XMPP-Grid Controller MAY respond to any request that lacks credentials with an error code similar to
-            HTTP code 401. An XMPP-Grid Node SHOULD avoid this code by submitting
+            <xref target="RFC6120"/> and updated by <xref target='RFC7590'/>. The XMPP-Grid Platform MUST verify the XMPP-Grid Controller's certificate and determine whether the XMPP-Grid Controller is trusted by this XMPP-Grid Platform before completing the TLS handshake. The XMPP-Grid Controller MUST authenticate the XMPP-Grid Platform either using mutual certificate-based authentication in the TLS handshake or using Basic Authentication as described in IETF RFC 2617. XMPP-Grid Controller MUST use Simple Authentication and Security Layer (SASL), described in <xref target="RFC4422"/>, to support the aforesaid authentication mechanisms. SASL offers authentication mechanism negotiations between the XMPP-Grid Controller and XMPP-Grid node during the connection establishment phase. XMPP-Grid Platforms and XMPP-Grid Controllers using mutual certificate-based authentication SHOULD each verify the revocation status of the other party's certificate.  All XMPP-Grid Controllers and XMPP-Grid Platforms MUST implement both mutual certificate-based authentication and Basic Authentication. The selection of which XMPP-Grid Platform authentication technique to use in any particular deployment is left to the administrator. </t>
+          <t>An XMPP-Grid Controller MAY also support a local, configurable set of Basic Authentication userid-password pairs. If so, it is implementation dependent whether an XMPP-Grid Controller ends a session when an administrator changes the configured password. Since Basic Authentication has many security disadvantages (especially the transmission of reusable XMPP-Grid Platform passwords to the XMPP-Grid Controller), it SHOULD only be used when absolutely necessary. Per the HTTP specification, when basic authentication is in use, an XMPP-Grid Controller MAY respond to any request that lacks credentials with an error code similar to
+            HTTP code 401. An XMPP-Grid Platform SHOULD avoid this code by submitting
             basic auth credentials with every request when basic authentication is
-            in use. If it does not do so, an XMPP-Grid Node MUST respond to this
+            in use. If it does not do so, an XMPP-Grid Platform MUST respond to this
             code by resubmitting the same request with credentials (unless the
-            XMPP-Grid Node is shutting down). </t>
+            XMPP-Grid Platform is shutting down). </t>
           <t>Best practices for the use of TLS in XMPP are defined in <xref target="RFC7590"/>.</t>
-          <t>These protocol security measures provide protection against all the network attacks listed in the above document section except denial of service attacks. If protection against these denial of service attacks is desired, ingress filtering, rate limiting per source IP address, and other denial of service mitigation measures may be employed. In addition, an XMPP-Grid Controller MAY automatically disable a misbehaving XMPP-Grid Node.</t>
+          <t>These protocol security measures provide protection against all the network attacks listed in the above document section except denial of service attacks. If protection against these denial of service attacks is desired, ingress filtering, rate limiting per source IP address, and other denial of service mitigation measures may be employed. In addition, an XMPP-Grid Controller MAY automatically disable a misbehaving XMPP-Grid Platform.</t>
         </section>
-        <section title="Securing XMPP-Grid Nodes">
-          <t>XMPP-Grid Nodes may be deployed in locations that are susceptible to physical attacks. Physical security measures may be taken to avoid compromise of XMPP-Grid Nodes, but these may not always be practical or completely effective. An alternative measure is to configure the XMPP-Grid Controller to provide read-only access for such systems. The XMPP-Grid Controller SHOULD also include a full authorization model so that individual XMPP-Grid Nodes may be configured to have only the privileges that they need. The XMPP-Grid Controller MAY provide functional templates so that the administrator can configure a specific XMPP-Grid Node as a DHCP server and authorize only the operations and metadata types needed by a DHCP server to be permitted for that XMPP-Grid Node. These techniques can reduce the negative impacts of a compromised XMPP-Grid Node without diminishing the utility of the overall system.</t>
-          <t>To handle attacks within the bounds of this authorization model, the XMPP-Grid Controller MAY also include rate limits and alerts for unusual XMPP-Grid Node behavior. XMPP-Grid Controllers SHOULD make it easy to revoke an XMPP-Grid Node's authorization when necessary. Another way to detect attacks from XMPP-Grid Nodes is to create fake entries in the available data (honeytokens) which normal XMPP-Grid Nodes will not attempt to access. The XMPP-Grid Controller SHOULD include auditable logs of XMPP-Grid Node activities.</t>
-          <t>To avoid compromise of XMPP-Grid Node, XMPP-Grid Node SHOULD be hardened against attack and minimized to reduce their attack surface. They should be well managed to minimize vulnerabilities in the underlying platform and in systems upon which the XMPP-Grid Node depends. Personnel with administrative access should be carefully screened and monitored to detect problems as soon as possible.</t>
+        <section title="Securing XMPP-Grid Platforms">
+          <t>XMPP-Grid Platforms may be deployed in locations that are susceptible to physical attacks. Physical security measures may be taken to avoid compromise of XMPP-Grid Platforms, but these may not always be practical or completely effective. An alternative measure is to configure the XMPP-Grid Controller to provide read-only access for such systems. The XMPP-Grid Controller SHOULD also include a full authorization model so that individual XMPP-Grid Platforms may be configured to have only the privileges that they need. The XMPP-Grid Controller MAY provide functional templates so that the administrator can configure a specific XMPP-Grid Platform as a DHCP server and authorize only the operations and metadata types needed by a DHCP server to be permitted for that XMPP-Grid Platform. These techniques can reduce the negative impacts of a compromised XMPP-Grid Platform without diminishing the utility of the overall system.</t>
+          <t>To handle attacks within the bounds of this authorization model, the XMPP-Grid Controller MAY also include rate limits and alerts for unusual XMPP-Grid Platform behavior. XMPP-Grid Controllers SHOULD make it easy to revoke an XMPP-Grid Platform's authorization when necessary. Another way to detect attacks from XMPP-Grid Platforms is to create fake entries in the available data (honeytokens) which normal XMPP-Grid Platforms will not attempt to access. The XMPP-Grid Controller SHOULD include auditable logs of XMPP-Grid Platform activities.</t>
+          <t>To avoid compromise of XMPP-Grid Platform, XMPP-Grid Platform SHOULD be hardened against attack and minimized to reduce their attack surface. They should be well managed to minimize vulnerabilities in the underlying platform and in systems upon which the XMPP-Grid Platform depends. Personnel with administrative access should be carefully screened and monitored to detect problems as soon as possible.</t>
         </section>
         <section title="Securing XMPP-Grid Controllers">
           <t>Because of the serious consequences of XMPP-Grid Controller compromise, XMPP-Grid Controllers SHOULD be especially well hardened against attack and minimized to reduce their attack surface. They should be well managed to minimize vulnerabilities in the underlying platform and in systems upon which the XMPP-Grid Controller depends. Network security measures such as firewalls or intrusion detection systems may be used to monitor and limit traffic to and from the XMPP-Grid Controller. Personnel with administrative access should be carefully screened and monitored to detect problems as soon as possible. Administrators should not use password-based authentication but should instead use non-reusable credentials and multi-factor authentication (where available). Physical security measures SHOULD be employed to prevent physical attacks on XMPP-Grid Controllers.</t>
-          <t>To ease detection of XMPP-Grid Controller compromise should it occur, XMPP-Grid Controller behavior should be monitored to detect unusual behavior (such as a reboot, a large increase in traffic, or different views of an information repository for similar XMPP-Grid Nodes). XMPP-Grid Nodes should log and/or notify administrators when peculiar XMPP-Grid Controller behavior is detected. To aid forensic investigation, permanent read-only audit logs of security-relevant information (especially administrative actions) should be maintained. If XMPP-Grid Controller compromise is detected, a careful analysis should be performed of the impact of this compromise. Any reusable credentials that may have been compromised should be reissued.</t>
+          <t>To ease detection of XMPP-Grid Controller compromise should it occur, XMPP-Grid Controller behavior should be monitored to detect unusual behavior (such as a reboot, a large increase in traffic, or different views of an information repository for similar XMPP-Grid Platforms). XMPP-Grid Platforms should log and/or notify administrators when peculiar XMPP-Grid Controller behavior is detected. To aid forensic investigation, permanent read-only audit logs of security-relevant information (especially administrative actions) should be maintained. If XMPP-Grid Controller compromise is detected, a careful analysis should be performed of the impact of this compromise. Any reusable credentials that may have been compromised should be reissued.</t>
         </section>
         <section title="Limit on search result size">
-          <t>While XMPP-Grid is designed for high scalability to 100,000s of Nodes, an XMPP-Grid Controller MAY establish a limit to the amount of data it is willing to return in search or subscription results. This mitigates the threat of an XMPP-Grid Node causing resource exhaustion by issuing a search or subscription that leads to an enormous result.</t>
+          <t>While XMPP-Grid is designed for high scalability to 100,000s of Platforms, an XMPP-Grid Controller MAY establish a limit to the amount of data it is willing to return in search or subscription results. This mitigates the threat of an XMPP-Grid Platform causing resource exhaustion by issuing a search or subscription that leads to an enormous result.</t>
         </section>
         <section title="Cryptographically random session-id and authentication checks for ARC">
-          <t>An XMPP-Grid Controller SHOULD ensure that the XMPP-Grid Node establishing an Authenticated Results Chain (ARC) is the same XMPP-Grid Node as the XMPP-Grid Node that established the corresponding Synchronization Source Identifier (SSRC). The XMPP-Grid Controller SHOULD employ both of the following strategies:
+          <t>An XMPP-Grid Controller SHOULD ensure that the XMPP-Grid Platform establishing an Authenticated Results Chain (ARC) is the same XMPP-Grid Platform as the XMPP-Grid Platform that established the corresponding Synchronization Source Identifier (SSRC). The XMPP-Grid Controller SHOULD employ both of the following strategies:
             <list style="symbols"><t> session-ids SHOULD be cryptographically random</t><t>The HTTPS transport for the SSRC and the ARC SHOULD be authenticated using the same credentials. SSL session resumption MAY be used to establish the ARC based on the SSRC SSL session.</t></list></t>
         </section>
         <section title="Securing the Certification Authority">
-          <t>As noted above, compromise of a Certification Authority (CA) trusted to issue certificates for the XMPP-Grid Controller and/or XMPP-Grid Nodes is a major security breach. Many guidelines for proper CA security have been developed: the CA/Browser Forum's Baseline Requirements, the AICPA/CICA Trust Service Principles, etc. The CA operator and relying parties should agree on an appropriately rigorous security practices to be used.</t>
+          <t>As noted above, compromise of a Certification Authority (CA) trusted to issue certificates for the XMPP-Grid Controller and/or XMPP-Grid Platforms is a major security breach. Many guidelines for proper CA security have been developed: the CA/Browser Forum's Baseline Requirements, the AICPA/CICA Trust Service Principles, etc. The CA operator and relying parties should agree on an appropriately rigorous security practices to be used.</t>
           <t>Even with the most rigorous security practices, a CA may be
             compromised. If this compromise is detected quickly, relying parties
             can remove the CA from their list of trusted CAs, and other CAs can
@@ -423,13 +416,13 @@
       </section>
       <section title="Summary">
         <t>XMPP-Grid's considerable value as a broker for security-sensitive data exchange distribution also makes the protocol and the network security elements that implement it a target for attack. Therefore, strong security has been included as a basic design principle within the XMPP-Grid design process.</t>
-        <t>The XMPP-Grid transport protocol provides strong protection against a variety of different attacks. In the event that an XMPP-Grid Node or XMPP-Grid Controller is compromised, the effects of this compromise have been reduced and limited with the recommended role-based authorization model and other provisions, and best practices for managing and protecting XMPP-Grid systems have been described. Taken together, these measures should provide protection commensurate with the threat to XMPP-Grid systems, thus ensuring that they fulfill their promise as a network security clearing-house.</t>
+        <t>The XMPP-Grid transport protocol provides strong protection against a variety of different attacks. In the event that an XMPP-Grid Platform or XMPP-Grid Controller is compromised, the effects of this compromise have been reduced and limited with the recommended role-based authorization model and other provisions, and best practices for managing and protecting XMPP-Grid systems have been described. Taken together, these measures should provide protection commensurate with the threat to XMPP-Grid systems, thus ensuring that they fulfill their promise as a network security clearing-house.</t>
       </section>
     </section>
     <section anchor="Privacy" title="Privacy Considerations">
-      <t>XMPP-Grid Nodes may publish information about endpoint health, network access, events (which may include information about what services an endpoint is accessing), roles and capabilities, and the identity of the end user operating the endpoint. Any of this published information may be queried by other XMPP-Grid Nodes and could potentially be used to correlate network activity to a particular end user.</t>
-      <t>Dynamic and static information brokered by an XMPP-Grid Controller, ostensibly for purposes of correlation by XMPP-Grid Nodes for intrusion detection, could be misused by a broader set of XMPP-Grid Nodes which hitherto have been performing specific roles with strict well-defined separation of duties.</t>
-      <t>Care should be taken by deployers of XMPP-Grid to ensure that the information published by XMPP-Grid Nodes does not violate agreements with end users or local and regional laws and regulations. This can be accomplished either by configuring XMPP-Grid Nodes to not publish certain information or by restricting access to sensitive data to trusted XMPP-Grid Nodes. That is, the easiest means to ensure privacy or protect sensitive data, is to omit or not share it at all.</t>
+      <t>XMPP-Grid Platforms may publish information about endpoint health, network access, events (which may include information about what services an endpoint is accessing), roles and capabilities, and the identity of the end user operating the endpoint. Any of this published information may be queried by other XMPP-Grid Platforms and could potentially be used to correlate network activity to a particular end user.</t>
+      <t>Dynamic and static information brokered by an XMPP-Grid Controller, ostensibly for purposes of correlation by XMPP-Grid Platforms for intrusion detection, could be misused by a broader set of XMPP-Grid Platforms which hitherto have been performing specific roles with strict well-defined separation of duties.</t>
+      <t>Care should be taken by deployers of XMPP-Grid to ensure that the information published by XMPP-Grid Platforms does not violate agreements with end users or local and regional laws and regulations. This can be accomplished either by configuring XMPP-Grid Platforms to not publish certain information or by restricting access to sensitive data to trusted XMPP-Grid Platforms. That is, the easiest means to ensure privacy or protect sensitive data, is to omit or not share it at all.</t>
       <t>Another consideration for deployers is to enable end-to-end encryption to ensure the data is protected from the data layer to data layer and thus protect it from the transport layer.</t>
     </section>
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -482,15 +475,15 @@
     <organization />
 </author>
 
-<date month='September' day='12' year='2016' />
+<date month='July' day='4' year='2017' />
 
 <abstract><t>This memo documents terminology used in the documents produced by SACM (Security Automation and Continuous Monitoring).</t></abstract>
 
 </front>
 
-<seriesInfo name='Internet-Draft' value='draft-ietf-sacm-terminology-11' />
+<seriesInfo name='Internet-Draft' value='draft-ietf-sacm-terminology-13' />
 <format type='TXT'
-        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-terminology-11.txt' />
+        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-terminology-13.txt' />
 </reference>
     </references>
     <references title="Informative References">
@@ -529,12 +522,12 @@
     </references>
     <!--
     <section anchor="XPD" title="XMPP-Grid Protocol Details">
-        <t>The XMPP-Grid Protocol provides an abstraction layer over and above XMPP messages with the intent to provide intuitive interfaces to the Nodes connecting to XMPP-Grid. Nodes connecting to XMPP-Grid use the following interfaces (provided as XML samples) offered by XMPP-Grid protocol to connect and participate in information exchange on XMPP-Grid:</t>
+        <t>The XMPP-Grid Protocol provides an abstraction layer over and above XMPP messages with the intent to provide intuitive interfaces to the Platforms connecting to XMPP-Grid. Platforms connecting to XMPP-Grid use the following interfaces (provided as XML samples) offered by XMPP-Grid protocol to connect and participate in information exchange on XMPP-Grid:</t>
         <figure>
-            <preamble>o Register the Node to XMPP-Grid: Node identified as "Node2@domain.com/mac" sends the following Registration request to XMPP-Grid controller.</preamble>
+            <preamble>o Register the Platform to XMPP-Grid: Platform identified as "Platform@domain.com/mac" sends the following Registration request to XMPP-Grid controller.</preamble>
             <artwork align="center"><![CDATA[
                 <iq id="ay0tK-4" to="grid_Controller.jabber"
-                from="Node2@domain.com/mac" type="get">
+                from="Platform@domain.com/mac" type="get">
                 <grid xmlns='gi' type='request'>
                 <AccountQuery xmlns='com.domain.gi.gcl.Controller'>
                 <register/></register></AccountQuery>
@@ -543,12 +536,12 @@
             ]]></artwork>
         </figure>
         <figure>
-            <preamble>o Node login to XMPP-Grid: The following XML sample shows the Login request from Node "Node2@domain.com/mac" to XMPP-Grid controller and Login response returned by the XMPP-Grid controller to the Node.</preamble>
+            <preamble>o Platform login to XMPP-Grid: The following XML sample shows the Login request from Platform "Platform@domain.com/mac" to XMPP-Grid controller and Login response returned by the XMPP-Grid controller to the Platform.</preamble>
             <artwork align="center"><![CDATA[
                 
                 // Request
                 <iq id="ay0tK-5" to="grid_Controller.jabber"
-                from="Node2@domain.com/mac" type="get">
+                from="Platform@domain.com/mac" type="get">
                 <grid xmlns='gi' type='request'>
                 <AccountQuery xmlns='com.domain.gi.gcl.Controller'>
                 <login/></login>
@@ -557,7 +550,7 @@
                 </iq>
                 
                 // Response
-                <iq xmlns="jabber:client" to=" Node2@domain.com/mac"
+                <iq xmlns="jabber:client" to=" Platform@domain.com/mac"
                 from="grid_Controller.jabber" type="result" id="ay0tK-5">
                 <grid xmlns="gi" type="response">
                 <AccountQuery xmlns="com.domain.gi.gcl.Controller">
@@ -570,11 +563,11 @@
             ]]></artwork>
         </figure>
         <figure>
-            <preamble>o Node logout from XMPP-Grid: The following XML sample shows the Logout request sent by Node "Node2@domain.com/mac" to XMPP-Grid controller.</preamble>
+            <preamble>o Platform logout from XMPP-Grid: The following XML sample shows the Logout request sent by Platform "Platform@domain.com/mac" to XMPP-Grid controller.</preamble>
             <artwork align="center"><![CDATA[
                 
                 <iq id="o47m2-8" to="grid_Controller.jabber"
-                from="Node2@domain.com/mac" type="get">
+                from="Platform@domain.com/mac" type="get">
                 <grid xmlns='gi' type='request'>
                 <AccountQuery xmlns='com.domain.gi.gcl.Controller'>
                 <logout/></logout>
@@ -584,11 +577,11 @@
             ]]></artwork>
         </figure>
         <figure>
-            <preamble>o Capability Discovery Query: The following XML sample shows the Capability Discovery query request from Node "Node2@domain.com/mac" to XMPP-Grid controller. The XMPP-Grid controller returns the list of capabilities supported by XMPP-Grid and their versions as a response to the Node's request.</preamble>
+            <preamble>o Capability Discovery Query: The following XML sample shows the Capability Discovery query request from Platform "Platform@domain.com/mac" to XMPP-Grid controller. The XMPP-Grid controller returns the list of capabilities supported by XMPP-Grid and their versions as a response to the Platform's request.</preamble>
             <artwork align="center"><![CDATA[
                 // Request
                 <iq id="tVKqm-6" to="grid_Controller.jabber"
-                from="Node2@domain.com/mac" type="get">
+                from="Platform@domain.com/mac" type="get">
                 <grid xmlns="xgrid" type="request">
                 <ns2:getCapabilityListRequest xmlns:ns2=" xmlns:ns4="
                 xmlns:ns3=" xmlns:ns5=" xmlns:ns6=" xmlns:ns7=" />
@@ -597,7 +590,7 @@
                 
                 // Response
                 <iq from="grid_Controller.jabber" id="tVKqm-6"
-                to="Node2@domain.com/mac" type="result" xmlns="jabber:client">
+                to="Platform@domain.com/mac" type="result" xmlns="jabber:client">
                 <grid type="response" xmlns="xgrid">
                 <ns2:getCapabilityListResponse xmlns:ns2=" xmlns:ns3="
                 xmlns:ns4=" xmlns:ns5=" xmlns:ns6=" xmlns:ns7=">
@@ -659,12 +652,12 @@
         </figure>
         <figure>
             <preamble>o Specific Capability Provider
-                Query: The following XML sample shows the Capability Provider hostname query request from Node "Node2@domain.com/mac" to XMPP-Grid controller. XMPP-Grid controller returns the hostname of the specific Capability Provider as a response to the Node's request.</preamble>
+                Query: The following XML sample shows the Capability Provider hostname query request from Platform "Platform@domain.com/mac" to XMPP-Grid controller. XMPP-Grid controller returns the hostname of the specific Capability Provider as a response to the Platform's request.</preamble>
             <artwork align="center"><![CDATA[
                 
                 // Request
                 <iq id="996IL-8" to="grid_Controller.jabber"
-                from="Node2@domain.com/mac" type="get">
+                from="Platform@domain.com/mac" type="get">
                 <grid xmlns='gi' type='request'>
                 <DiscoveryQuery xmlns='com.domain.gi.gcl.Controller'>
                 <find><param xsi:type="xs:string" xmlns:ns2="gi" xmlns:xs
@@ -676,7 +669,7 @@
                 
                 // Response
                 <iq from='grid_Controller.jabber' id='996IL-8'
-                to='Node2@domain.com/mac' type='result'
+                to='Platform@domain.com/mac' type='result'
                 xmlns='jabber:client'>
                 <grid type='response' xmlns='gi'>
                 <DiscoveryQuery xmlns='com.domain.gi.gcl.Controller'>
@@ -690,10 +683,10 @@
             ]]></artwork>
         </figure>
         <figure>
-            <preamble>o Register as a publisher to the Topic: The following XML sample shows the Register as a Publisher request from a Node "Node2@domain.com/mac" to XMPP-Grid controller. </preamble>
+            <preamble>o Register as a publisher to the Topic: The following XML sample shows the Register as a Publisher request from a Platform "Platform@domain.com/mac" to XMPP-Grid controller. </preamble>
             <artwork align="center"><![CDATA[
                 <iq id="fD65a-6" to="grid_Controller.jabber"
-                from="Node2@domain.com/mac" type="get">
+                from="Platform@domain.com/mac" type="get">
                 <grid xmlns="xgrid" type="request">
                 <ns2:initPublishRequest xmlns:ns2=" xmlns:ns4=
                 " xmlns:ns3=" xmlns:ns5=" xmlns:ns6=" xmlns:ns7=">
@@ -708,12 +701,12 @@
             ]]></artwork>
         </figure>
         <figure>
-            <preamble>o Register as a subscriber to the Topic: The following XML sample shows a subscription request made by Node "Node2@domain.com/mac" for "SessionCapability" Topic to XMPP-Grid controller.  On success, determined by the Node's authorization privilege, XMPP-Grid controller returns the Topic name, version and the Publishers' hostname as a response to the Node's request.</preamble>
+            <preamble>o Register as a subscriber to the Topic: The following XML sample shows a subscription request made by Platform "Platform@domain.com/mac" for "SessionCapability" Topic to XMPP-Grid controller.  On success, determined by the Platform's authorization privilege, XMPP-Grid controller returns the Topic name, version and the Publishers' hostname as a response to the Platform's request.</preamble>
             <artwork align="center"><![CDATA[
                 
                 // Subscribe Request
                 <iq id="lQJIT-6" to="grid_Controller.jabber"
-                from="Node2@domain.com/mac" type="get">
+                from="Platform@domain.com/mac" type="get">
                 <grid xmlns="xgrid" type="request">
                 <ns2:subscribeRequest xmlns:ns2=" xmlns:ns4=" xmlns:ns3
                 =" xmlns:ns5=" xmlns:ns6=" xmlns:ns7=">
@@ -728,7 +721,7 @@
                 
                 // Subscribe Response
                 <iq from="grid_Controller.jabber" id=" lQJIT-6"
-                to="Node2@domain.com/mac" type="result" xmlns="jabber:client">
+                to="Platform@domain.com/mac" type="result" xmlns="jabber:client">
                 <grid type="response" xmlns="xgrid">
                 <ns2:subscribeResponse xmlns:ns2=
                 " xmlns:ns3=" xmlns:ns4=" xmlns:ns5="
@@ -788,7 +781,7 @@
                 </iq>
                 
                 // Publish message from XMPP PubSub to the Subscriber
-                <message to="Node2@domain.com/mac" from="pubsub.xgrid.domain.com">
+                <message to="Platform@domain.com/mac" from="pubsub.xgrid.domain.com">
                 <event xmlns="http://jabber.org/protocol/pubsub#event">
                 <items node="SessionDirectoryCapability-1.0">
                 <item id="64350fcd-3fc3-4f00-b0f2-a7bcf4038813">
@@ -829,12 +822,12 @@
             ]]></artwork>
         </figure>
         <figure>
-            <preamble>o Peer-to-Peer Directed Query: The following XML sample shows a peer-to-peer directed query request made by Node "Node2@domain.com/mac" to other XMPP-Grid participating Node "grid_Controller.jabber", seeking identity group information for a specific user "user1". "grid_Controller.jabber" returns the list of identity groups "user1" belongs as a response to the request. </preamble>
+            <preamble>o Peer-to-Peer Directed Query: The following XML sample shows a peer-to-peer directed query request made by Platform "Platform@domain.com/mac" to other XMPP-Grid participating Platform "grid_Controller.jabber", seeking identity group information for a specific user "user1". "grid_Controller.jabber" returns the list of identity groups "user1" belongs as a response to the request. </preamble>
             <artwork align="center"><![CDATA[
                 
                 // Query Request
                 <iq id="kR0YY-8" to="grid_Controller.jabber"
-                from="Node2@domain.com/mac" type="get">
+                from="Platform@domain.com/mac" type="get">
                 <grid xmlns="xgrid" type="request">
                 <ns5:getIdentityGroupRequest xmlns:ns2=" xmlns:ns4="
                 xmlns:ns3=" xmlns:ns5=" xmlns:ns6=" xmlns:ns7=">
@@ -847,7 +840,7 @@
                 
                 // Query Response
                 <iq from="grid_Controller.jabber"
-                id=" kR0YY-8" to="Node2@domain.com/mac" type="result">
+                id=" kR0YY-8" to="Platform@domain.com/mac" type="result">
                 <grid type="response" xmlns="xgrid">
                 <ns5:getIdentityGroupResponse xmlns:ns2=" xmlns:ns3=
                 " xmlns:ns4=" xmlns:ns5=" xmlns:ns6=" xmlns:ns7=">
