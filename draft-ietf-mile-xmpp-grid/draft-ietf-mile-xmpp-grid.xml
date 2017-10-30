@@ -8,9 +8,7 @@
   <!ENTITY RFC3923 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3923.xml">
   <!ENTITY RFC4422 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4422.xml">
   <!ENTITY RFC7970 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7970.xml">
-  <!ENTITY RFC5070 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5070.xml">
   <!ENTITY RFC5246 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml">
-  <!ENTITY RFC6545 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6545.xml">
   ]>
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?>
 <!-- used by XSLT processors -->
@@ -81,11 +79,19 @@
       </address>
     </author>
     <author fullname="Peter Saint-Andre" initials="P" surname="Saint-Andre">
-        <address>
-             <email>stpeter@stpeter.im</email>
-        </address>
+      <organization>Jabber.org</organization>
+      <address>
+        <postal>
+          <street>P.O. Box 787</street>
+          <city>Parker</city>
+          <country>USA</country>
+          <code>80138</code>
+          <region>CO</region>
+        </postal>
+        <email>stpeter@jabber.org</email>
+      </address>
     </author>
-    <date year="2017"/>
+    <date/>
     <area>Security</area>
     <workgroup>MILE</workgroup>
     <!-- <keyword/> -->
@@ -93,135 +99,81 @@
     <!-- <keyword/> -->
     <!-- <keyword/> -->
     <abstract>
-      <t>
-        This document describes how to use the Extensible
-        Messaging and Presence Protocol (XMPP) as a transfer protocol for collecting and distributing security-relevant information between network-connected devices. As an example, this document describes such a usage for the Incident Object Description Exchange Format (IODEF).</t>
+      <t>This document describes how to use the Extensible Messaging and Presence Protocol (XMPP) as a transport for collecting and distributing security-relevant information between network-connected devices. To illustrate the principles involved, this document describes such a usage for the Incident Object Description Exchange Format (IODEF).</t>
     </abstract>
   </front>
   <middle>
+
     <section title="Introduction">
-      <t>This document describes "XMPP-Grid": a method for using the Extensible Messaging and Presence Protocol (XMPP) <xref target="RFC6120"/> as a transfer protocol for collecting and distributing security-relevant information among network platforms, endpoints, and any network-connected device.  In using an XMPP implementation, the XMPP provides the Publish-Subscribe service that acts as a broker, providing control-plane functions by which entities can discover available information to be published or consumed. Although such information can take the form of any structured data (XML, JSON, etc.), this document uses the Incident Object Description Exchange Format (IODEF) <xref target='RFC5070'/> to illustrate the principles of XMPP-Grid.</t>
-      <section title="Terminology">
-        
-         <!-- <t>Capability Provider
-          <list><t>
-              An entity participating in the XMPP-Grid that is capable of sharing
-              information on XMPP-Grid.</t></list> </t>
-        <t>JID
-          <list><t>
-              Jabber Identifier, native address of an
-              XMPP entity. </t></list></t>
-         -->
-        <t>Publisher
-          <list><t>
-              An entity participating in the XMPP-Grid that is capable of sharing content information to other devices participating on XMPP-Grid.</t></list> </t>
-        <t>Subscriber
-          <list><t>
-              An entity participating in XMPP-Grid by consuming information on a subscription basis
-              from one or more publishers also participating in the XMPP-Grid.</t></list></t>
-        <t>Topics
-          <list><t> Contextual information channel created on
-              XMPP-Grid where a published message by the
-              Publisher will be propagated by XMPP in
-              real-time to a set of subscribed devices.</t></list> </t>
-        <t>XMPP-Grid
-          <list><t>
-              Set of standards-based XMPP messages with
-              extensions, intended for use as a transfer, transport
-              and communications protocol framework between
-              devices forming an information grid for sharing information.</t></list> </t>
-        <t>XMPP-Grid Controller
-          <list><t>
-              Centralized component of XMPP-Grid responsible
-              for managing all control plane operations.</t></list> </t>
-        <t>XMPP-Grid Node
-          <list><t>
-              Platform or device that implements XMPP to connect to XMPP-Grid and
-              share or consume security data.</t></list> </t>
+      <t>This document describes "XMPP-Grid": a method for using the Extensible Messaging and Presence Protocol (XMPP) <xref target="RFC6120"/> as a transport for collecting and distributing security-relevant information among network platforms, endpoints, and any other network-connected device.  Among other services, XMPP provides a publish-subscribe service that acts as a broker, providing control-plane functions by which entities can discover available information to be published or consumed. Although such information can take the form of any structured data (XML, JSON, etc.), this document uses the Incident Object Description Exchange Format (IODEF) <xref target='RFC7970'/> to illustrate the principles of XMPP-Grid.</t>
+    </section>
+
+    <section title="Terminology">
+      <t>This document uses XMPP terminology defined in <xref target="RFC6120"/> and <xref target="XEP-0060"/> as well as Security Automation and Continuous Monitoring (SACM) terminology defined in draft-ietf-sacm-terminology. Because the intended audience for this document consists of those who implement and deploy security reporting systems, in general the SACM terms are used here (however, mappings are provided for the benefit of XMPP developers and operators).</t>
       <t>
-        The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-        "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in
-        this document are to be interpreted as described in
-        <xref target="RFC2119"/>.
+        <list style='hanging'>
+          <t hangText='Broker:'>As defined in draft-ietf-sacm-terminology, a Broker is a specific type of controller containing control plane functions; as used here, the term refers to an XMPP publish-subscribe service.</t>
+          <t hangText='Broker Flow:'>A method by which security-related information is published and consumed in a mediated fashion through a Broker. In this flow, the Broker handles authorization of Subscribers and Publishers to Topics, receives messages from Publishers, and delivers published messages to Subscribers.</t>
+          <t hangText='Consumer:'>As defined in draft-ietf-sacm-terminology, a Consumer is a component that contains functions to receive information from other components; as used here, the term refers to an XMPP publish-subscribe Subscriber.</t>
+          <t hangText='Controller:'>As defined in draft-ietf-sacm-terminology, a controller is a "component containing control plane functions that manage and facilitate information sharing or execute on security functions"; as used here, the term refers to either an XMPP server, which provides both core message delivery <xref target='RFC6120'/> used by publish-subscribe entities.</t>
+          <t hangText='Node:'>The term used in the XMPP publish-subscribe specification <xref target='XEP-0060'/> for a Topic.</t>
+          <t hangText='Platform:'>Any entity that implements connects to the XMPP-Grid in order to publisher or consume security-related data.</t>
+          <t hangText='Provider:'>As defined in draft-ietf-sacm-terminology, a Provider is a component that contains functions to provide information to other components; as used here, the term refers to an XMPP publish-subscribe Publisher.</t>
+          <t hangText='Proxy Flow:'>A method by which security-related information is published and consumed in a mediated fashion through a Broker. In this flow, the Broker handles authorization of Subscribers and Publishers to Topics, receives messages from Publishers, and delivers published messages to Subscribers.</t>
+          <t hangText='Publisher:'>The term used in the XMPP publish-subscribe specification <xref target='XEP-0060'/> for a Provider.</t>
+          <t hangText='Publish-Subscribe Service:'>A Broker that implements the XMPP publish-subscribe extension <xref target='XEP-0060'/>.</t>
+          <t hangText='Subscriber:'>The term used in the XMPP publish-subscribe specification <xref target='XEP-0060'/> for a Consumer.</t>
+          <t hangText='Topic:'>A contextual information channel created on a Broker at which messages generated by a Publisher will be propagated by XMPP in real time to one or more Subscribers.  Each Topic is limited to a type and format of security data (e.g., IODEF) that a platform wants to share with other platform(s) and a specified interface by which the data can be obtained.</t>
+        </list>
       </t>
-      </section>
+      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <xref target="RFC2119"/>.</t>
+    </section>
 
-      <section title="Overview of XMPP-Grid">
-        <t>XMPP-Grid employs publish/subscribe/query operations brokered by a controller, which enforces access control in the system.  This XMPP-based architecture controls what platforms can connect to the "Grid" to share ("publish") and/or consume ("subscribe" or "query") contextual information ("Topics")  such as security data needed to support MILE. </t>
-        <t>
-            Leveraging the XMPP architecture,
-                XMPP-Grid uses the extended XMPP server to act as a controller, affecting the authentication and authorization of participating XMPP-Grid nodes (Node). Security information may only be published or consumed by authenticated and authorized Nodes using the XMPP publish/subscribe extension defined in <xref target="XEP-0060"/>.
-        </t>
-        <t>The components of XMPP-Grid are:</t>
-        <t>
-          <list style="symbols">
-            <t>XMPP-Grid Controller (Controller): The Controller manages the control plane of XMPP-Grid operations.  As such it authenticates and authorizes platforms connecting to the data exchange grid and controls whether or not they can publish, subscribe or query Topics of security data. The Controller further implements the XMPP PubSuc Collection Nodes<xref target="XEP-0248"/> and the XMPP Service Discovery extension <xref target="XEP-0030"/> to facilitate the discovery of available information to be shared.</t>
-            
-            <t>XMPP-Grid Node (Node): A Node is a platform or application that has mutually authenticated with the Controller and obtained authorization by the Controller to share and/or consume security data.</t>
-            <t>Data Repository:  This is the source of security data available on the Grid and may be a network security platform, management console, endpoint, etc.  XMPP-Grid does not mandate a specific information model, but instead remains open to transport structured or unstructured data.  Data may be supplied by the security platform itself or by an external information repository.</t>
-            <t>Topic: An XMPP-Grid Topic defines a type of security data that a
-              platform wants to share with other platform(s) and a specified interface by which the data can be obtained. </t>
-          </list>
-        </t>
+    <section title="Architecture">
+      <t>The following figure illustrates the architecture of XMPP-Grid.</t>
+      
+      <figure title="XMPP-Grid Architecture" anchor="grid-architecture"><artwork><![CDATA[
+          +--------------------------------------+
+          | +--------------------------------------+
+          | | +--------------------------------------+
+          | | |                                      |
+          +-| |             Platforms                |
+            +-|                                      |
+              +--------------------------------------+
+                /   \         /   \            /   \
+               /  C  \       /     \          /     \
+               -  o  -       -  d  -          -     -
+                ||n||A        | a  |B          |   |C
+                ||t||         | t  |           |   |
+               -  r  -       -  a  -           |   |
+               \  o  /       \     /           |   |
+                \ l /         \   /            |   |
+             /|---------------------|\         |   |
+      /|----/                         \--------| d |--|\
+     /     /        Controller         \ ctrl  | a |    \
+     \     \        & Broker           / plane | t |    /
+      \|----\                         /--------| a |--|/
+             \|---------------------|/         |   |
+                /   \         /   \            |   |
+               /  C  \       /     \           |   |
+               -  o  -       -  d  -           |   |
+                ||n||A        | a |B           |   |C
+                ||t||         | t |            |   |
+               -  r  -       -  a  -          -     -
+               \  o  /       \     /          \     /
+                \ l /         \   /            \   /
+              +------------------------------------+
+              |                                    |-+
+              |            Platforms               | |
+              |                                    | |-+
+              +------------------------------------+ | |
+                +------------------------------------+ |
+                  +------------------------------------+
+]]></artwork>
+        <postamble>Figure 1: XMPP-Grid Architecture</postamble>
+      </figure>
+      <t>Platforms connect to the Controller (XMPP server) to authenticate and and then establish appropriate authorizations and relationships (e.g., Publisher or Subscriber) at the Broker (XMPP publish-subscribe service). The control plane messaging is established through XMPP and shown as "A" (Control plane interface) in Figure 1.  Authorized nodes may then share data either thru the Broker (shown as "B" in Figure 1) or in some cases directly (shown as "C" in Figure 1).  This document focuses primarily on the Broker Flow for information sharing (although "direct flow" interactions can be used for specialized purposes such as bulk data transfer, methods for doing so are outside the scope of this document).</t>
 
-<t>As enabled by the XMPP architecture, XMPP-Grid is used to exchange security context data between systems on a 1-to-1, 1-to-many, or many-to-many basis.  Security data shared between these systems may use pre-negotiated non-standard/native data formats or may utilize an optional common information repository with a standardized data format, such as IODEF.  XMPP-Grid is data format agnostic and accommodates transport of whatever format the end systems agree upon.  </t>
-        <t>XMPP-Grid can operate in the following deployment
-          architectures:</t>
-        <t>
-          <list style="symbols">
-            <t>Broker-Flow: An XMPP-Grid control plane brokers the authorization and redirects the Topic subscriber to Topic publisher directly.  In this architecture, the Controller only manages the connection; the security data flow is directly between Nodes using data formats negotiated out-of-band.</t>
-            <t>Centralized Data-Flow:  An XMPP-Grid maintains the data within its optional centralized database.  In this architecture, the Controller provides a common information structure for use in formatting and storing security context data, such as IODEF, and directly responds to Node publish and Subscribe requests. </t>
-            <t>Proxy-Flow:  An XMPP-Grid is acting as proxy, collecting the data from
-              the publisher(s) and presenting it to the subscriber directly.  This
-              is used for ad-hoc queries.</t>
-          </list>
-        </t>
-        <t>Within the deployment architecture, XMPP-Grid may be used in any
-          combination of the following data exchange modes.  The flexibility
-          afforded by the different modes enables security information to be
-          exchanged between systems in the method most suitable for serving a
-          given use-case.</t>
-        <t>
-          <list style="symbols">
-            <t>
-              Continuous Topic update stream: This mode delivers in real-time any data published to a Topic to the Nodes that are subscribed to that Topic.</t>
-            <t>Directed query: This mode enables Nodes to request a specific set of security information regarding a specific asset, such as a specific user endpoint. </t>
-            <t>Bulk historic data query:  This mode enables Nodes to request
-              transfer of past output from a Topic over a specific span of time.</t>
-          </list>
-        </t>
-      </section>
-      <section title="Benefits of XMPP-Grid">
-          <t> Currently, security information standards such as IODEF <xref target="RFC7970"/> defines a data models that has no explicit transport defined and typically are carried over HTTPS as defined in RID <xref target="RFC6545"/>.</t>
-          
-           <t>As security solutions are expanding to expose and share information asynchronously and across network boundaries there is a need for an architecture that facilitates federation, discovery of the different information available, the interfaces used to obtain the information and the need for near real-time exchange of data.</t>
-           <t>Based on XMPP, XMPP-Grid has been defined to meet those requirements.  </t>
-           
-           <!--
-               
-              <t>Benefits of XMPP-Grid can be summarized on two fronts: 1) end-user benefits, 2) benefits for adopting vendors.</t>
-        <t>Benefits for end-users deploying security services based on XMPP-Grid security context information sharing capabilities are derived from the results that come with standardization including:</t>
-        <t>
-          <list style="symbols">
-            <t>Consolidating relevant security event data from multiple systems to the "right console at the right time".</t>
-            <t>Cross-vendor interoperability out-of-the-box, when using a standard data format. </t>
-            <t>Coordinated security response across multiple products from multiple vendors, ranging from endpoint security to AAA, NAC, IDS/IPS, Data Loss Prevention, firewalls to infrastructure such as SIEM, CMDB, physical access control systems.</t>
-            <t>Customer product choice and flexibility. No need to buy all security products from one vendor. </t>
-          </list>
-        </t>
-        <t>Adopting XMPP-Grid security data sharing capabilities provides a number of benefits for adopting vendors, especially when compared to proprietary interfaces, such as:</t>
-        <t>
-          <list style="symbols">
-            <t>Integrate the XMPP-Grid Connection Agent once to interface with many platforms, simultaneously by subscribing or publishing relevant security data </t>
-            <t>Security information shared is configurable (via Topics) based on relevance to specific use-cases and platforms </t>
-            <t>Only sharing relevant data enables both publishing and subscribing platforms to scale their security data sharing by eliminating excess, irrelevant data </t>
-            <t>Integrated authorization and security ensures only appropriate XMPP-Grid operations are executed by permitted platforms </t>
-            <t>Ability to share security data in native or structured formats enables data model flexibility for adopting vendors </t>
-            <t>Flexibility, adaptability to evolve to address new use cases over time.  Utilize data-agnostic transport protocol or the extensible schema that allows for easy support for vendor-specific data. </t>
-          </list>
-        </t>
-            -->
-      </section>
       <!--  SYAM: Lets move this as an Appendix and make it also a code snippet example
       <section title="Example Workflow">
                    <t>
@@ -240,64 +192,7 @@
         </t>
       </section>
         -->
-    </section>
-    <section title="XMPP-Grid Architecture">
-      <t>XMPP-Grid is an XMPP-based communication fabric that facilitates secure sharing of information between network elements and networked applications connected to the fabric both in real time and on demand (see figure below). </t>
-      
-      <figure title="XMPP-Grid Architecture" anchor="grid-architecture"><artwork><![CDATA[
-                      +--------------------------------------+
-                      | +--------------------------------------+
-                      | | +--------------------------------------+
-                      | | |                                      |
-                      +-| |               Node(s)                |
-                        +-|                                      |
-                          +--------------------------------------+
-                            /   \         /   \            /   \
-                           /  C  \       /     \          /     \
-                           -  o  -       -  d  -          -     -
-                            ||n||A        | a  |B          |   |C
-                            ||t||         | t  |           |   |
-                           -  r  -       -  a  -           |   |
-                           \  o  /       \     /           |   |
-                            \ l /         \   /            |   |
-                         /|---------------------|\         |   |
-                  /|----/                         \--------| d |--|\
-                 /     /        XMPP-Grid          \ ctrl  | a |    \
-                 \     \        Controller         / plane | t |    /
-                  \|----\                         /--------| a |--|/
-                         \|---------------------|/         |   |
-                            /   \         /   \            |   |
-                           /  C  \       /     \           |   |
-                           -  o  -       -  d  -           |   |
-                            ||n||A        | a |B           |   |C
-                            ||t||         | t |            |   |
-                           -  r  -       -  a  -          -     -
-                           \  o  /       \     /          \     /
-                            \ l /         \   /            \   /
-                          +------------------------------------+
-                          |                                    |-+
-                          |             Node(s)                | |
-                          |                                    | |-+
-                          +------------------------------------+ | |
-                            +------------------------------------+ |
-                              +------------------------------------+
 
-
-
-]]></artwork>
-      <!--
-        <postamble>Figure 1: XMPP-Grid Architecture</postamble>
-       -->
-      </figure>
-      <t>Nodes must connect to the XMPP-Grid controller to authenticate and establish appropriate authorizations, with appropriate authorization privileges. The control plane messaging is established through XMPP and shown as "A" (Control plane interface) in Figure 1.  Authorized nodes may then share data either thru the XMPP-Grid Controller (shown as "B" in Figure 1) or directly (shown as "C" in Figure 1).
-        The data messaging enable Nodes to:</t>
-      <t>
-        <list style="symbols">
-          <t> Receive real-time events of the published messages from the publisher through Topic subscriptions </t>
-          <t>Make directed queries to other Nodes in the XMPP-Grid with appropriate authorization from the Controller </t>
-          <t>Negotiate out-of-band secure file transfer channel with the peer </t>
-        </list>
-      </t>
       
       <section title="Using XMPP">
         <t>XMPP is used as the foundation message routing protocol for exchanging security data between systems across XMPP-Grid.  XMPP is a communications protocol for message-oriented middleware based on XML. Designed to be extensible, the protocol uses de-centralized client-server architecture where the clients connect to the servers securely and the messages between the clients are routed through the XMPP servers deployed within the cluster. XMPP has been used extensively for publish-subscribe systems, file transfer, video, VoIP, Internet of Things, Smart Grid Software Defined Networks (SDN) and other collaboration and social networking applications.</t>
@@ -347,32 +242,32 @@
           <figure>
               <preamble>XMPP-Grid node 'xmpp-grid-client@mile-host.com' requests the XMPP-Grid Controller hosted on 'xmpp-controller-host.com' for available information that can be consumed.</preamble>
               <artwork align="center"><![CDATA[
-                  <iq type='get'
-                  from='xmpp-grid-client@mile-host.com/postures'
-                  to='pubsub.xmpp-controller-host.com'
-                  id='disco1'>
-                  <query xmlns='http://jabber.org/protocol/disco#items'/>
-                  </iq>              ]]></artwork>
+<iq type='get'
+    from='xmpp-grid-client@mile-host.com/postures'
+    to='pubsub.xmpp-controller-host.com'
+    id='disco1'>
+  <query xmlns='http://jabber.org/protocol/disco#items'/>
+</iq>              ]]></artwork>
           </figure>
           
           <t> The XMPP-Controller responds with the different types of information it can publish:</t>
           <figure>
               <preamble>Resulting set of capabilities.</preamble>
               <artwork align="center"><![CDATA[
-                  <iq type='result'
-                  from='pubsub.xmpp-controller-host.com'
-                  to='xmpp-grid-client@mile-host.com/postures'
-                  id='disco1'>
-                  <query xmlns='http://jabber.org/protocol/disco#items'
-                  node='secinfo'>
-                  <item node='NEA1'
-                  name='endpoint-posture'
-                  jid='pubsub.xmpp-controller-host.com'/>
-                  <item node='MILEHost'
-                  name='iodef-1.0'
-                  jid='pubsub.xmpp-controller-host.com'/>
-                  </query>
-                  </iq>              ]]></artwork>
+<iq type='result'
+    from='pubsub.xmpp-controller-host.com'
+    to='xmpp-grid-client@mile-host.com/postures'
+    id='disco1'>
+  <query xmlns='http://jabber.org/protocol/disco#items'
+         node='secinfo'>
+    <item node='NEA1'
+          name='endpoint-posture'
+          jid='pubsub.xmpp-controller-host.com'/>
+    <item node='MILEHost'
+          name='iodef-1.0'
+          jid='pubsub.xmpp-controller-host.com'/>
+  </query>
+</iq>              ]]></artwork>
           </figure>
           <!--
          <t>To enable the XMPP-Grid Controller to advertise multiple XMPP-Grid nodes as being able to publish the same information, the use of <xref target="XEP-0248"/t> is used to allow the XMPP-Grid Controller to publish on behalf on the one or more nodes.  Section 5.2 in <xref target="XEP-0248"/> demonstrates how multiple nodes may be discovered.</t>
@@ -392,44 +287,44 @@
               </list> </t>
           <t>Once a Node has authenticated with the XMPP-Grid controller, it may further register a topic (e.g. information type) to be shared or use the discovery mechanism for determining topics to be consumed.               Sharing Information: security information may be shared using registered topics. As IODEF 1.0 is an already standardized schema, its namespace can be used as the data model to be shared. </t>
           </section>
-      
-      
-
-      
     </section>
     <section title="Example use of XMPP-Grid for IODEF">
         <t> A Node follows the standard XMPP workflow for connecting to the Controller as well as using the XMPP discovery mechanisms to discover the availability to consume IODEF information. The general workflow is summarized in the figure below: </t>
         
         <figure title="IODEF Example XMPP Workflow" anchor="iodef-example-flow">
             <artwork><![CDATA[
-      
-        |----------------|                   |----------------|                |----------------|
-        | IODEF Client   |                   | XMPP Server    |                | IODEF Service  |
-        |  (Subscriber)  |                   | (Controller)   |                |  (Publisher)   |
-        |----------------|                   |----------------|                |----------------|
-                |                                    |                                   |
-                |     IODEF Client Authentication    |                                   |
-                |<---------------------------------->|                                   |
-                |                                    |   IODEF Service Authentication	 |
-                |                                    |<--------------------------------->|
-                |                                    | Create IODEFas a Topic (XEP-0060) |
-                |                                    |<----------------------------------|
-                |                                    | Topic Creation Success            |
-                |                                    |---------------------------------->|
-                | Topic Discovery (XEP-0030)         |                                   |
-                |----------------------------------->|                                   |
-                | Discovery Response with Topics     |                                   |
-                |<-----------------------------------|                                   |
-                |                                    |                                   |
-                | Subscribe to IODEF Topic (XEP-0060)|                                   |
-                |----------------------------------->|                                   |
-                | Subscription Success               |                                   |
-                |<-----------------------------------|                                   |
-                |                                    | IODEF Incident Publish            |
-                |       IODEF Incident Publish       |<----------------------------------|
-                |<-----------------------------------|                                   |
-                |                                    |                                   |
-                
++----------------+         +----------------+         +----------------+
+| IODEF Client   |         | XMPP Server    |         | IODEF Service  |
+|  (Subscriber)  |         | (Controller)   |         |  (Publisher)   |
++----------------+         +----------------+         +----------------+
+        |                          |                         |
+        |     IODEF Client         |                         |
+        |     Authentication       |                         |
+        |<------------------------>|                         |
+        |                          |   IODEF Service         |
+        |                          |   Authentication        |
+        |                          |<----------------------->|
+        |                          | Create IODEF as a Topic |
+        |                          | (XEP-0060)              |
+        |                          |<------------------------|
+        |                          | Topic Creation Success  |
+        |                          |------------------------>|
+        | Topic Discovery          |                         |
+        | (XEP-0030)               |                         |
+        |------------------------->|                         |
+        | Discovery Response       |                         |
+        | with Topics              |                         |
+        |<-------------------------|                         |
+        |                          |                         |
+        | Subscribe to IODEF Topic |                         |
+        | (XEP-0060)               |                         |
+        |------------------------->|                         |
+        | Subscription Success     |                         |
+        |<-------------------------|                         |
+        |                          | IODEF Incident Publish  |
+        | IODEF Incident Publish   |<------------------------|
+        |<-------------------------|                         |
+        |                          |                         |
         ]]></artwork>
          <!--
          <postamble>Figure 2: Example XMPP-Grid Workflow for IODEF</postamble>
@@ -653,8 +548,6 @@
     <references title="Informative References">
       &RFC7970;
       &RFC5246;
-      &RFC5070;
-      &RFC6545;
       <!--
            <reference anchor="IF-MAP">
            <front>

@@ -5,9 +5,10 @@
 MILE                                                  N. Cam-Winget, Ed.
 Internet-Draft                                                 S. Appala
 Intended status: Standards Track                                 S. Pope
-Expires: May 1, 2018                                       Cisco Systems
+Expires: May 3, 2018                                       Cisco Systems
                                                           P. Saint-Andre
-                                                        October 28, 2017
+                                                              Jabber.org
+                                                        October 30, 2017
 
 
               Using XMPP for Security Information Exchange
@@ -16,10 +17,11 @@ Expires: May 1, 2018                                       Cisco Systems
 Abstract
 
    This document describes how to use the Extensible Messaging and
-   Presence Protocol (XMPP) as a transfer protocol for collecting and
+   Presence Protocol (XMPP) as a transport for collecting and
    distributing security-relevant information between network-connected
-   devices.  As an example, this document describes such a usage for the
-   Incident Object Description Exchange Format (IODEF).
+   devices.  To illustrate the principles involved, this document
+   describes such a usage for the Incident Object Description Exchange
+   Format (IODEF).
 
 Status of This Memo
 
@@ -36,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 1, 2018.
+   This Internet-Draft will expire on May 3, 2018.
 
 Copyright Notice
 
@@ -48,364 +50,244 @@ Copyright Notice
    (http://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
-   to this document.  Code Components extracted from this document must
-   include Simplified BSD License text as described in Section 4.e of
 
 
 
-Cam-Winget, et al.         Expires May 1, 2018                  [Page 1]
+Cam-Winget, et al.         Expires May 3, 2018                  [Page 1]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
 
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
    the Trust Legal Provisions and are provided without warranty as
    described in the Simplified BSD License.
 
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-     1.1.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   3
-     1.2.  Overview of XMPP-Grid . . . . . . . . . . . . . . . . . .   4
-     1.3.  Benefits of XMPP-Grid . . . . . . . . . . . . . . . . . .   5
-   2.  XMPP-Grid Architecture  . . . . . . . . . . . . . . . . . . .   6
-     2.1.  Using XMPP  . . . . . . . . . . . . . . . . . . . . . . .   8
-     2.2.  XMPP-Grid Service Discovery . . . . . . . . . . . . . . .   9
-     2.3.  XMPP-Grid Requirements for enabling Information Sharing .  10
-   3.  Example use of XMPP-Grid for IODEF  . . . . . . . . . . . . .  11
-   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  12
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
-     5.1.  Trust Model . . . . . . . . . . . . . . . . . . . . . . .  13
-       5.1.1.  Network . . . . . . . . . . . . . . . . . . . . . . .  13
-       5.1.2.  XMPP-Grid Nodes . . . . . . . . . . . . . . . . . . .  13
-       5.1.3.  XMPP-Grid Controller  . . . . . . . . . . . . . . . .  13
-       5.1.4.  Certification Authority . . . . . . . . . . . . . . .  14
-     5.2.  Threat Model  . . . . . . . . . . . . . . . . . . . . . .  14
-       5.2.1.  Network Attacks . . . . . . . . . . . . . . . . . . .  14
-       5.2.2.  XMPP-Grid Nodes . . . . . . . . . . . . . . . . . . .  15
-       5.2.3.  XMPP-Grid Controllers . . . . . . . . . . . . . . . .  16
-       5.2.4.  Certification Authority . . . . . . . . . . . . . . .  17
-     5.3.  Countermeasures . . . . . . . . . . . . . . . . . . . . .  18
-       5.3.1.  Securing the XMPP-Grid Transport Protocol . . . . . .  18
-       5.3.2.  Securing XMPP-Grid Nodes  . . . . . . . . . . . . . .  19
-       5.3.3.  Securing XMPP-Grid Controllers  . . . . . . . . . . .  20
-       5.3.4.  Limit on search result size . . . . . . . . . . . . .  20
-       5.3.5.  Cryptographically random session-id and
-               authentication checks for ARC . . . . . . . . . . . .  20
-       5.3.6.  Securing the Certification Authority  . . . . . . . .  21
-     5.4.  Summary . . . . . . . . . . . . . . . . . . . . . . . . .  21
-   6.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  22
-   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  22
-   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  22
-     8.1.  Normative References  . . . . . . . . . . . . . . . . . .  22
-     8.2.  Informative References  . . . . . . . . . . . . . . . . .  23
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  24
+   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   3
+   3.  Architecture  . . . . . . . . . . . . . . . . . . . . . . . .   4
+     3.1.  Using XMPP  . . . . . . . . . . . . . . . . . . . . . . .   6
+     3.2.  XMPP-Grid Service Discovery . . . . . . . . . . . . . . .   7
+     3.3.  XMPP-Grid Requirements for enabling Information Sharing .   8
+   4.  Example use of XMPP-Grid for IODEF  . . . . . . . . . . . . .   8
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  10
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . .  10
+     6.1.  Trust Model . . . . . . . . . . . . . . . . . . . . . . .  10
+       6.1.1.  Network . . . . . . . . . . . . . . . . . . . . . . .  11
+       6.1.2.  XMPP-Grid Nodes . . . . . . . . . . . . . . . . . . .  11
+       6.1.3.  XMPP-Grid Controller  . . . . . . . . . . . . . . . .  11
+       6.1.4.  Certification Authority . . . . . . . . . . . . . . .  11
+     6.2.  Threat Model  . . . . . . . . . . . . . . . . . . . . . .  12
+       6.2.1.  Network Attacks . . . . . . . . . . . . . . . . . . .  12
+       6.2.2.  XMPP-Grid Nodes . . . . . . . . . . . . . . . . . . .  13
+       6.2.3.  XMPP-Grid Controllers . . . . . . . . . . . . . . . .  14
+       6.2.4.  Certification Authority . . . . . . . . . . . . . . .  15
+     6.3.  Countermeasures . . . . . . . . . . . . . . . . . . . . .  16
+       6.3.1.  Securing the XMPP-Grid Transport Protocol . . . . . .  16
+       6.3.2.  Securing XMPP-Grid Nodes  . . . . . . . . . . . . . .  17
+       6.3.3.  Securing XMPP-Grid Controllers  . . . . . . . . . . .  17
+       6.3.4.  Limit on search result size . . . . . . . . . . . . .  18
+       6.3.5.  Cryptographically random session-id and
+               authentication checks for ARC . . . . . . . . . . . .  18
+       6.3.6.  Securing the Certification Authority  . . . . . . . .  19
+     6.4.  Summary . . . . . . . . . . . . . . . . . . . . . . . . .  19
+   7.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  20
+   8.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  20
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  20
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  20
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  21
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  21
 
 1.  Introduction
 
    This document describes "XMPP-Grid": a method for using the
    Extensible Messaging and Presence Protocol (XMPP) [RFC6120] as a
-   transfer protocol for collecting and distributing security-relevant
-   information among network platforms, endpoints, and any network-
+   transport for collecting and distributing security-relevant
+   information among network platforms, endpoints, and any other
 
 
 
-Cam-Winget, et al.         Expires May 1, 2018                  [Page 2]
+Cam-Winget, et al.         Expires May 3, 2018                  [Page 2]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
 
-   connected device.  In using an XMPP implementation, the XMPP provides
-   the Publish-Subscribe service that acts as a broker, providing
-   control-plane functions by which entities can discover available
-   information to be published or consumed.  Although such information
-   can take the form of any structured data (XML, JSON, etc.), this
-   document uses the Incident Object Description Exchange Format (IODEF)
-   [RFC5070] to illustrate the principles of XMPP-Grid.
+   network-connected device.  Among other services, XMPP provides a
+   publish-subscribe service that acts as a broker, providing control-
+   plane functions by which entities can discover available information
+   to be published or consumed.  Although such information can take the
+   form of any structured data (XML, JSON, etc.), this document uses the
+   Incident Object Description Exchange Format (IODEF) [RFC7970] to
+   illustrate the principles of XMPP-Grid.
 
-1.1.  Terminology
+2.  Terminology
 
-   Publisher
+   This document uses XMPP terminology defined in [RFC6120] and
+   [XEP-0060] as well as Security Automation and Continuous Monitoring
+   (SACM) terminology defined in draft-ietf-sacm-terminology.  Because
+   the intended audience for this document consists of those who
+   implement and deploy security reporting systems, in general the SACM
+   terms are used here (however, mappings are provided for the benefit
+   of XMPP developers and operators).
 
-      An entity participating in the XMPP-Grid that is capable of
-      sharing content information to other devices participating on
-      XMPP-Grid.
+   Broker:  As defined in draft-ietf-sacm-terminology, a Broker is a
+      specific type of controller containing control plane functions; as
+      used here, the term refers to an XMPP publish-subscribe service.
 
-   Subscriber
+   Broker Flow:  A method by which security-related information is
+      published and consumed in a mediated fashion through a Broker.  In
+      this flow, the Broker handles authorization of Subscribers and
+      Publishers to Topics, receives messages from Publishers, and
+      delivers published messages to Subscribers.
 
-      An entity participating in XMPP-Grid by consuming information on a
-      subscription basis from one or more publishers also participating
-      in the XMPP-Grid.
+   Consumer:  As defined in draft-ietf-sacm-terminology, a Consumer is a
+      component that contains functions to receive information from
+      other components; as used here, the term refers to an XMPP
+      publish-subscribe Subscriber.
 
-   Topics
+   Controller:  As defined in draft-ietf-sacm-terminology, a controller
+      is a "component containing control plane functions that manage and
+      facilitate information sharing or execute on security functions";
+      as used here, the term refers to either an XMPP server, which
+      provides both core message delivery [RFC6120] used by publish-
+      subscribe entities.
 
-      Contextual information channel created on XMPP-Grid where a
-      published message by the Publisher will be propagated by XMPP in
-      real-time to a set of subscribed devices.
+   Node:  The term used in the XMPP publish-subscribe specification
+      [XEP-0060] for a Topic.
 
-   XMPP-Grid
+   Platform:  Any entity that implements connects to the XMPP-Grid in
+      order to publisher or consume security-related data.
 
-      Set of standards-based XMPP messages with extensions, intended for
-      use as a transfer, transport and communications protocol framework
-      between devices forming an information grid for sharing
-      information.
+   Provider:  As defined in draft-ietf-sacm-terminology, a Provider is a
+      component that contains functions to provide information to other
 
-   XMPP-Grid Controller
 
-      Centralized component of XMPP-Grid responsible for managing all
-      control plane operations.
 
-   XMPP-Grid Node
+Cam-Winget, et al.         Expires May 3, 2018                  [Page 3]
+
+Internet-Draft                  XMPP Grid                   October 2017
 
-      Platform or device that implements XMPP to connect to XMPP-Grid
-      and share or consume security data.
+
+      components; as used here, the term refers to an XMPP publish-
+      subscribe Publisher.
+
+   Proxy Flow:  A method by which security-related information is
+      published and consumed in a mediated fashion through a Broker.  In
+      this flow, the Broker handles authorization of Subscribers and
+      Publishers to Topics, receives messages from Publishers, and
+      delivers published messages to Subscribers.
+
+   Publisher:  The term used in the XMPP publish-subscribe specification
+      [XEP-0060] for a Provider.
+
+   Publish-Subscribe Service:  A Broker that implements the XMPP
+      publish-subscribe extension [XEP-0060].
+
+   Subscriber:  The term used in the XMPP publish-subscribe
+      specification [XEP-0060] for a Consumer.
+
+   Topic:  A contextual information channel created on a Broker at which
+      messages generated by a Publisher will be propagated by XMPP in
+      real time to one or more Subscribers.  Each Topic is limited to a
+      type and format of security data (e.g., IODEF) that a platform
+      wants to share with other platform(s) and a specified interface by
+      which the data can be obtained.
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
    document are to be interpreted as described in [RFC2119].
 
+3.  Architecture
+
+   The following figure illustrates the architecture of XMPP-Grid.
 
 
-Cam-Winget, et al.         Expires May 1, 2018                  [Page 3]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                  [Page 4]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
 
-1.2.  Overview of XMPP-Grid
-
-   XMPP-Grid employs publish/subscribe/query operations brokered by a
-   controller, which enforces access control in the system.  This XMPP-
-   based architecture controls what platforms can connect to the "Grid"
-   to share ("publish") and/or consume ("subscribe" or "query")
-   contextual information ("Topics") such as security data needed to
-   support MILE.
-
-   Leveraging the XMPP architecture, XMPP-Grid uses the extended XMPP
-   server to act as a controller, affecting the authentication and
-   authorization of participating XMPP-Grid nodes (Node).  Security
-   information may only be published or consumed by authenticated and
-   authorized Nodes using the XMPP publish/subscribe extension defined
-   in [XEP-0060].
-
-   The components of XMPP-Grid are:
-
-   o  XMPP-Grid Controller (Controller): The Controller manages the
-      control plane of XMPP-Grid operations.  As such it authenticates
-      and authorizes platforms connecting to the data exchange grid and
-      controls whether or not they can publish, subscribe or query
-      Topics of security data.  The Controller further implements the
-      XMPP PubSuc Collection Nodes[XEP-0248] and the XMPP Service
-      Discovery extension [XEP-0030] to facilitate the discovery of
-      available information to be shared.
-
-   o  XMPP-Grid Node (Node): A Node is a platform or application that
-      has mutually authenticated with the Controller and obtained
-      authorization by the Controller to share and/or consume security
-      data.
-
-   o  Data Repository: This is the source of security data available on
-      the Grid and may be a network security platform, management
-      console, endpoint, etc.  XMPP-Grid does not mandate a specific
-      information model, but instead remains open to transport
-      structured or unstructured data.  Data may be supplied by the
-      security platform itself or by an external information repository.
-
-   o  Topic: An XMPP-Grid Topic defines a type of security data that a
-      platform wants to share with other platform(s) and a specified
-      interface by which the data can be obtained.
-
-   As enabled by the XMPP architecture, XMPP-Grid is used to exchange
-   security context data between systems on a 1-to-1, 1-to-many, or
-   many-to-many basis.  Security data shared between these systems may
-   use pre-negotiated non-standard/native data formats or may utilize an
-   optional common information repository with a standardized data
-
-
-
-Cam-Winget, et al.         Expires May 1, 2018                  [Page 4]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
-   format, such as IODEF.  XMPP-Grid is data format agnostic and
-   accommodates transport of whatever format the end systems agree upon.
-
-   XMPP-Grid can operate in the following deployment architectures:
-
-   o  Broker-Flow: An XMPP-Grid control plane brokers the authorization
-      and redirects the Topic subscriber to Topic publisher directly.
-      In this architecture, the Controller only manages the connection;
-      the security data flow is directly between Nodes using data
-      formats negotiated out-of-band.
-
-   o  Centralized Data-Flow: An XMPP-Grid maintains the data within its
-      optional centralized database.  In this architecture, the
-      Controller provides a common information structure for use in
-      formatting and storing security context data, such as IODEF, and
-      directly responds to Node publish and Subscribe requests.
-
-   o  Proxy-Flow: An XMPP-Grid is acting as proxy, collecting the data
-      from the publisher(s) and presenting it to the subscriber
-      directly.  This is used for ad-hoc queries.
-
-   Within the deployment architecture, XMPP-Grid may be used in any
-   combination of the following data exchange modes.  The flexibility
-   afforded by the different modes enables security information to be
-   exchanged between systems in the method most suitable for serving a
-   given use-case.
-
-   o  Continuous Topic update stream: This mode delivers in real-time
-      any data published to a Topic to the Nodes that are subscribed to
-      that Topic.
-
-   o  Directed query: This mode enables Nodes to request a specific set
-      of security information regarding a specific asset, such as a
-      specific user endpoint.
-
-   o  Bulk historic data query: This mode enables Nodes to request
-      transfer of past output from a Topic over a specific span of time.
-
-1.3.  Benefits of XMPP-Grid
-
-   Currently, security information standards such as IODEF [RFC7970]
-   defines a data models that has no explicit transport defined and
-   typically are carried over HTTPS as defined in RID [RFC6545].
-
-   As security solutions are expanding to expose and share information
-   asynchronously and across network boundaries there is a need for an
-   architecture that facilitates federation, discovery of the different
-
-
-
-
-Cam-Winget, et al.         Expires May 1, 2018                  [Page 5]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
-   information available, the interfaces used to obtain the information
-   and the need for near real-time exchange of data.
-
-   Based on XMPP, XMPP-Grid has been defined to meet those requirements.
-
-2.  XMPP-Grid Architecture
-
-   XMPP-Grid is an XMPP-based communication fabric that facilitates
-   secure sharing of information between network elements and networked
-   applications connected to the fabric both in real time and on demand
-   (see figure below).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Cam-Winget, et al.         Expires May 1, 2018                  [Page 6]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
-                         +--------------------------------------+
-                         | +--------------------------------------+
-                         | | +--------------------------------------+
-                         | | |                                      |
-                         +-| |               Node(s)                |
-                           +-|                                      |
-                             +--------------------------------------+
-                               /   \         /   \            /   \
-                              /  C  \       /     \          /     \
-                              -  o  -       -  d  -          -     -
-                               ||n||A        | a  |B          |   |C
-                               ||t||         | t  |           |   |
-                              -  r  -       -  a  -           |   |
-                              \  o  /       \     /           |   |
-                               \ l /         \   /            |   |
-                            /|---------------------|\         |   |
-                     /|----/                         \--------| d |--|\
-                    /     /        XMPP-Grid          \ ctrl  | a |    \
-                    \     \        Controller         / plane | t |    /
-                     \|----\                         /--------| a |--|/
-                            \|---------------------|/         |   |
-                               /   \         /   \            |   |
-                              /  C  \       /     \           |   |
-                              -  o  -       -  d  -           |   |
-                               ||n||A        | a |B           |   |C
-                               ||t||         | t |            |   |
-                              -  r  -       -  a  -          -     -
-                              \  o  /       \     /          \     /
-                               \ l /         \   /            \   /
-                             +------------------------------------+
-                             |                                    |-+
-                             |             Node(s)                | |
-                             |                                    | |-+
-                             +------------------------------------+ | |
-                               +------------------------------------+ |
-                                 +------------------------------------+
-
-
-
+             +--------------------------------------+
+             | +--------------------------------------+
+             | | +--------------------------------------+
+             | | |                                      |
+             +-| |             Platforms                |
+               +-|                                      |
+                 +--------------------------------------+
+                   /   \         /   \            /   \
+                  /  C  \       /     \          /     \
+                  -  o  -       -  d  -          -     -
+                   ||n||A        | a  |B          |   |C
+                   ||t||         | t  |           |   |
+                  -  r  -       -  a  -           |   |
+                  \  o  /       \     /           |   |
+                   \ l /         \   /            |   |
+                /|---------------------|\         |   |
+         /|----/                         \--------| d |--|\
+        /     /        Controller         \ ctrl  | a |    \
+        \     \        & Broker           / plane | t |    /
+         \|----\                         /--------| a |--|/
+                \|---------------------|/         |   |
+                   /   \         /   \            |   |
+                  /  C  \       /     \           |   |
+                  -  o  -       -  d  -           |   |
+                   ||n||A        | a |B           |   |C
+                   ||t||         | t |            |   |
+                  -  r  -       -  a  -          -     -
+                  \  o  /       \     /          \     /
+                   \ l /         \   /            \   /
+                 +------------------------------------+
+                 |                                    |-+
+                 |            Platforms               | |
+                 |                                    | |-+
+                 +------------------------------------+ | |
+                   +------------------------------------+ |
+                     +------------------------------------+
+
+   Figure 1: XMPP-Grid Architecture
 
                      Figure 1: XMPP-Grid Architecture
 
-   Nodes must connect to the XMPP-Grid controller to authenticate and
-   establish appropriate authorizations, with appropriate authorization
-   privileges.  The control plane messaging is established through XMPP
+   Platforms connect to the Controller (XMPP server) to authenticate and
+   and then establish appropriate authorizations and relationships
+   (e.g., Publisher or Subscriber) at the Broker (XMPP publish-subscribe
+   service).  The control plane messaging is established through XMPP
    and shown as "A" (Control plane interface) in Figure 1.  Authorized
-   nodes may then share data either thru the XMPP-Grid Controller (shown
+   nodes may then share data either thru the Broker (shown as "B" in
+   Figure 1) or in some cases directly (shown as "C" in Figure 1).  This
 
 
 
-
-Cam-Winget, et al.         Expires May 1, 2018                  [Page 7]
+Cam-Winget, et al.         Expires May 3, 2018                  [Page 5]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
 
-   as "B" in Figure 1) or directly (shown as "C" in Figure 1).  The data
-   messaging enable Nodes to:
+   document focuses primarily on the Broker Flow for information sharing
+   (although "direct flow" interactions can be used for specialized
+   purposes such as bulk data transfer, methods for doing so are outside
+   the scope of this document).
 
-   o  Receive real-time events of the published messages from the
-      publisher through Topic subscriptions
-
-   o  Make directed queries to other Nodes in the XMPP-Grid with
-      appropriate authorization from the Controller
-
-   o  Negotiate out-of-band secure file transfer channel with the peer
-
-2.1.  Using XMPP
+3.1.  Using XMPP
 
    XMPP is used as the foundation message routing protocol for
    exchanging security data between systems across XMPP-Grid.  XMPP is a
@@ -442,19 +324,19 @@ Internet-Draft                  XMPP Grid                   October 2017
 
       *  Real-time event notifications through publish and subscribe.
 
-
-
-
-Cam-Winget, et al.         Expires May 1, 2018                  [Page 8]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
       *  On-demand or directed queries between the clients communicated
          through the XMPP server
 
       *  Facilitates out-of-band, direct communication between
          participating clients
+
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                  [Page 6]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
 
    o  Bi-directional - avoids firewall tunneling and avoids opening up a
       new connection in each direction between client and server.
@@ -481,7 +363,7 @@ Internet-Draft                  XMPP Grid                   October 2017
    Protocols (XEPs) can be found in http://xmpp.org/extensions/xep-
    0001.html .
 
-2.2.  XMPP-Grid Service Discovery
+3.2.  XMPP-Grid Service Discovery
 
    An XMPP-Grid Controller enables nodes to discover what information
    may be consumed thru the [XEP-0060] service.  As such, the XMPP-Grid
@@ -490,54 +372,46 @@ Internet-Draft                  XMPP Grid                   October 2017
    is the XMPP-Controller host.  Below is an example for how an entity
    can query for available information from the XMPP-Controller:
 
-
-
-
-
-
-
-
-
-
-
-
-Cam-Winget, et al.         Expires May 1, 2018                  [Page 9]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
    XMPP-Grid node 'xmpp-grid-client@mile-host.com' requests the XMPP-
    Grid Controller hosted on 'xmpp-controller-host.com' for available
    information that can be consumed.
 
-                  <iq type='get'
-                  from='xmpp-grid-client@mile-host.com/postures'
-                  to='pubsub.xmpp-controller-host.com'
-                  id='disco1'>
-                  <query xmlns='http://jabber.org/protocol/disco#items'/>
-                  </iq>
+         <iq type='get'
+             from='xmpp-grid-client@mile-host.com/postures'
+             to='pubsub.xmpp-controller-host.com'
+             id='disco1'>
+           <query xmlns='http://jabber.org/protocol/disco#items'/>
+         </iq>
 
    The XMPP-Controller responds with the different types of information
    it can publish:
 
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                  [Page 7]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
+
    Resulting set of capabilities.
 
-                   <iq type='result'
-                   from='pubsub.xmpp-controller-host.com'
-                   to='xmpp-grid-client@mile-host.com/postures'
-                   id='disco1'>
-                   <query xmlns='http://jabber.org/protocol/disco#items'
+          <iq type='result'
+              from='pubsub.xmpp-controller-host.com'
+              to='xmpp-grid-client@mile-host.com/postures'
+              id='disco1'>
+            <query xmlns='http://jabber.org/protocol/disco#items'
                    node='secinfo'>
-                   <item node='NEA1'
-                   name='endpoint-posture'
-                   jid='pubsub.xmpp-controller-host.com'/>
-                   <item node='MILEHost'
-                   name='iodef-1.0'
-                   jid='pubsub.xmpp-controller-host.com'/>
-                   </query>
-                   </iq>
+              <item node='NEA1'
+                    name='endpoint-posture'
+                    jid='pubsub.xmpp-controller-host.com'/>
+              <item node='MILEHost'
+                    name='iodef-1.0'
+                    jid='pubsub.xmpp-controller-host.com'/>
+            </query>
+          </iq>
 
-2.3.  XMPP-Grid Requirements for enabling Information Sharing
+3.3.  XMPP-Grid Requirements for enabling Information Sharing
 
    This section summarizes the requirements and the extensions used to
    facilitate the secure sharing of information using XMPP.  Knowledge
@@ -552,16 +426,6 @@ Internet-Draft                  XMPP Grid                   October 2017
    o  Topic Discovery: to facilitate dynamic discovery, Nodes SHOULD
       support the XMPP Service Discovery [XEP-0030].
 
-
-
-
-
-
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 10]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
    o  Publish/Subscribe: to facilitate unsolicited notifications to new
       or updated security information, Nodes MUST support the XMPP
       Publish/Subscribe protocol as defined in [XEP-0060].
@@ -571,52 +435,58 @@ Internet-Draft                  XMPP Grid                   October 2017
    the discovery mechanism for determining topics to be consumed.
    Sharing Information: security information may be shared using
    registered topics.  As IODEF 1.0 is an already standardized schema,
-   its namespace can be used as the data model to be shared XXX.
+   its namespace can be used as the data model to be shared.
 
-3.  Example use of XMPP-Grid for IODEF
+4.  Example use of XMPP-Grid for IODEF
 
    A Node follows the standard XMPP workflow for connecting to the
    Controller as well as using the XMPP discovery mechanisms to discover
-   the availability to consume IODEF information.  The general workflow
-   is summarized in the figure below:
-
-
-        |----------------|                   |----------------|                |----------------|
-        | IODEF Client   |                   | XMPP Server    |                | IODEF Service  |
-        |  (Subscriber)  |                   | (Controller)   |                |  (Publisher)   |
-        |----------------|                   |----------------|                |----------------|
-                |                                    |                                   |
-                |     IODEF Client Authentication    |                                   |
-                |<---------------------------------->|                                   |
-                |                                    |   IODEF Service Authentication    |
-                |                                    |<--------------------------------->|
-                |                                    | Create IODEFas a Topic (XEP-0060) |
-                |                                    |<----------------------------------|
-                |                                    | Topic Creation Success            |
-                |                                    |---------------------------------->|
-                | Topic Discovery (XEP-0030)         |                                   |
-                |----------------------------------->|                                   |
-                | Discovery Response with Topics     |                                   |
-                |<-----------------------------------|                                   |
-                |                                    |                                   |
-                | Subscribe to IODEF Topic (XEP-0060)|                                   |
-                |----------------------------------->|                                   |
-                | Subscription Success               |                                   |
-                |<-----------------------------------|                                   |
-                |                                    | IODEF Incident Publish            |
-                |       IODEF Incident Publish       |<----------------------------------|
-                |<-----------------------------------|                                   |
-                |                                    |                                   |
-
-
-                   Figure 2: IODEF Example XMPP Workflow
 
 
 
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 11]
+
+Cam-Winget, et al.         Expires May 3, 2018                  [Page 8]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
+
+   the availability to consume IODEF information.  The general workflow
+   is summarized in the figure below:
+
++----------------+         +----------------+         +----------------+
+| IODEF Client   |         | XMPP Server    |         | IODEF Service  |
+|  (Subscriber)  |         | (Controller)   |         |  (Publisher)   |
++----------------+         +----------------+         +----------------+
+        |                          |                         |
+        |     IODEF Client         |                         |
+        |     Authentication       |                         |
+        |<------------------------>|                         |
+        |                          |   IODEF Service         |
+        |                          |   Authentication        |
+        |                          |<----------------------->|
+        |                          | Create IODEF as a Topic |
+        |                          | (XEP-0060)              |
+        |                          |<------------------------|
+        |                          | Topic Creation Success  |
+        |                          |------------------------>|
+        | Topic Discovery          |                         |
+        | (XEP-0030)               |                         |
+        |------------------------->|                         |
+        | Discovery Response       |                         |
+        | with Topics              |                         |
+        |<-------------------------|                         |
+        |                          |                         |
+        | Subscribe to IODEF Topic |                         |
+        | (XEP-0060)               |                         |
+        |------------------------->|                         |
+        | Subscription Success     |                         |
+        |<-------------------------|                         |
+        |                          | IODEF Incident Publish  |
+        | IODEF Incident Publish   |<------------------------|
+        |<-------------------------|                         |
+        |                          |                         |
+
+                   Figure 2: IODEF Example XMPP Workflow
 
    An example XMPP discovery request for an IODEF 1.0 topic is shown
    below:
@@ -627,6 +497,14 @@ Internet-Draft                  XMPP Grid                   October 2017
                id='nodes1'>
                <query xmlns='http://jabber.org/protocol/disco#items'/>
                </iq>
+
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                  [Page 9]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
 
    An example XMPP discovery response for an IODEF 1.0 topic is shown
    below:
@@ -642,12 +520,12 @@ Internet-Draft                  XMPP Grid                   October 2017
                </query>
                </iq>
 
-4.  IANA Considerations
+5.  IANA Considerations
 
    XXX Not sure if we need to define IANA Considerations for registering
    Topics?.
 
-5.  Security Considerations
+6.  Security Considerations
 
    An XMPP-Grid Controller serves as an controlling broker for XMPP-Grid
    Nodes such as Enforcement Points, Policy Servers, CMDBs, and Sensors,
@@ -667,14 +545,7 @@ Internet-Draft                  XMPP Grid                   October 2017
    countermeasures (ways to address or mitigate the threats previously
    identified).
 
-
-
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 12]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
-5.1.  Trust Model
+6.1.  Trust Model
 
    The first step in analyzing the security of the XMPP-Grid transport
    protocol is to describe the trust model, listing what each
@@ -683,7 +554,15 @@ Internet-Draft                  XMPP Grid                   October 2017
    Countermeasures sections for elements that fail to perform as they
    were trusted to do.
 
-5.1.1.  Network
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                 [Page 10]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
+
+6.1.1.  Network
 
    The network used to carry XMPP-Grid messages is trusted to:
 
@@ -697,14 +576,14 @@ Internet-Draft                  XMPP Grid                   October 2017
 
    o  Provide timely or reliable service
 
-5.1.2.  XMPP-Grid Nodes
+6.1.2.  XMPP-Grid Nodes
 
    Authorized XMPP-Grid Nodes are trusted to:
 
    o  Preserve the confidentiality of sensitive data retrieved via the
       XMPP-Grid Controller
 
-5.1.3.  XMPP-Grid Controller
+6.1.3.  XMPP-Grid Controller
 
    The XMPP-Grid Controller is trusted to:
 
@@ -722,15 +601,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
    o  Verify the truth (correctness) of data
 
-
-
-
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 13]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
-5.1.4.  Certification Authority
+6.1.4.  Certification Authority
 
    The Certification Authority (CA) that issues certificates for the
    XMPP-Grid Controller and/or XMPP-Grid Nodes (or each CA, if there are
@@ -738,6 +609,14 @@ Internet-Draft                  XMPP Grid                   October 2017
 
    o  Ensure that only proper certificates are issued and that all
       certificates are issued in accordance with the CA's policies
+
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                 [Page 11]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
 
    o  Revoke certificates previously issued when necessary
 
@@ -752,13 +631,13 @@ Internet-Draft                  XMPP Grid                   October 2017
    o  Issue certificates that go beyond the XMPP-Grid needs or other
       constraints imposed by a relying party.
 
-5.2.  Threat Model
+6.2.  Threat Model
 
    To secure the XMPP-Grid transport protocol and the architectural
    elements that implement it, this section identifies the attacks that
    can be mounted against the protocol and elements.
 
-5.2.1.  Network Attacks
+6.2.1.  Network Attacks
 
    A variety of attacks can be mounted using the network.  For the
    purposes of this subsection the phrase "network traffic" should be
@@ -778,14 +657,6 @@ Internet-Draft                  XMPP Grid                   October 2017
 
    o  Previously transmitted network traffic may be replayed
 
-
-
-
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 14]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
    o  New network traffic may be added
 
    o  Network traffic may be blocked, perhaps selectively
@@ -795,13 +666,21 @@ Internet-Draft                  XMPP Grid                   October 2017
       poses as the other end to either party or impersonates the other
       end to either or both parties
 
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                 [Page 12]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
+
    o  Resist attacks (including denial of service and other attacks from
       XMPP-Grid Nodes)
 
    o  Undesired network traffic may be sent in an effort to overload an
       architectural component, thus mounting a denial of service attack
 
-5.2.2.  XMPP-Grid Nodes
+6.2.2.  XMPP-Grid Nodes
 
    An unauthorized XMPP-Grid Nodes (one which is not recognized by the
    XMPP-Grid Controller or is recognized but not authorized to perform
@@ -832,16 +711,6 @@ Internet-Draft                  XMPP Grid                   October 2017
    o  Omit important actions (such as posting incriminating data),
       resulting in incorrect access
 
-
-
-
-
-
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 15]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
    o  Use confidential information obtained from the XMPP-Grid
       Controller to enable further attacks (such as using endpoint
       health check results to exploit vulnerable endpoints)
@@ -854,6 +723,13 @@ Internet-Draft                  XMPP Grid                   October 2017
       enormous result, leading to resource exhaustion on the XMPP-Grid
       Controller, the publishing XMPP-Grid Node, and/or the network
 
+
+
+Cam-Winget, et al.         Expires May 3, 2018                 [Page 13]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
+
    o  Establish a communication channel using another XMPP-Grid Node's
       session-id
 
@@ -865,7 +741,7 @@ Internet-Draft                  XMPP Grid                   October 2017
    and XMPP-Grid Controller can cause problems if the XMPP-Grid Node
    assumes that old XMPP-Grid Node data should be ignored.
 
-5.2.3.  XMPP-Grid Controllers
+6.2.3.  XMPP-Grid Controllers
 
    An unauthorized XMPP-Grid Controller (one which is not trusted by
    XMPP-Grid Nodes) cannot mount any attacks other than those listed in
@@ -890,14 +766,6 @@ Internet-Draft                  XMPP Grid                   October 2017
 
    Additional XMPP-Grid Controller attacks may include:
 
-
-
-
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 16]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
    o  Expose different data to different XMPP-Grid Nodes to mislead
       investigators or cause inconsistent behavior
 
@@ -908,6 +776,16 @@ Internet-Draft                  XMPP Grid                   October 2017
       impersonate XMPP-Grid Nodes even after a breach of the XMPP-Grid
       Controller is repaired
 
+
+
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                 [Page 14]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
+
    o  Obtain and cache XMPP-Grid Controller administrator credentials so
       they can be used to regain control of the XMPP-Grid Controller
       after the breach of the XMPP-Grid Controller is repaired
@@ -916,7 +794,7 @@ Internet-Draft                  XMPP Grid                   October 2017
    exploited to obtain control of the XMPP-Grid Controller and effect
    these attacks.
 
-5.2.4.  Certification Authority
+6.2.4.  Certification Authority
 
    A Certification Authority trusted to issue certificates for the XMPP-
    Grid Controller and/or XMPP-Grid Nodes can mount several attacks:
@@ -947,13 +825,6 @@ Internet-Draft                  XMPP Grid                   October 2017
       information is not available, even though the transaction should
       be permitted to proceed.
 
-
-
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 17]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
    o  Allow the CA's private key to be revealed to an unauthorized
       party.  This can lead to all the threats above.  Even worse, the
       actions taken with the private key will not be known to the CA.
@@ -963,12 +834,20 @@ Internet-Draft                  XMPP Grid                   October 2017
       the threats listed earlier in this section to persist longer than
       necessary, leading to many knock-on effects.
 
-5.3.  Countermeasures
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                 [Page 15]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
+
+6.3.  Countermeasures
 
    Below are countermeasures for specific attack scenarios to the XMPP-
    Grid infrastructure.
 
-5.3.1.  Securing the XMPP-Grid Transport Protocol
+6.3.1.  Securing the XMPP-Grid Transport Protocol
 
    To address network attacks, the XMPP-Grid transport protocol
    described in this document requires that the XMPP-Grid messages MUST
@@ -1002,14 +881,6 @@ Internet-Draft                  XMPP Grid                   October 2017
    the HTTP specification, when basic authentication is in use, an XMPP-
    Grid Controller MAY respond to any request that lacks credentials
    with an error code similar to HTTP code 401.  An XMPP-Grid Node
-
-
-
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 18]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
    SHOULD avoid this code by submitting basic auth credentials with
    every request when basic authentication is in use.  If it does not do
    so, an XMPP-Grid Node MUST respond to this code by resubmitting the
@@ -1017,6 +888,15 @@ Internet-Draft                  XMPP Grid                   October 2017
    down).
 
    Best practices for the use of TLS in XMPP are defined in [RFC7590].
+
+
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                 [Page 16]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
 
    These protocol security measures provide protection against all the
    network attacks listed in the above document section except denial of
@@ -1026,7 +906,7 @@ Internet-Draft                  XMPP Grid                   October 2017
    employed.  In addition, an XMPP-Grid Controller MAY automatically
    disable a misbehaving XMPP-Grid Node.
 
-5.3.2.  Securing XMPP-Grid Nodes
+6.3.2.  Securing XMPP-Grid Nodes
 
    XMPP-Grid Nodes may be deployed in locations that are susceptible to
    physical attacks.  Physical security measures may be taken to avoid
@@ -1059,20 +939,21 @@ Internet-Draft                  XMPP Grid                   October 2017
    depends.  Personnel with administrative access should be carefully
    screened and monitored to detect problems as soon as possible.
 
-
-
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 19]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
-5.3.3.  Securing XMPP-Grid Controllers
+6.3.3.  Securing XMPP-Grid Controllers
 
    Because of the serious consequences of XMPP-Grid Controller
    compromise, XMPP-Grid Controllers SHOULD be especially well hardened
    against attack and minimized to reduce their attack surface.  They
    should be well managed to minimize vulnerabilities in the underlying
    platform and in systems upon which the XMPP-Grid Controller depends.
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                 [Page 17]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
+
    Network security measures such as firewalls or intrusion detection
    systems may be used to monitor and limit traffic to and from the
    XMPP-Grid Controller.  Personnel with administrative access should be
@@ -1095,7 +976,7 @@ Internet-Draft                  XMPP Grid                   October 2017
    should be performed of the impact of this compromise.  Any reusable
    credentials that may have been compromised should be reissued.
 
-5.3.4.  Limit on search result size
+6.3.4.  Limit on search result size
 
    While XMPP-Grid is designed for high scalability to 100,000s of
    Nodes, an XMPP-Grid Controller MAY establish a limit to the amount of
@@ -1103,7 +984,7 @@ Internet-Draft                  XMPP Grid                   October 2017
    mitigates the threat of an XMPP-Grid Node causing resource exhaustion
    by issuing a search or subscription that leads to an enormous result.
 
-5.3.5.  Cryptographically random session-id and authentication checks
+6.3.5.  Cryptographically random session-id and authentication checks
         for ARC
 
    An XMPP-Grid Controller SHOULD ensure that the XMPP-Grid Node
@@ -1114,19 +995,22 @@ Internet-Draft                  XMPP Grid                   October 2017
 
    o  session-ids SHOULD be cryptographically random
 
-
-
-
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 20]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
    o  The HTTPS transport for the SSRC and the ARC SHOULD be
       authenticated using the same credentials.  SSL session resumption
       MAY be used to establish the ARC based on the SSRC SSL session.
 
-5.3.6.  Securing the Certification Authority
+
+
+
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                 [Page 18]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
+
+6.3.6.  Securing the Certification Authority
 
    As noted above, compromise of a Certification Authority (CA) trusted
    to issue certificates for the XMPP-Grid Controller and/or XMPP-Grid
@@ -1153,7 +1037,7 @@ Internet-Draft                  XMPP Grid                   October 2017
    revoked, since the CA and revocation process are not completely
    trusted.
 
-5.4.  Summary
+6.4.  Summary
 
    XMPP-Grid's considerable value as a broker for security-sensitive
    data exchange distribution also makes the protocol and the network
@@ -1173,12 +1057,16 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 21]
+
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                 [Page 19]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
 
-6.  Privacy Considerations
+7.  Privacy Considerations
 
    XMPP-Grid Nodes may publish information about endpoint health,
    network access, events (which may include information about what
@@ -1206,7 +1094,7 @@ Internet-Draft                  XMPP Grid                   October 2017
    encryption to ensure the data is protected from the data layer to
    data layer and thus protect it from the transport layer.
 
-7.  Acknowledgements
+8.  Acknowledgements
 
    The authors would like to acknowledge the contributions, authoring
    and/or editing of the following people: Joseph Salowey, Lisa
@@ -1215,9 +1103,9 @@ Internet-Draft                  XMPP Grid                   October 2017
    Takahashi, Panos Kampanakis, Adam Montville and Chris Inacio for
    reviewing and providing valuable comments.
 
-8.  References
+9.  References
 
-8.1.  Normative References
+9.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1229,7 +1117,7 @@ Internet-Draft                  XMPP Grid                   October 2017
 
 
 
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 22]
+Cam-Winget, et al.         Expires May 3, 2018                 [Page 20]
 
 Internet-Draft                  XMPP Grid                   October 2017
 
@@ -1265,36 +1153,30 @@ Internet-Draft                  XMPP Grid                   October 2017
               Saint-Andre, P., Meijer, R., and B. Cully, "Service
               Discovery", XSF XEP 0248, September 2010.
 
-8.2.  Informative References
-
-   [RFC5070]  Danyliw, R., Meijer, J., and Y. Demchenko, "The Incident
-              Object Description Exchange Format", RFC 5070,
-              DOI 10.17487/RFC5070, December 2007, <https://www.rfc-
-              editor.org/info/rfc5070>.
+9.2.  Informative References
 
    [RFC5246]  Dierks, T. and E. Rescorla, "The Transport Layer Security
               (TLS) Protocol Version 1.2", RFC 5246,
               DOI 10.17487/RFC5246, August 2008, <https://www.rfc-
               editor.org/info/rfc5246>.
 
-   [RFC6545]  Moriarty, K., "Real-time Inter-network Defense (RID)",
-              RFC 6545, DOI 10.17487/RFC6545, April 2012,
-              <https://www.rfc-editor.org/info/rfc6545>.
-
-
-
-
-
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 23]
-
-Internet-Draft                  XMPP Grid                   October 2017
-
-
    [RFC7970]  Danyliw, R., "The Incident Object Description Exchange
               Format Version 2", RFC 7970, DOI 10.17487/RFC7970,
               November 2016, <https://www.rfc-editor.org/info/rfc7970>.
 
 Authors' Addresses
+
+
+
+
+
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                 [Page 21]
+
+Internet-Draft                  XMPP Grid                   October 2017
+
 
    Nancy Cam-Winget (editor)
    Cisco Systems
@@ -1325,14 +1207,12 @@ Authors' Addresses
 
 
    Peter Saint-Andre
+   Jabber.org
+   P.O. Box 787
+   Parker, CO  80138
+   USA
 
-   Email: stpeter@stpeter.im
-
-
-
-
-
-
+   Email: stpeter@jabber.org
 
 
 
@@ -1341,4 +1221,12 @@ Authors' Addresses
 
 
 
-Cam-Winget, et al.         Expires May 1, 2018                 [Page 24]
+
+
+
+
+
+
+
+
+Cam-Winget, et al.         Expires May 3, 2018                 [Page 22]
