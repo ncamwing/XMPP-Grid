@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
   <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
-  <!ENTITY RFC7590 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7590.xml">
-  <!ENTITY RFC6120 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6120.xml">
   <!ENTITY RFC3922 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3922.xml">
   <!ENTITY RFC3923 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3923.xml">
-  <!ENTITY RFC4422 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4422.xml">
-  <!ENTITY RFC7970 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7970.xml">
   <!ENTITY RFC5246 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml">
+  <!ENTITY RFC5802 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5802.xml">
+  <!ENTITY RFC6120 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6120.xml">
+  <!ENTITY RFC7590 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7590.xml">
+  <!ENTITY RFC7677 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7677.xml">
+  <!ENTITY RFC7970 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7970.xml">
   ]>
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?>
-<!-- used by XSLT processors -->
 <!-- OPTIONS, known as processing instructions (PIs) go here. -->
 <!-- For a complete list and description of PIs,
      please see http://xml.resource.org/authoring/README.html. -->
@@ -20,7 +20,7 @@
 <!-- control the table of contents (ToC): -->
 <?rfc toc="yes"?>
 <!-- generate a ToC -->
-<?rfc tocdepth="3"?>
+<?rfc tocdepth="2"?>
 <!-- the number of levels of subsections in ToC. default: 3 -->
 <!-- control references: -->
 <?rfc symrefs="yes"?>
@@ -312,6 +312,7 @@
 </iq>
         ]]></artwork>
       </figure>
+      <t>Note: The foregoing example is the minimal protocol needed to create a Topic with the default node configuration on the XMPP publish-subscribe service specified in the 'to' address of the creation request stanza. Depending on security requirements, the Provider might need to request a non-default configuration for the node; see <xref target='XEP-0060'/> for detailed examples.</t>
       <t>Unless an error occurs (see <xref target='XEP-0060'/> for various error flows), the Broker responds with success:</t>
       <figure>
         <artwork><![CDATA[
@@ -423,7 +424,7 @@
 
     <section anchor="Security" title="Security Considerations">
       <t>An XMPP-Grid Controller serves as an controlling broker for XMPP-Grid Platforms such as Enforcement Points, Policy Servers, CMDBs, and Sensors, using a publish-subscribe-search model of information exchange and lookup. By increasing the ability of XMPP-Grid Platforms to learn about and respond to security-relevant events and data, XMPP-Grid can improve the timeliness and utility of the security system. However, this integrated security system can also be exploited by attackers if they can compromise it. Therefore, strong security protections for XMPP-Grid are essential.</t>
-      <t>This section provides a security analysis of the XMPP-Grid transport protocol and the architectural elements that employ it, specifically with respect to their use of this protocol. Three subsections define the trust model (which elements are trusted to do what), the threat model (attacks that can be mounted on the system), and the countermeasures (ways to address or mitigate the threats previously identified).</t>
+      <t>This section provides a security analysis of the XMPP-Grid data transfer protocol and the architectural elements that employ it, specifically with respect to their use of this protocol. Three subsections define the trust model (which elements are trusted to do what), the threat model (attacks that can be mounted on the system), and the countermeasures (ways to address or mitigate the threats previously identified).</t>
       <section title="Trust Model">
         <t>The first step in analyzing the security of the XMPP-Grid transport
           protocol is to describe the trust model, listing what each
@@ -432,7 +433,7 @@
           Countermeasures sections for elements that fail to perform as they
           were trusted to do.</t>
         <section title="Network">
-          <t>The network used to carry XMPP-Grid messages is trusted to:
+          <t>The network used to carry XMPP-Grid messages (i.e., the underlying network transport layer over which XMPP runs) is trusted to:
             <list style="symbols"><t>Perform best effort delivery of network traffic</t></list></t>
           <t>The network used to carry XMPP-Grid messages is not expected
             (trusted) to:
@@ -445,7 +446,7 @@
               </t></list></t>
         </section>
         <section title="XMPP-Grid Controller">
-          <t>The XMPP-Grid Controller is trusted to:
+          <t>The XMPP-Grid Controller (including its associated Broker) is trusted to:
             <list style="symbols"><t>Broker requests for data and enforce authorization of access to this data throughout its lifecycle </t><t>Perform service requests in a timely and accurate manner </t><t>Create and maintain accurate operational attributes </t><t>Only reveal data to and accept service requests from authorized parties </t></list></t>
           <t>The XMPP-Grid Controller is not expected (trusted) to:
             <list style="symbols"><t>Verify the truth (correctness) of data</t></list></t>
@@ -460,7 +461,7 @@
         </section>
       </section>
       <section title="Threat Model">
-        <t>To secure the XMPP-Grid transport protocol and the architectural elements that implement it, this section identifies the attacks that can be mounted against the protocol and elements.</t>
+        <t>To secure the XMPP-Grid data transfer protocol and the architectural elements that implement it, this section identifies the attacks that can be mounted against the protocol and elements.</t>
         <section title="Network Attacks">
           <t>A variety of attacks can be mounted using the network. For the
             purposes of this subsection the phrase "network traffic" can be
@@ -472,7 +473,7 @@
               </t></list></t>
         </section>
         <section title="XMPP-Grid Platforms">
-          <t>An unauthorized XMPP-Grid Platforms (one which is not recognized by the XMPP-Grid Controller or is recognized but not authorized to perform any actions) cannot mount any attacks other than those listed in the Network Attacks section above. </t>
+          <t>An unauthorized XMPP-Grid Platform (one which is not recognized by the XMPP-Grid Controller or is recognized but not authorized to perform any actions) cannot mount any attacks other than those listed in the Network Attacks section above. </t>
           <t>An authorized XMPP-Grid Platform, on the other hand, can mount many attacks. These attacks might occur because the XMPP-Grid Platform is controlled by a malicious, careless, or incompetent party (whether because its owner is malicious, careless, or incompetent or because the XMPP-Grid Platform has been compromised and is now controlled by a party other than its owner). They might also occur because the XMPP-Grid Platform is running malicious software; because the XMPP-Grid Platform is running buggy software (which can fail in a state that floods the network with traffic); or because the XMPP-Grid Platform has been configured improperly. From a security standpoint, it generally makes no difference why an attack is initiated. The same countermeasures can be employed in any case. </t>
           <t>Here is a list of attacks that can be mounted by an authorized
             XMPP-Grid Platform:
@@ -498,57 +499,37 @@
       </section>
       <section title="Countermeasures">
         <t>Below are countermeasures for specific attack scenarios to the XMPP-Grid infrastructure.</t>
-        <section title="Securing the XMPP-Grid Transport Protocol">
-          <t>To address network attacks, the XMPP-Grid transport protocol described in this document requires that the XMPP-Grid messages MUST be carried over TLS (minimally TLS 1.2 <xref target="RFC5246"/>) as described in
-            <xref target="RFC6120"/> and updated by <xref target='RFC7590'/>. The XMPP-Grid Platform MUST verify the XMPP-Grid Controller's certificate and determine whether the XMPP-Grid Controller is trusted by this XMPP-Grid Platform before completing the TLS handshake. The XMPP-Grid Controller MUST authenticate the XMPP-Grid Platform either using mutual certificate-based authentication in the TLS handshake or using Basic Authentication as described in IETF RFC 2617. XMPP-Grid Controller MUST use Simple Authentication and Security Layer (SASL), described in <xref target="RFC4422"/>, to support the aforesaid authentication mechanisms. SASL offers authentication mechanism negotiations between the XMPP-Grid Controller and XMPP-Grid node during the connection establishment phase. XMPP-Grid Platforms and XMPP-Grid Controllers using mutual certificate-based authentication SHOULD each verify the revocation status of the other party's certificate.  All XMPP-Grid Controllers and XMPP-Grid Platforms MUST implement both mutual certificate-based authentication and Basic Authentication. The selection of which XMPP-Grid Platform authentication technique to use in any particular deployment is left to the administrator. </t>
-          <t>An XMPP-Grid Controller MAY also support a local, configurable set of Basic Authentication userid-password pairs. If so, it is implementation dependent whether an XMPP-Grid Controller ends a session when an administrator changes the configured password. Since Basic Authentication has many security disadvantages (especially the transmission of reusable XMPP-Grid Platform passwords to the XMPP-Grid Controller), it SHOULD only be used when absolutely necessary. Per the HTTP specification, when basic authentication is in use, an XMPP-Grid Controller MAY respond to any request that lacks credentials with an error code similar to
-            HTTP code 401. An XMPP-Grid Platform SHOULD avoid this code by submitting
-            basic auth credentials with every request when basic authentication is
-            in use. If it does not do so, an XMPP-Grid Platform MUST respond to this
-            code by resubmitting the same request with credentials (unless the
-            XMPP-Grid Platform is shutting down). </t>
-          <t>Best practices for the use of TLS in XMPP are defined in <xref target="RFC7590"/>.</t>
+        <section title="Securing the XMPP-Grid Data Transfer Protocol">
+          <t>To address network attacks, the XMPP-Grid data transfer protocol described in this document requires that the XMPP-Grid messages MUST be carried over TLS (minimally TLS 1.2 <xref target="RFC5246"/>) as described in <xref target="RFC6120"/> and updated by <xref target='RFC7590'/>. The XMPP-Grid Platform MUST verify the XMPP-Grid Controller's certificate and determine whether the XMPP-Grid Controller is trusted by this XMPP-Grid Platform before completing the TLS handshake. The XMPP-Grid Controller MUST authenticate the XMPP-Grid Platform either using the SASL EXTERNAL mechanism or using the SASL SCRAM mechanism (with the SCRAM-SHA-256-PLUS variant being preferred over the SCRAM-SHA-256 variant and SHA-256 variants <xref target='RFC7677'/> being preferred over SHA-1 varients <xref target='RFC5802'/>). XMPP-Grid Platforms and XMPP-Grid Controllers using mutual certificate-based authentication SHOULD each verify the revocation status of the other party's certificate.  All XMPP-Grid Controllers and XMPP-Grid Platforms MUST implement both SASL EXTERNAL and SASL SCRAM. The selection of which XMPP-Grid Platform authentication technique to use in any particular deployment is left to the administrator. </t>
           <t>These protocol security measures provide protection against all the network attacks listed in the above document section except denial of service attacks. If protection against these denial of service attacks is desired, ingress filtering, rate limiting per source IP address, and other denial of service mitigation measures can be employed. In addition, an XMPP-Grid Controller MAY automatically disable a misbehaving XMPP-Grid Platform.</t>
         </section>
         <section title="Securing XMPP-Grid Platforms">
-          <t>XMPP-Grid Platforms can be deployed in locations that are susceptible to physical attacks. Physical security measures can be taken to avoid compromise of XMPP-Grid Platforms, but these can not always be practical or completely effective. An alternative measure is to configure the XMPP-Grid Controller to provide read-only access for such systems. The XMPP-Grid Controller SHOULD also include a full authorization model so that individual XMPP-Grid Platforms can be configured to have only the privileges that they need. The XMPP-Grid Controller MAY provide functional templates so that the administrator can configure a specific XMPP-Grid Platform as a DHCP server and authorize only the operations and metadata types needed by a DHCP server to be permitted for that XMPP-Grid Platform. These techniques can reduce the negative impacts of a compromised XMPP-Grid Platform without diminishing the utility of the overall system.</t>
+          <t>XMPP-Grid Platforms can be deployed in locations that are susceptible to physical attacks. Physical security measures can be taken to avoid compromise of XMPP-Grid Platforms, but these are not always practical or completely effective. An alternative measure is to configure the XMPP-Grid Controller to provide read-only access for such systems. The XMPP-Grid Controller SHOULD also include a full authorization model so that individual XMPP-Grid Platforms can be configured to have only the privileges that they need. The XMPP-Grid Controller MAY provide functional templates so that the administrator can configure a specific XMPP-Grid Platform as a DHCP server and authorize only the operations and metadata types needed by a DHCP server to be permitted for that XMPP-Grid Platform. These techniques can reduce the negative impacts of a compromised XMPP-Grid Platform without diminishing the utility of the overall system.</t>
           <t>To handle attacks within the bounds of this authorization model, the XMPP-Grid Controller MAY also include rate limits and alerts for unusual XMPP-Grid Platform behavior. XMPP-Grid Controllers SHOULD make it easy to revoke an XMPP-Grid Platform's authorization when necessary. Another way to detect attacks from XMPP-Grid Platforms is to create fake entries in the available data (honeytokens) which normal XMPP-Grid Platforms will not attempt to access. The XMPP-Grid Controller SHOULD include auditable logs of XMPP-Grid Platform activities.</t>
           <t>To avoid compromise of XMPP-Grid Platform, XMPP-Grid Platform SHOULD be hardened against attack and minimized to reduce their attack surface. They should be well managed to minimize vulnerabilities in the underlying platform and in systems upon which the XMPP-Grid Platform depends. Personnel with administrative access should be carefully screened and monitored to detect problems as soon as possible.</t>
         </section>
         <section title="Securing XMPP-Grid Controllers">
-          <t>Because of the serious consequences of XMPP-Grid Controller compromise, XMPP-Grid Controllers SHOULD be especially well hardened against attack and minimized to reduce their attack surface. They should be well managed to minimize vulnerabilities in the underlying platform and in systems upon which the XMPP-Grid Controller depends. Network security measures such as firewalls or intrusion detection systems can be used to monitor and limit traffic to and from the XMPP-Grid Controller. Personnel with administrative access should be carefully screened and monitored to detect problems as soon as possible. Administrators should not use password-based authentication but should instead use non-reusable credentials and multi-factor authentication (where available). Physical security measures SHOULD be employed to prevent physical attacks on XMPP-Grid Controllers.</t>
+          <t>Because of the serious consequences of XMPP-Grid Controller compromise, XMPP-Grid Controllers need to be especially well hardened against attack and minimized to reduce their attack surface. They need to be well managed to minimize vulnerabilities in the underlying platform and in systems upon which the XMPP-Grid Controller depends. Network security measures such as firewalls or intrusion detection systems can be used to monitor and limit traffic to and from the XMPP-Grid Controller. Personnel with administrative access ought to be carefully screened and monitored to detect problems as soon as possible. Administrators SHOULD NOT use password-based authentication but should instead use non-reusable credentials and multi-factor authentication (where available). Physical security measures ought to be employed to prevent physical attacks on XMPP-Grid Controllers.</t>
           <t>To ease detection of XMPP-Grid Controller compromise should it occur, XMPP-Grid Controller behavior should be monitored to detect unusual behavior (such as a reboot, a large increase in traffic, or different views of an information repository for similar XMPP-Grid Platforms). XMPP-Grid Platforms should log and/or notify administrators when peculiar XMPP-Grid Controller behavior is detected. To aid forensic investigation, permanent read-only audit logs of security-relevant information (especially administrative actions) should be maintained. If XMPP-Grid Controller compromise is detected, a careful analysis should be performed of the impact of this compromise. Any reusable credentials that can have been compromised should be reissued.</t>
         </section>
-        <section title="Limit on search result size">
+        <section title="Broker Access Models for Topics">
+          <t>The XMPP publish-subscribe specification <xref target='XEP-0060'/> defines five access models for subscribing to Topics at a Broker: open, presence, roster, authorize, and whitelist. The first model allows uncontrolled access and the next two models are appropriate only in instant-messaging applications. Therefore, a Broker SHOULD support only the authorize model (under which the Topic owner needs to approve all subscription requests and only subscribers can retrieve data items) and the whitelist model (under which only preconfigured Platforms can subscribe or retrieve data items). In order to ease the deployment burden, subscription approvals and whitelist management can be automated (e.g, the Topic "owner" can be a policy server). The choice between "authorize" and "whitelist" as the default access model is a matter for local service policy.</t>
+        </section>
+        <section title="Limit on Search Result Size">
           <t>While XMPP-Grid is designed for high scalability to 100,000s of Platforms, an XMPP-Grid Controller MAY establish a limit to the amount of data it is willing to return in search or subscription results. This mitigates the threat of an XMPP-Grid Platform causing resource exhaustion by issuing a search or subscription that leads to an enormous result.</t>
         </section>
-        <section title="Cryptographically random session-id and authentication checks for ARC">
+        <!--<section title="Cryptographically Random session-id and authentication checks for ARC">
           <t>An XMPP-Grid Controller SHOULD ensure that the XMPP-Grid Platform establishing an Authenticated Results Chain (ARC) is the same XMPP-Grid Platform as the XMPP-Grid Platform that established the corresponding Synchronization Source Identifier (SSRC). The XMPP-Grid Controller SHOULD employ both of the following strategies:
             <list style="symbols"><t> session-ids SHOULD be cryptographically random</t><t>The HTTPS transport for the SSRC and the ARC SHOULD be authenticated using the same credentials. SSL session resumption MAY be used to establish the ARC based on the SSRC SSL session.</t></list></t>
-        </section>
+        </section>-->
         <section title="Securing the Certification Authority">
           <t>As noted above, compromise of a Certification Authority (CA) trusted to issue certificates for the XMPP-Grid Controller and/or XMPP-Grid Platforms is a major security breach. Many guidelines for proper CA security have been developed: the CA/Browser Forum's Baseline Requirements, the AICPA/CICA Trust Service Principles, etc. The CA operator and relying parties should agree on an appropriately rigorous security practices to be used.</t>
-          <t>Even with the most rigorous security practices, a CA can be
-            compromised. If this compromise is detected quickly, relying parties
-            can remove the CA from their list of trusted CAs, and other CAs can
-            revoke any certificates issued to the CA. However, CA compromise may
-            go undetected for some time, and there's always the possibility that a
-            CA is being operated improperly or in a manner that is not in the
-            interests of the relying parties. For this reason, relying parties may
-            wish to "pin" a small number of particularly critical certificates
-            (such as the certificate for the XMPP-Grid Controller). Once a
-            certificate has been pinned, the relying party will not accept another
-            certificate in its place unless the Administrator explicitly commands
-            it to do so. This does not mean that the relying party will not check
-            the revocation status of pinned certificates. However, the
-            Administrator can still be consulted if a pinned certificate is
-            revoked, since the CA and revocation process are not completely
-            trusted.</t>
+          <t>Even with the most rigorous security practices, a CA can be compromised. If this compromise is detected quickly, relying parties can remove the CA from their list of trusted CAs, and other CAs can revoke any certificates issued to the CA. However, CA compromise may go undetected for some time, and there's always the possibility that a CA is being operated improperly or in a manner that is not in the interests of the relying parties. For this reason, relying parties may wish to "pin" a small number of particularly critical certificates (such as the certificate for the XMPP-Grid Controller). Once a certificate has been pinned, the relying party will not accept another certificate in its place unless the Administrator explicitly commands it to do so. This does not mean that the relying party will not check the revocation status of pinned certificates. However, the Administrator can still be consulted if a pinned certificate is revoked, since the CA and revocation process are not completely trusted.</t>
         </section>
       </section>
       <section title="Summary">
         <t>XMPP-Grid's considerable value as a broker for security-sensitive data exchange distribution also makes the protocol and the network security elements that implement it a target for attack. Therefore, strong security has been included as a basic design principle within the XMPP-Grid design process.</t>
-        <t>The XMPP-Grid transport protocol provides strong protection against a variety of different attacks. In the event that an XMPP-Grid Platform or XMPP-Grid Controller is compromised, the effects of this compromise have been reduced and limited with the recommended role-based authorization model and other provisions, and best practices for managing and protecting XMPP-Grid systems have been described. Taken together, these measures should provide protection commensurate with the threat to XMPP-Grid systems, thus ensuring that they fulfill their promise as a network security clearing-house.</t>
+        <t>The XMPP-Grid data transfer protocol provides strong protection against a variety of different attacks. In the event that an XMPP-Grid Platform or XMPP-Grid Controller is compromised, the effects of this compromise have been reduced and limited with the recommended role-based authorization model and other provisions, and best practices for managing and protecting XMPP-Grid systems have been described. Taken together, these measures should provide protection commensurate with the threat to XMPP-Grid systems, thus ensuring that they fulfill their promise as a network security clearing-house.</t>
       </section>
     </section>
     <section anchor="Privacy" title="Privacy Considerations">
@@ -566,7 +547,7 @@
       &RFC2119;
       &RFC6120;
       &RFC7590;
-      &RFC4422;
+      &RFC7677;
       <reference anchor="XEP-0004">
           <front>
               <title>Data Forms</title>
@@ -626,377 +607,7 @@
     <references title="Informative References">
       &RFC7970;
       &RFC5246;
-      <!--
-           <reference anchor="IF-MAP">
-           <front>
-           <title>TNC Architecture for Interoperability, Revision 1.5</title>
-           <author><organization>Trusted Computing Group</organization></author>
-           <date month="May" year="2012"></date>
-      </front>
-      </reference>
-           <reference anchor="IF-MAP-NETSEC">
-           <front>
-           <title>TNC IF-MAP Metadata for Network Security, Revision 1.0</title>
-           <author><organization>Trusted Computing Group</organization></author>
-           <date month="August" year="2010"></date>
-      </front>
-      </reference>
-           <reference anchor="IF-MAP-SOAP">
-           <front>
-           <title>TNC IF-MAP Binding for SOAP, Revision 2.1</title>
-           <author><organization>Trusted Computing Group</organization></author>
-           <date month="May" year="2012"></date>
-      </front>
-      </reference>
-           <reference anchor="IF-MAP-ICS">
-           <front>
-           <title>TNC IF-MAP Metadata for ICS, Security, Revision 1.0</title>
-           <author><organization>Trusted Computing Group</organization></author>
-           <date month="October" year="2012"></date>
-           
-      </front>
-      </reference>  -->
+      &RFC5802;
     </references>
-    <!--
-    <section anchor="XPD" title="XMPP-Grid Protocol Details">
-        <t>The XMPP-Grid Protocol provides an abstraction layer over and above XMPP messages with the intent to provide intuitive interfaces to the Platforms connecting to XMPP-Grid. Platforms connecting to XMPP-Grid use the following interfaces (provided as XML samples) offered by XMPP-Grid protocol to connect and participate in information exchange on XMPP-Grid:</t>
-        <figure>
-            <preamble>o Register the Platform to XMPP-Grid: Platform identified as "Platform@domain.com/mac" sends the following Registration request to XMPP-Grid controller.</preamble>
-            <artwork align="center"><![CDATA[
-                <iq id="ay0tK-4" to="grid_Controller.jabber"
-                from="Platform@domain.com/mac" type="get">
-                <grid xmlns='gi' type='request'>
-                <AccountQuery xmlns='com.domain.gi.gcl.Controller'>
-                <register/></register></AccountQuery>
-                </grid>
-                </iq>
-            ]]></artwork>
-        </figure>
-        <figure>
-            <preamble>o Platform login to XMPP-Grid: The following XML sample shows the Login request from Platform "Platform@domain.com/mac" to XMPP-Grid controller and Login response returned by the XMPP-Grid controller to the Platform.</preamble>
-            <artwork align="center"><![CDATA[
-                
-                // Request
-                <iq id="ay0tK-5" to="grid_Controller.jabber"
-                from="Platform@domain.com/mac" type="get">
-                <grid xmlns='gi' type='request'>
-                <AccountQuery xmlns='com.domain.gi.gcl.Controller'>
-                <login/></login>
-                </AccountQuery>
-                </grid>
-                </iq>
-                
-                // Response
-                <iq xmlns="jabber:client" to=" Platform@domain.com/mac"
-                from="grid_Controller.jabber" type="result" id="ay0tK-5">
-                <grid xmlns="gi" type="response">
-                <AccountQuery xmlns="com.domain.gi.gcl.Controller">
-                <login xmlns="">
-                <value xmlns:ns2="gi" xmlns:xsi=" xsi:nil="true" />
-                </login>
-                </AccountQuery>
-                </grid>
-                </iq>
-            ]]></artwork>
-        </figure>
-        <figure>
-            <preamble>o Platform logout from XMPP-Grid: The following XML sample shows the Logout request sent by Platform "Platform@domain.com/mac" to XMPP-Grid controller.</preamble>
-            <artwork align="center"><![CDATA[
-                
-                <iq id="o47m2-8" to="grid_Controller.jabber"
-                from="Platform@domain.com/mac" type="get">
-                <grid xmlns='gi' type='request'>
-                <AccountQuery xmlns='com.domain.gi.gcl.Controller'>
-                <logout/></logout>
-                </AccountQuery>
-                </grid>
-                </iq>
-            ]]></artwork>
-        </figure>
-        <figure>
-            <preamble>o Capability Discovery Query: The following XML sample shows the Capability Discovery query request from Platform "Platform@domain.com/mac" to XMPP-Grid controller. The XMPP-Grid controller returns the list of capabilities supported by XMPP-Grid and their versions as a response to the Platform's request.</preamble>
-            <artwork align="center"><![CDATA[
-                // Request
-                <iq id="tVKqm-6" to="grid_Controller.jabber"
-                from="Platform@domain.com/mac" type="get">
-                <grid xmlns="xgrid" type="request">
-                <ns2:getCapabilityListRequest xmlns:ns2=" xmlns:ns4="
-                xmlns:ns3=" xmlns:ns5=" xmlns:ns6=" xmlns:ns7=" />
-                </grid>
-                </iq>
-                
-                // Response
-                <iq from="grid_Controller.jabber" id="tVKqm-6"
-                to="Platform@domain.com/mac" type="result" xmlns="jabber:client">
-                <grid type="response" xmlns="xgrid">
-                <ns2:getCapabilityListResponse xmlns:ns2=" xmlns:ns3="
-                xmlns:ns4=" xmlns:ns5=" xmlns:ns6=" xmlns:ns7=">
-                <ns2:capability xmlns:xsi=
-                " xsi:type="ns5:TrustSecMetaDataCapability">
-                <ns2:id>0</ns2:id>
-                <ns2:name>TrustSecMetaDataCapability-1.0</ns2:name>
-                <ns2:version>1.0</ns2:version>
-                </ns2:capability>
-                <ns2:capability
-                xmlns:xsi=" xsi:type="ns5:EndpointProfileMetaDataCapability">
-                <ns2:id>0</ns2:id>
-                <ns2:name>
-                EndpointProfileMetaDataCapability-1.0</ns2:name>
-                <ns2:version>1.0</ns2:version>
-                </ns2:capability>
-                <ns2:capability xmlns:xsi=
-                " xsi:type="ns5:IdentityGroupCapability">
-                <ns2:id>0</ns2:id>
-                <ns2:name>IdentityGroupCapability-1.0</ns2:name>
-                <ns2:version>1.0</ns2:version>
-                </ns2:capability>
-                <ns2:capability xmlns:ns9=" xmlns:xsi="
-                xsi:type="ns9:TDAnalysisServiceCapability">
-                <ns2:id>0</ns2:id>
-                <ns2:name>TDAnalysisServiceCapability-1.0</ns2:name>
-                <ns2:version>1.0</ns2:version>
-                </ns2:capability>
-                <ns2:capability xmlns:xsi=" xsi:type="
-                ns7:NetworkCaptureCapability">
-                <ns2:id>0</ns2:id>
-                <ns2:name>NetworkCaptureCapability-1.0</ns2:name>
-                <ns2:version>1.0</ns2:version>
-                </ns2:capability>
-                <ns2:capability xmlns:xsi=
-                " xsi:type="ns6:EndpointProtectionServiceCapability">
-                <ns2:id>0</ns2:id>
-                <ns2:name>
-                EndpointProtectionServiceCapability-1.0</ns2:name>
-                <ns2:version>1.0</ns2:version>
-                </ns2:capability>
-                <ns2:capability xmlns:xsi=
-                " xsi:type="ns4:GridControllerAdminServiceCapability">
-                <ns2:id>0</ns2:id>
-                <ns2:name>
-                GridControllerAdminServiceCapability-1.0</ns2:name>
-                <ns2:version>1.0</ns2:version>
-                </ns2:capability>
-                <ns2:capability xmlns:xsi=
-                " xsi:type="ns5:SessionDirectoryCapability">
-                <ns2:id>0</ns2:id>
-                <ns2:name>SessionDirectoryCapability-1.0</ns2:name>
-                <ns2:version>1.0</ns2:version>
-                </ns2:capability>
-                </ns2:getCapabilityListResponse>
-                </grid>
-                </iq>
-            ]]></artwork>
-        </figure>
-        <figure>
-            <preamble>o Specific Capability Provider
-                Query: The following XML sample shows the Capability Provider hostname query request from Platform "Platform@domain.com/mac" to XMPP-Grid controller. XMPP-Grid controller returns the hostname of the specific Capability Provider as a response to the Platform's request.</preamble>
-            <artwork align="center"><![CDATA[
-                
-                // Request
-                <iq id="996IL-8" to="grid_Controller.jabber"
-                from="Platform@domain.com/mac" type="get">
-                <grid xmlns='gi' type='request'>
-                <DiscoveryQuery xmlns='com.domain.gi.gcl.Controller'>
-                <find><param xsi:type="xs:string" xmlns:ns2="gi" xmlns:xs
-                =" xmlns:xsi=">com.domain.ise.session.SessionQuery
-                </param></find>
-                </DiscoveryQuery>
-                </grid>
-                </iq>
-                
-                // Response
-                <iq from='grid_Controller.jabber' id='996IL-8'
-                to='Platform@domain.com/mac' type='result'
-                xmlns='jabber:client'>
-                <grid type='response' xmlns='gi'>
-                <DiscoveryQuery xmlns='com.domain.gi.gcl.Controller'>
-                <find xmlns=''><value xmlns:ns3='http://jaxb.dev.java.net/array'
-                xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-                xsi:type='ns3:stringArray'>
-                <item>ise@syam-06.domain.com/syam-mac</item></value></find>
-                </DiscoveryQuery>
-                </grid>
-                </iq>
-            ]]></artwork>
-        </figure>
-        <figure>
-            <preamble>o Register as a publisher to the Topic: The following XML sample shows the Register as a Publisher request from a Platform "Platform@domain.com/mac" to XMPP-Grid controller. </preamble>
-            <artwork align="center"><![CDATA[
-                <iq id="fD65a-6" to="grid_Controller.jabber"
-                from="Platform@domain.com/mac" type="get">
-                <grid xmlns="xgrid" type="request">
-                <ns2:initPublishRequest xmlns:ns2=" xmlns:ns4=
-                " xmlns:ns3=" xmlns:ns5=" xmlns:ns6=" xmlns:ns7=">
-                <ns2:capability xsi:type="ns5:SessionCapability"
-                xmlns:xsi=">
-                <ns2:id>0</ns2:id>
-                <ns2:version>1.0</ns2:version>
-                </ns2:capability>
-                </ns2:initPublishRequest>
-                </grid>
-                </iq>
-            ]]></artwork>
-        </figure>
-        <figure>
-            <preamble>o Register as a subscriber to the Topic: The following XML sample shows a subscription request made by Platform "Platform@domain.com/mac" for "SessionCapability" Topic to XMPP-Grid controller.  On success, determined by the Platform's authorization privilege, XMPP-Grid controller returns the Topic name, version and the Publishers' hostname as a response to the Platform's request.</preamble>
-            <artwork align="center"><![CDATA[
-                
-                // Subscribe Request
-                <iq id="lQJIT-6" to="grid_Controller.jabber"
-                from="Platform@domain.com/mac" type="get">
-                <grid xmlns="xgrid" type="request">
-                <ns2:subscribeRequest xmlns:ns2=" xmlns:ns4=" xmlns:ns3
-                =" xmlns:ns5=" xmlns:ns6=" xmlns:ns7=">
-                <ns2:capability xsi:type="ns5:SessionCapability"
-                xmlns:xsi=">
-                <ns2:id>0</ns2:id>
-                <ns2:version>1.0</ns2:version>
-                </ns2:capability>
-                </ns2:subscribeRequest>
-                </grid>
-                </iq>
-                
-                // Subscribe Response
-                <iq from="grid_Controller.jabber" id=" lQJIT-6"
-                to="Platform@domain.com/mac" type="result" xmlns="jabber:client">
-                <grid type="response" xmlns="xgrid">
-                <ns2:subscribeResponse xmlns:ns2=
-                " xmlns:ns3=" xmlns:ns4=" xmlns:ns5="
-                xmlns:ns6=" xmlns:ns7=">
-                <ns2:topicName>SessionCapability-1.0</ns2:topicName>
-                <ns2:xmppDetails>
-                <ns2:jid>ise-mnt-XMPP-Grid-004@xgrid.domain.com/gcl
-                </ns2:jid>
-                <ns2:jid>ise-mnt-XMPP-Grid-005@xgrid.domain.com/gcl
-                </ns2:jid>
-                </ns2:xmppDetails>
-                </ns2:subscribeResponse>
-                </grid>
-                </iq>
-                
-                // Publish message from Publisher to XMPP PubSub
-                <iq to='pubsub.xgrid.domain.com' id='APuZH-1628' type='set'>
-                <pubsub xmlns='http://jabber.org/protocol/pubsub'>
-                <publish node='SessionDirectory'>
-                <item>
-                <grid xmlns='xgrid' type='notification'>
-                <ns5:sessionNotification xmlns:ns6="http://www.domain.com/xgrid/eps" xmlns:ns5="http://www.domain.com/xgrid/identity" xmlns:ns8="http://www.domain.com/xgrid/anc" xmlns:ns7="http://www.domain.com/xgrid/netcap" xmlns:ns2="http://www.domain.com/xgrid" xmlns:ns4="http://www.domain.com/xgrid/admin" xmlns:ns3="http://www.domain.com/xgrid/net">
-                <ns5:sessions>
-                <ns5:session>
-                <ns2:gid>101</ns2:gid>
-                <ns2:lastUpdateTime>2016-10-13T14:53:44.154-07:00</ns2:lastUpdateTime>
-                <ns2:extraAttributes><ns2:attribute name="Authorization_Profiles" type="string">UGVybWl0QWNjZXNz</ns2:attribute></ns2:extraAttributes>
-                <ns3:state>Started</ns3:state>
-                <ns3:RADIUSAttrs>
-                <ns3:attrName>Acct-Session-Id</ns3:attrName>
-                <ns3:attrValue>101</ns3:attrValue>
-                </ns3:RADIUSAttrs>
-                <ns3:interface>
-                <ns3:ipIntfID>
-                <ns2:ipAddress>1.1.1.1</ns2:ipAddress>
-                </ns3:ipIntfID>
-                <ns3:macAddress>00:11:22:33:44:55</ns3:macAddress>
-                <ns3:deviceAttachPt><ns3:deviceMgmtIntfID>
-                <ns2:ipAddress>172.21.170.242</ns2:ipAddress>
-                </ns3:deviceMgmtIntfID></ns3:deviceAttachPt>
-                </ns3:interface>
-                <ns3:user><ns2:name>user1</ns2:name></ns3:user>
-                <ns3:assessedPostureEvent/>
-                <ns3:MDMEndpoint/>
-                <ns3:IdentitySourcePortStart>0</ns3:IdentitySourcePortStart>
-                <ns3:IdentitySourcePortEnd>0</ns3:IdentitySourcePortEnd>
-                <ns3:IdentitySourceFirstPort>0</ns3:IdentitySourceFirstPort>
-                <ns3:providers>None</ns3:providers>
-                <ns3:endpointCheckResult>none</ns3:endpointCheckResult>
-                </ns5:session>
-                </ns5:sessions>
-                </ns5:sessionNotification>
-                </grid>
-                </item>
-                </publish>
-                </pubsub>
-                </iq>
-                
-                // Publish message from XMPP PubSub to the Subscriber
-                <message to="Platform@domain.com/mac" from="pubsub.xgrid.domain.com">
-                <event xmlns="http://jabber.org/protocol/pubsub#event">
-                <items node="SessionDirectoryCapability-1.0">
-                <item id="64350fcd-3fc3-4f00-b0f2-a7bcf4038813">
-                <grid xmlns="xgrid" type="notification">
-                <ns5:sessionNotification xmlns:ns2="http://www.domain.com/xgrid" xmlns:ns4="http://www.domain.com/gc-admin" xmlns:ns3="http://www.domain.com/xgridNet" xmlns:ns5="http://www.domain.com/identity" xmlns:ns6="http://www.domain.com/eps" xmlns:ns7="http://www.domain.com/netcap">
-                <ns5:sessions>
-                <ns5:session>
-                <ns2:gid>101</ns2:gid>
-                <ns2:lastUpdateTime>2014-03-13T22:46:17.292-07:00</ns2:lastUpdateTime>
-                <ns3:state>Authenticated</ns3:state>
-                <ns3:RADIUSAttrs>
-                <ns3:attrName>Acct-Session-Id</ns3:attrName>
-                </ns3:RADIUSAttrs>
-                <ns3:interface>
-                <ns3:ipIntfID>
-                <ns2:ipAddress>10.0.0.2</ns2:ipAddress>
-                </ns3:ipIntfID>
-                <ns3:macAddress>00:11:22:33:44:55</ns3:macAddress>
-                <ns3:deviceAttachPt>
-                <ns3:deviceMgmtIntfID>
-                <ns2:ipAddress>10.21.127.1</ns2:ipAddress>
-                </ns3:deviceMgmtIntfID>
-                </ns3:deviceAttachPt>
-                </ns3:interface>
-                <ns3:user>
-                <ns2:name>user1</ns2:name>
-                </ns3:user>
-                <ns3:assessedPostureEvent />
-                </ns5:session>
-                </ns5:sessions>
-                </ns5:sessionNotification>
-                </grid>
-                </item>
-                </items>
-                </event>
-                </message>
-                
-            ]]></artwork>
-        </figure>
-        <figure>
-            <preamble>o Peer-to-Peer Directed Query: The following XML sample shows a peer-to-peer directed query request made by Platform "Platform@domain.com/mac" to other XMPP-Grid participating Platform "grid_Controller.jabber", seeking identity group information for a specific user "user1". "grid_Controller.jabber" returns the list of identity groups "user1" belongs as a response to the request. </preamble>
-            <artwork align="center"><![CDATA[
-                
-                // Query Request
-                <iq id="kR0YY-8" to="grid_Controller.jabber"
-                from="Platform@domain.com/mac" type="get">
-                <grid xmlns="xgrid" type="request">
-                <ns5:getIdentityGroupRequest xmlns:ns2=" xmlns:ns4="
-                xmlns:ns3=" xmlns:ns5=" xmlns:ns6=" xmlns:ns7=">
-                <ns5:user>
-                <ns2:name>user1</ns2:name>
-                </ns5:user>
-                </ns5:getIdentityGroupRequest>
-                </grid>
-                </iq>
-                
-                // Query Response
-                <iq from="grid_Controller.jabber"
-                id=" kR0YY-8" to="Platform@domain.com/mac" type="result">
-                <grid type="response" xmlns="xgrid">
-                <ns5:getIdentityGroupResponse xmlns:ns2=" xmlns:ns3=
-                " xmlns:ns4=" xmlns:ns5=" xmlns:ns6=" xmlns:ns7=">
-                <ns5:user>
-                <ns2:name>user1</ns2:name>
-                <ns3:groupList>
-                <ns3:object>
-                <ns2:name>User Identity Groups:Employee
-                </ns2:name>
-                <ns3:type>Identity</ns3:type>
-                </ns3:object>
-                </ns3:groupList>
-                </ns5:user>
-                </ns5:getIdentityGroupResponse>
-                </grid>
-                </iq>
-            ]]></artwork>
-        </figure>
-    </section> -->
-
   </back>
 </rfc>
