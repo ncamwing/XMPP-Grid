@@ -9,6 +9,7 @@
   <!ENTITY RFC7590 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7590.xml">
   <!ENTITY RFC7677 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7677.xml">
   <!ENTITY RFC7970 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7970.xml">
+  <!ENTITY RFC8274 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8274.xml">
   ]>
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?>
 <!-- OPTIONS, known as processing instructions (PIs) go here. -->
@@ -34,7 +35,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of popular PIs -->
-<rfc category="std" docName="draft-ietf-mile-xmpp-grid-04" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-mile-xmpp-grid-05" ipr="trust200902">
   <front>
     <title abbrev="XMPP Grid">Using XMPP for Security Information Exchange</title>
     <author fullname="Nancy Cam-Winget" initials="N" surname="Cam-Winget" role="editor">
@@ -384,6 +385,7 @@
 </iq>
         ]]></artwork>
       </figure>
+      <t>(The payload in the foregoing example is from <xref target='RFC7970'/>; payloads for additional use cases can be found in <xref target='RFC8274'/>.)</t>
       <t>The Broker would then deliver that incident report to all Consumers who are subscribe to the Topic:</t>
       <figure>
         <artwork><![CDATA[
@@ -605,9 +607,10 @@
 </reference>
     </references>
     <references title="Informative References">
-      &RFC7970;
       &RFC5246;
       &RFC5802;
+      &RFC7970;
+      &RFC8274;
     </references>
   </back>
 </rfc>
