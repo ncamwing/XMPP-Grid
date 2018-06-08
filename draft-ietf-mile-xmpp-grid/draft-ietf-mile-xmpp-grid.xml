@@ -228,6 +228,7 @@
         |                      |                         |
         ]]></artwork>
       </figure>
+      <t>XMPP-Grid implementations MUST adhere to the mandatory-to-implement and mandatory-to-negotiate features as defined in <xref target="RFC6120"/>. Similarly, implementations MUST implement <xref target='XEP-0060'/> to facilitate the asynchronous sharing for information.  The Service Discovery per <xref target='XEP-0030'/> SHOULD be implemented to facilitate the means to dynamically discover the available information (Topics) to be published or consumes.</t>
       <t>The following sections provide protocol examples for the service discovery and publish-subscribe parts of the workflow.</t>
     </section>
 
