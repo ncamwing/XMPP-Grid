@@ -541,6 +541,17 @@
       <t>Care needs to be taken by deployers of XMPP-Grid to ensure that the information published by XMPP-Grid Platforms does not violate agreements with end users or local and regional laws and regulations. This can be accomplished either by configuring XMPP-Grid Platforms to not publish certain information or by restricting access to sensitive data to trusted XMPP-Grid Platforms. That is, the easiest means to ensure privacy or protect sensitive data, is to omit or not share it at all.</t>
       <t>Another consideration for deployers is to enable end-to-end encryption to ensure the data is protected from the data layer to data layer and thus protect it from the transport layer.</t>
     </section>
+    <section anchor="Ops" title="Operations and Management Considerations">
+      <t>In order to facilitate the management of Providers and the onboarding of Consumers, it is helpful to generate the following ahead of time:</t>
+      <t>
+        <list style='symbols'>
+          <t>Agreement between the operators of Provider services and the implementers of Consumer software regarding identifiers for common Topics (e.g., these could be registered with the XMPP Software Foundation's registry of well-known nodes for service discovery and publish-subscribe located at <eref target='https://xmpp.org/registrar/nodes.html'/>).</t>
+          <t>Security certificates (including appropriate certificate chains) for Controllers, including identification of any Providers associated with the Controllers (which might be located at subdomains).</t>
+          <t>Consistent and secure access control policies for publishing and subscribing to Topics.</t>
+        </list>
+      </t>
+      <t>These matters are out of scope for this document but ought to be addressed by the XMPP-Grid community.</t>
+    </section>
     <section anchor="Acknowledgements" title="Acknowledgements">
       <t>The authors would like to acknowledge the contributions, authoring and/or editing of the following people: Joseph Salowey, Lisa Lorenzin, Clifford Kahn, Henk Birkholz, Jessica Fitzgerald-McKay, Steve Hanna, and Steve Venema.  In addition, we want to thank Takeshi Takahashi, Panos Kampanakis, Adam Montville, Chris Inacio, and Dave Cridland for reviewing and providing valuable comments.</t>
     </section>
