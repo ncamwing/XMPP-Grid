@@ -35,7 +35,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of popular PIs -->
-<rfc category="std" docName="draft-ietf-mile-xmpp-grid-05" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-mile-xmpp-grid-06" ipr="trust200902">
   <front>
     <title abbrev="XMPP Grid">Using XMPP for Security Information Exchange</title>
     <author fullname="Nancy Cam-Winget" initials="N" surname="Cam-Winget" role="editor">

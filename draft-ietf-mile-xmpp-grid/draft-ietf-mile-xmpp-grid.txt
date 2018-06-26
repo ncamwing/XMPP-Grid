@@ -5,14 +5,14 @@
 MILE                                                  N. Cam-Winget, Ed.
 Internet-Draft                                                 S. Appala
 Intended status: Standards Track                                 S. Pope
-Expires: December 27, 2018                                 Cisco Systems
+Expires: December 28, 2018                                 Cisco Systems
                                                           P. Saint-Andre
                                                                  Mozilla
-                                                           June 25, 2018
+                                                           June 26, 2018
 
 
               Using XMPP for Security Information Exchange
-                      draft-ietf-mile-xmpp-grid-05
+                      draft-ietf-mile-xmpp-grid-06
 
 Abstract
 
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 27, 2018.
+   This Internet-Draft will expire on December 28, 2018.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018               [Page 1]
+Cam-Winget, et al.      Expires December 28, 2018               [Page 1]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018               [Page 2]
+Cam-Winget, et al.      Expires December 28, 2018               [Page 2]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -165,7 +165,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018               [Page 3]
+Cam-Winget, et al.      Expires December 28, 2018               [Page 3]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -221,7 +221,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018               [Page 4]
+Cam-Winget, et al.      Expires December 28, 2018               [Page 4]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -277,7 +277,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018               [Page 5]
+Cam-Winget, et al.      Expires December 28, 2018               [Page 5]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -333,7 +333,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018               [Page 6]
+Cam-Winget, et al.      Expires December 28, 2018               [Page 6]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -389,7 +389,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018               [Page 7]
+Cam-Winget, et al.      Expires December 28, 2018               [Page 7]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -445,7 +445,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018               [Page 8]
+Cam-Winget, et al.      Expires December 28, 2018               [Page 8]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -501,7 +501,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018               [Page 9]
+Cam-Winget, et al.      Expires December 28, 2018               [Page 9]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -557,7 +557,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 10]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 10]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -613,7 +613,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 11]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 11]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -669,7 +669,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 12]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 12]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -725,7 +725,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 13]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 13]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -781,7 +781,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 14]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 14]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -837,7 +837,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 15]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 15]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -893,7 +893,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 16]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 16]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -949,7 +949,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 17]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 17]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -1005,7 +1005,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 18]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 18]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -1061,7 +1061,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 19]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 19]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -1117,7 +1117,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 20]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 20]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -1173,7 +1173,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 21]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 21]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -1229,7 +1229,7 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 22]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 22]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -1285,7 +1285,7 @@ Authors' Addresses
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 23]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 23]
 
 Internet-Draft                  XMPP Grid                      June 2018
 
@@ -1341,4 +1341,4 @@ Internet-Draft                  XMPP Grid                      June 2018
 
 
 
-Cam-Winget, et al.      Expires December 27, 2018              [Page 24]
+Cam-Winget, et al.      Expires December 28, 2018              [Page 24]
