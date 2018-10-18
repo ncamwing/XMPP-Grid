@@ -35,7 +35,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of popular PIs -->
-<rfc category="std" docName="draft-ietf-mile-xmpp-grid-06" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-mile-xmpp-grid-07" ipr="trust200902">
   <front>
     <title abbrev="XMPP Grid">Using XMPP for Security Information Exchange</title>
     <author fullname="Nancy Cam-Winget" initials="N" surname="Cam-Winget" role="editor">
@@ -98,24 +98,26 @@
   <middle>
 
     <section title="Introduction">
-      <t>This document describes "XMPP-Grid": a method for using the Extensible Messaging and Presence Protocol (XMPP) <xref target="RFC6120"/> to collect and distribute security-relevant information among network platforms, endpoints, and any other network-connected device. Among other things, XMPP provides a publish-subscribe service <xref target='XEP-0060'/> that acts as a broker, enabling control-plane functions by which entities can discover available information to be published or consumed. Although such information can take the form of any structured data (XML, JSON, etc.), this document illustrates the principles of XMPP-Grid with examples that use the Incident Object Description Exchange Format (IODEF) <xref target='RFC7970'/>.</t>
+      <t>This document describes "XMPP-Grid": a method for using the Extensible Messaging and Presence Protocol (XMPP) <xref target="RFC6120"/> to collect and distribute security-relevant information among network platforms, endpoints, and any other network-connected device. Among other things, XMPP provides a publish-subscribe service <xref target='XEP-0060'/> that acts as a broker, enabling control-plane functions by which entities can discover available information to be published or consumed. Although such information can take the form of any structured data (XML, JSON, etc.), this document illustrates the principles of XMPP-Grid with examples that use the Incident Object Description Exchange Format (IODEF) <xref target='RFC7970'/>. That is, while other security information formats can be shared using XMPP, this document uses IODEF as one such example format that can be published and consumed using XMPP.</t>
     </section>
 
     <section title="Terminology">
-      <t>This document uses XMPP terminology defined in <xref target="RFC6120"/> and <xref target="XEP-0060"/> as well as Security Automation and Continuous Monitoring (SACM) terminology defined in <xref target='I-D.ietf-sacm-terminology'/>. Because the intended audience for this document is those who implement and deploy security reporting systems, in general the SACM terms are used (however, mappings are provided for the benefit of XMPP developers and operators).</t>
+      <t>This document uses XMPP terminology defined in <xref target="RFC6120"/> and <xref target="XEP-0060"/>. Because the intended audience for this document is those who implement and deploy security reporting systems, mappings are provided for the benefit of XMPP developers and operators.</t>
       <t>
         <list style='hanging'>
-          <t hangText='Broker:'>In SACM, a specific type of controller containing control plane functions; as used here, the term refers to an XMPP publish-subscribe service.</t>
-          <t hangText='Broker Flow:'>In SACM, a method by which security-related information is published and consumed in a mediated fashion through a Broker. In this flow, the Broker handles authorization of Consumers and Providers to Topics, receives messages from Providers, and delivers published messages to Consumers.</t>
-          <t hangText='Consumer:'>In SACM, an entity that contains functions to receive information from other components; as used here, the term refers to an XMPP publish-subscribe Subscriber.</t>
-          <t hangText='Controller:'>In SACM, a "component containing control plane functions that manage and facilitate information sharing or execute on security functions"; as used here, the term refers to an XMPP server, which provides core message delivery <xref target='RFC6120'/> used by publish-subscribe entities.</t>
+          <t hangText='Broker:'>A specific type of controller containing control plane functions; as used here, the term refers to an XMPP publish-subscribe service.</t>
+          <t hangText='Broker Flow:'>A method by which security-related information is published and consumed in a mediated fashion through a Broker. In this flow, the Broker handles authorization of Consumers and Providers to Topics, receives messages from Providers, and delivers published messages to Consumers.</t>
+          <t hangText='Consumer:'>An entity that contains functions to receive information from other components; as used here, the term refers to an XMPP publish-subscribe Subscriber.</t>
+          <t hangText='Controller:'>A "component containing control plane functions that manage and facilitate information sharing or execute on security functions"; as used here, the term refers to an XMPP server, which provides core message delivery <xref target='RFC6120'/> used by publish-subscribe entities.</t>
           <t hangText='Node:'>The XMPP term for a Topic.</t>
           <t hangText='Platform:'>Any entity that connects to the XMPP-Grid in order to publish or consume security-related data.</t>
-          <t hangText='Provider:'>In SACM, an entity that contains functions to provide information to other components; as used here, the term refers to an XMPP publish-subscribe Publisher.</t>
+          <t hangText='Provider:'>An entity that contains functions to provide information to other components; as used here, the term refers to an XMPP publish-subscribe Publisher.</t>
+          <!--
           <t hangText='Publisher:'>The XMPP term for a Provider.</t>
           <t hangText='Publish-Subscribe Service:'>The XMPP term for the kind Broker discussed here.</t>
           <t hangText='Subscriber:'>The XMPP term for a Consumer.</t>
-          <t hangText='Topic:'>A contextual information channel created on a Broker at which messages generated by a Provider are propagated in real time to one or more Consumers.  Each Topic is limited to a specific type and format of security data (e.g., IODEF) and provides an XMPP interface by which the data can be obtained.</t>
+           -->
+          <t hangText='Topic:'>A contextual information channel created on a Broker at which messages generated by a Provider are propagated in real time to one or more Consumers.  Each Topic is limited to a specific type and format of security data (e.g. IODEF namespace) and provides an XMPP interface by which the data can be obtained.</t>
         </list>
       </t>
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <xref target="RFC2119"/>.</t>
@@ -163,18 +165,18 @@
                   +------------------------------------+
         ]]></artwork>
       </figure>
-      <t>Platforms connect to the Controller (XMPP server) to authenticate and then establish appropriate authorizations and relationships (e.g., Provider or Consumer) at the Broker. The control plane messaging is established through XMPP and shown as "A" (control plane interface) in Figure 1.  Authorized nodes can then share data either thru the Broker (shown as "B" in Figure 1) or in some cases directly (shown as "C" in Figure 1).  This document focuses primarily on the Broker Flow for information sharing ("direct flow" interactions can be used for specialized purposes such as bulk data transfer, but methods for doing so are outside the scope of this document).</t>
+      <t>Platforms connect to the Controller (XMPP server) to authenticate and then establish appropriate authorizations to be a Provider or Consumer of interested Topics at the Broker. The control plane messaging is established through XMPP and shown as "A" (control plane interface) in Figure 1.  Authorized nodes can then share data either through the Broker (shown as "B" in Figure 1) or in some cases directly (shown as "C" in Figure 1).  This document focuses primarily on the Broker Flow for information sharing ("direct flow" interactions can be used for specialized purposes such as bulk data transfer, but methods for doing so are outside the scope of this document).</t>
     </section>
 
     <section title="Workflow">
       <t>A typical XMPP-Grid workflow is as follows:
         <list style="letters">
-          <t>A Platform with a source of security data requests connection to the XMPP-Grid via a Controller (XMPP server).</t>
+          <t>A Platform with a source of security data requests connection to the XMPP-Grid via a Controller.</t>
           <t>The Controller authenticates the Platform.</t>
-          <t>The Platform establishes authorized privileges (e.g. privilege to publish and/or subscribe to security data Topics) with a Broker.</t>
+          <t>The Platform establishes authorized privileges (e.g. privilege to publish and/or subscribe to  one or more Topics) with a Broker.</t>
           <t>The Platform can publish security-related data to a Topic, subscribe to a Topic, query a Topic, or any combination of these operations.</t>
           <t>A Provider unicasts its Topic updates to the Grid in real time through a Broker.  The Broker handles replication and distribution of the Topic to Consumers.  A Provider can publish the same or different data to multiple Topics.</t>
-          <t>Any Platform on the Grid can subscribe to any Topics published to the Grid (as permitted by authorization policy), and as Consumers will then receive a continual, real-time stream of updates from the Topics to which it is subscribed.</t>
+          <t>Any Platform on the Grid can subscribe to any Topics published to the Grid (as permitted by authorization policy), and (as Consumers) will then receive a continual, real-time stream of updates from the Topics to which it is subscribed.</t>
         </list>
       </t>
       <t>The general workflow is summarized in the figure below:</t>
@@ -228,7 +230,7 @@
         |                      |                         |
         ]]></artwork>
       </figure>
-      <t>XMPP-Grid implementations MUST adhere to the mandatory-to-implement and mandatory-to-negotiate features as defined in <xref target="RFC6120"/>. Similarly, implementations MUST implement <xref target='XEP-0060'/> to facilitate the asynchronous sharing for information.  The Service Discovery per <xref target='XEP-0030'/> SHOULD be implemented to facilitate the means to dynamically discover the available information (Topics) to be published or consumes.</t>
+      <t>XMPP-Grid implementations MUST adhere to the mandatory-to-implement and mandatory-to-negotiate features as defined in <xref target="RFC6120"/>. Similarly, implementations MUST implement <xref target='XEP-0060'/> to facilitate the asynchronous sharing for information.  The Service Discovery per <xref target='XEP-0030'/> SHOULD be implemented to facilitate the means to dynamically discover the available information and namespaces (Topics) to be published or consumed.</t>
       <t>The following sections provide protocol examples for the service discovery and publish-subscribe parts of the workflow.</t>
     </section>
 
@@ -595,6 +597,7 @@
           </front>
           <seriesInfo name="XSF" value="XEP 0060"/>
       </reference>
+
 <reference anchor='I-D.ietf-sacm-terminology'>
 <front>
 <title>Secure Automation and Continuous Monitoring (SACM) Terminology</title>
