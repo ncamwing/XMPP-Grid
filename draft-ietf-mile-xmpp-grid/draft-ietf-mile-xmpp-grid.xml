@@ -113,11 +113,11 @@
       <t>
         <list style='hanging'>
           <t hangText='Broker:'>A specific type of controller containing control plane functions; as used here, the term refers to an XMPP publish-subscribe service.</t>
-          <t hangText='Broker Flow:'>A method by which security-related information is published and consumed in a mediated fashion through a Broker. In this flow, the Broker handles authorization of Consumers and Providers to Topics, receives messages from Providers, and delivers published messages to Consumers.</t>
+          <t hangText='Broker Flow:'>A method by which security-relevant information is published and consumed in a mediated fashion through a Broker. In this flow, the Broker handles authorization of Consumers and Providers to Topics, receives messages from Providers, and delivers published messages to Consumers.</t>
           <t hangText='Consumer:'>An entity that contains functions to receive information from other components; as used here, the term refers to an XMPP publish-subscribe Subscriber.</t>
           <t hangText='Controller:'>A "component containing control plane functions that manage and facilitate information sharing or execute on security functions"; as used here, the term refers to an XMPP server, which provides core message delivery <xref target='RFC6120'/> used by publish-subscribe entities.</t>
           <t hangText='Node:'>The XMPP term for a Topic.</t>
-          <t hangText='Platform:'>Any entity that connects to the XMPP-Grid in order to publish or consume security-related data.</t>
+          <t hangText='Platform:'>Any entity that connects to the XMPP-Grid in order to publish or consume security-relevant data.</t>
           <t hangText='Provider:'>An entity that contains functions to provide information to other components; as used here, the term refers to an XMPP publish-subscribe Publisher.</t>
           <!--
           <t hangText='Publisher:'>The XMPP term for a Provider.</t>
@@ -181,7 +181,7 @@
           <t>A Platform with a source of security data requests connection to the XMPP-Grid via a Controller.</t>
           <t>The Controller authenticates the Platform.</t>
           <t>The Platform establishes authorized privileges (e.g. privilege to publish and/or subscribe to  one or more Topics) with a Broker.</t>
-          <t>The Platform can publish security-related data to a Topic, subscribe to a Topic, query a Topic, or any combination of these operations.</t>
+          <t>The Platform can publish security-relevant data to a Topic, subscribe to a Topic, query a Topic, or any combination of these operations.</t>
           <t>A Provider unicasts its Topic updates to the Grid in real time through a Broker.  The Broker handles replication and distribution of the Topic to Consumers.  A Provider can publish the same or different data to multiple Topics.</t>
           <t>Any Platform on the Grid can subscribe to any Topics published to the Grid (as permitted by authorization policy), and (as Consumers) will then receive a continual, real-time stream of updates from the Topics to which it is subscribed.</t>
         </list>
@@ -553,7 +553,7 @@
       <t>Dynamic and static information brokered by an XMPP-Grid Controller, ostensibly for purposes of correlation by XMPP-Grid Platforms for intrusion detection, could be misused by a broader set of XMPP-Grid Platforms which hitherto have been performing specific roles with strict well-defined separation of duties.</t>
       <t>Care needs to be taken by deployers of XMPP-Grid to ensure that the information published by XMPP-Grid Platforms does not violate agreements with end users or local and regional laws and regulations. This can be accomplished either by configuring XMPP-Grid Platforms to not publish certain information or by restricting access to sensitive data to trusted XMPP-Grid Platforms. That is, the easiest means to ensure privacy or protect sensitive data, is to omit or not share it at all.</t>
       <t>Similarly, care must be taken by deployers and XMPP-Grid Controller implementations as they implement the appropriate auditing tools.  In particular, any information, such as logs must be sensitive to the type of information stored to ensure that the information does not violate privacy and agreements with end users or local and regional laws and regulations. </t>
-      <t>Another consideration for deployers is to enable end-to-end encryption to ensure the data is protected from the data layer to data layer and thus protect it from the transport layer.</t>
+      <t>Another consideration for deployers is to enable end-to-end encryption to ensure the data is protected from the data layer to data layer and thus protect it from the transport layer. The means to achieve end-to-end encrpytion is beyond the scope of this document and is a matter for future study.</t>
     </section>
     <section anchor="Ops" title="Operations and Management Considerations">
       <t>In order to facilitate the management of Providers and the onboarding of Consumers, it is helpful to generate the following ahead of time:</t>
