@@ -237,12 +237,12 @@
         |                      |                         |
         ]]></artwork>
       </figure>
-      <t>XMPP-Grid implementations MUST adhere to the mandatory-to-implement and mandatory-to-negotiate features as defined in <xref target="RFC6120"/>. Similarly, implementations MUST implement <xref target='XEP-0060'/> to facilitate the asynchronous sharing for information. Implementations SHOULD implement Service Discovery  as defined in <xref target='XEP-0030'/> to facilitate the means to dynamically discover the available information and namespaces (Topics) to be published or consumed. Note that the control plane may optionally also implement <xref target='XEP-0203'/> to facilitate delayed delivery of messages to the connected consumer as described in <xref target='XEP-0060'/>. Since information may be timely and sensitive, capability providers should communicate to the controller whether its messages can be cached for delayed delivery during configuration; such function is out of scope for this document.</t>
+      <t>XMPP-Grid implementations MUST adhere to the mandatory-to-implement and mandatory-to-negotiate features as defined in <xref target="RFC6120"/>. Similarly, implementations MUST implement <xref target='XEP-0060'/> to facilitate the asynchronous sharing for information. Implementations SHOULD implement Service Discovery  as defined in <xref target='XEP-0030'/> to facilitate the means to dynamically discover the available information and namespaces (Topics) to be published or consumed. Implementations SHOULD implement Result Set Management as defined in <xref target='XEP-0059'/>, enabling requesting entity to explicitly request Service Discovery result sets to be returned in pages or limited size if the discovery results are larger in size. Note that the control plane may optionally also implement <xref target='XEP-0203'/> to facilitate delayed delivery of messages to the connected consumer as described in <xref target='XEP-0060'/>. Since information may be timely and sensitive, capability providers should communicate to the controller whether its messages can be cached for delayed delivery during configuration; such function is out of scope for this document.</t>
       <t>The following sections provide protocol examples for the service discovery and publish-subscribe parts of the workflow.</t>
     </section>
 
     <section title="Service Discovery">
-      <t>Using the XMPP service discovery extension <xref target='XEP-0030'/>, a Controller enables Platforms to discover what information can be consumed through the Broker, and at which Topics.  As an example, the Controller at 'security-grid.example' might provide a Broker at 'broker.security-grid.example' hosting a number of Topics. A Platform at 'xmpp-grid-client@mile-host.example' would query the Broker about its available Topics by sending an XMPP "disco#items" request to the Broker:</t>
+      <t>Using the XMPP service discovery extension <xref target='XEP-0030'/>, a Controller enables Platforms to discover what information can be consumed through the Broker, and at which Topics.  Platforms could use <xref target='XEP-0059'/> to restrict the size of the result sets the Controller returns in Service Discovery response. As an example, the Controller at 'security-grid.example' might provide a Broker at 'broker.security-grid.example' hosting a number of Topics. A Platform at 'xmpp-grid-client@mile-host.example' would query the Broker about its available Topics by sending an XMPP "disco#items" request to the Broker:</t>
       <figure>
         <artwork><![CDATA[
 <iq type='get'
@@ -309,7 +309,7 @@
     </section>
 
     <section title="Publish-Subscribe">
-      <t>Using the XMPP publish-subscribe extension <xref target='XEP-0030'/>, a Consumer subscribes to a Topic and a Provider publishes information to that Topic, which the Broker then distributes to all subscribed Consumers.</t>
+      <t>Using the XMPP publish-subscribe extension <xref target='XEP-0060'/>, a Consumer subscribes to a Topic and a Provider publishes information to that Topic, which the Broker then distributes to all subscribed Consumers.</t>
       <t>First, a Provider would create a Topic as follows:</t>
       <figure>
         <artwork><![CDATA[
@@ -532,7 +532,7 @@
           <t>The XMPP publish-subscribe specification <xref target='XEP-0060'/> defines five access models for subscribing to Topics at a Broker: open, presence, roster, authorize, and whitelist. The first model allows uncontrolled access and the next two models are appropriate only in instant-messaging applications. Therefore, a Broker SHOULD support only the authorize model (under which the Topic owner needs to approve all subscription requests and only subscribers can retrieve data items) and the whitelist model (under which only preconfigured Platforms can subscribe or retrieve data items). In order to ease the deployment burden, subscription approvals and whitelist management can be automated (e.g, the Topic "owner" can be a policy server). The choice between "authorize" and "whitelist" as the default access model is a matter for local service policy.</t>
         </section>
         <section title="Limit on Search Result Size">
-          <t>While XMPP-Grid is designed for high scalability to 100,000s of Platforms, an XMPP-Grid Controller MAY establish a limit to the amount of data it is willing to return in search or subscription results. This mitigates the threat of an XMPP-Grid Platform causing resource exhaustion by issuing a search or subscription that leads to an enormous result.</t>
+          <t>While XMPP-Grid is designed for high scalability to 100,000s of Platforms, an XMPP-Grid Controller MAY establish a limit to the amount of data it is willing to return in search or subscription results. Platforms could use <xref target='XEP-0059'/> to restrict the size of the result sets the Controller returns in search or subscription results or topics' service discovery. This mitigates the threat of an XMPP-Grid Platform causing resource exhaustion by issuing a search or subscription that leads to an enormous result.</t>
         </section>
         <!--<section title="Cryptographically Random session-id and authentication checks for ARC">
           <t>An XMPP-Grid Controller SHOULD ensure that the XMPP-Grid Platform establishing an Authenticated Results Chain (ARC) is the same XMPP-Grid Platform as the XMPP-Grid Platform that established the corresponding Synchronization Source Identifier (SSRC). The XMPP-Grid Controller SHOULD employ both of the following strategies:
@@ -601,6 +601,17 @@
       </front>
       <seriesInfo name="XSF" value="XEP 0030"/>
       </reference>
+      <reference anchor="XEP-0059">
+      <front>
+      <title>Result Set Management</title>
+      <author initials="I" surname="Paterson"></author>
+      <author initials="P" surname="Saint-Andre"></author>
+      <author initials="V" surname="Mercier"></author>
+      <author initials="J" surname="Seguineau"></author>
+      <date month="September" year="2006"></date>
+      </front>
+      <seriesInfo name="XSF" value="XEP 0059"/>
+      </reference>
       <reference anchor="XEP-0060">
       <front>
       <title>Publish-Subscribe</title>
@@ -611,7 +622,7 @@
       </front>
       <seriesInfo name="XSF" value="XEP 0060"/>
       </reference>
-
+      
       
 
     </references>
