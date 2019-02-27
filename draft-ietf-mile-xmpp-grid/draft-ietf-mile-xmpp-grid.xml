@@ -363,7 +363,7 @@
 </iq>
         ]]></artwork>
       </figure>
-      <t>Third, a Provider would publish an incident as follows:</t>
+      <t>Third, a Provider would publish an incident to the broker on MILEHost topic as follows:</t>
     <figure>
         <artwork><![CDATA[
 <iq type='set'
@@ -396,7 +396,7 @@
         ]]></artwork>
       </figure>
       <t>(The payload in the foregoing example is from <xref target='RFC7970'/>; payloads for additional use cases can be found in <xref target='RFC8274'/>.)</t>
-      <t>The Broker would then deliver that incident report to all Consumers who are subscribe to the Topic:</t>
+      <t>The Broker would then deliver that incident report to all Consumers who are subscribed to the Topic:</t>
     <figure>
         <artwork><![CDATA[
 <message
@@ -622,9 +622,14 @@
       </front>
       <seriesInfo name="XSF" value="XEP 0060"/>
       </reference>
-      
-      
-
+      <reference anchor="XEP-0203">
+      <front>
+           <title>Delayed Delivery</title>
+      <author initials="P" surname="Saint-Andre"></author>
+      <date month="December" year="2009"></date>
+      </front>
+      <seriesInfo name="XSF" value="XEP 0203"/>
+       </reference>
     </references>
     <references title="Informative References">
       &RFC8446;
@@ -632,14 +637,7 @@
       &RFC7970;
       &RFC8274;
       &RFC2131;
-      &RFC6962;
-      <front>
-      <title>Delayed Delivery</title>
-      <author initials="P" surname="Saint-Andre"></author>
-      <date month="December" year="2009"></date>
-      </front>
-      <seriesInfo name="XSF" value="XEP 0203"/>
-      
+      &RFC6962;      
     </references>
   </back>
 </rfc>
