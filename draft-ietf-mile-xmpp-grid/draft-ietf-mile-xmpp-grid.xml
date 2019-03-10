@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+  <!ENTITY RFC2026 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2026.xml">
   <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
   <!ENTITY RFC3922 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3922.xml">
   <!ENTITY RFC3923 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3923.xml">
-<!--
-  <!ENTITY RFC5246 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml">
- -->
   <!ENTITY RFC8446 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8446.xml">
   <!ENTITY RFC5802 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5802.xml">
   <!ENTITY RFC6120 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6120.xml">
@@ -99,13 +97,14 @@
     <!-- <keyword/> -->
     <!-- <keyword/> -->
     <abstract>
-      <t>This document describes how to use the Extensible Messaging and Presence Protocol (XMPP) to collect and distribute security-relevant information between network-connected devices. To illustrate the principles involved, this document describes such a usage for the Incident Object Description Exchange Format (IODEF).</t>
+      <t>This document describes how to use the Extensible Messaging and Presence Protocol (XMPP) to collect and distribute security incident reports and other security-relevant information between network-connected devices, primarily for the purpose of communication among between Computer Security Incident Response Teams and associated entities. To illustrate the principles involved, this document describes such a usage for the Incident Object Description Exchange Format (IODEF).</t>
     </abstract>
   </front>
   <middle>
 
     <section title="Introduction">
-        <t>This document defines an architecture, e.g. "XMPP-Grid" as a method for using the Extensible Messaging and Presence Protocol (XMPP) <xref target="RFC6120"/> to collect and distribute security-relevant information among network platforms, endpoints, and any other network-connected device. More explicitly, XMPP-Grid solely relies on XMPP. Among other things, XMPP provides a publish-subscribe service <xref target='XEP-0060'/> that acts as a broker, enabling control-plane functions by which entities can discover available information to be published or consumed. Although such information can take the form of any structured data (XML, JSON, etc.), this document illustrates the principles of XMPP-Grid with examples that use the Incident Object Description Exchange Format (IODEF) <xref target='RFC7970'/>. That is, while other security information formats can be shared using XMPP, this document uses IODEF as one such example format that can be published and consumed using XMPP.</t>
+        <t>This document defines an architecture, i.e., "XMPP-Grid", as a method for using the Extensible Messaging and Presence Protocol (XMPP) <xref target="RFC6120"/> to collect and distribute security incident reports and other security-relevant information among network platforms, endpoints, and any other network-connected device, primarily for the purpose of communication among between Computer Security Incident Response Teams and associated entities. In effect, this document specifies an Applicability Statement (<xref target="RFC2026"/>, Section 3.2) that defines how to use XMPP for the exchange of security notifications on a controlled-access network among authorized entities.</t>
+        <t>Among other things, XMPP provides a publish-subscribe service <xref target='XEP-0060'/> that acts as a broker, enabling control-plane functions by which entities can discover available information to be published or consumed. Although such information can take the form of any structured data (XML, JSON, etc.), this document illustrates the principles of XMPP-Grid with examples that use the Incident Object Description Exchange Format (IODEF) <xref target='RFC7970'/>. That is, while other security information formats can be shared using XMPP, this document uses IODEF as one such example format that can be published and consumed using XMPP.</t>
     </section>
 
     <section title="Terminology">
@@ -113,11 +112,11 @@
       <t>
         <list style='hanging'>
           <t hangText='Broker:'>A specific type of controller containing control plane functions; as used here, the term refers to an XMPP publish-subscribe service.</t>
-          <t hangText='Broker Flow:'>A method by which security-relevant information is published and consumed in a mediated fashion through a Broker. In this flow, the Broker handles authorization of Consumers and Providers to Topics, receives messages from Providers, and delivers published messages to Consumers.</t>
+          <t hangText='Broker Flow:'>A method by which security incident reports and other security-relevant information is published and consumed in a mediated fashion through a Broker. In this flow, the Broker handles authorization of Consumers and Providers to Topics, receives messages from Providers, and delivers published messages to Consumers.</t>
           <t hangText='Consumer:'>An entity that contains functions to receive information from other components; as used here, the term refers to an XMPP publish-subscribe Subscriber.</t>
           <t hangText='Controller:'>A "component containing control plane functions that manage and facilitate information sharing or execute on security functions"; as used here, the term refers to an XMPP server, which provides core message delivery <xref target='RFC6120'/> used by publish-subscribe entities.</t>
           <t hangText='Node:'>The XMPP term for a Topic.</t>
-          <t hangText='Platform:'>Any entity that connects to the XMPP-Grid in order to publish or consume security-relevant data.</t>
+          <t hangText='Platform:'>Any entity that connects to the XMPP-Grid in order to publish or consume security-relevant information.</t>
           <t hangText='Provider:'>An entity that contains functions to provide information to other components; as used here, the term refers to an XMPP publish-subscribe Publisher.</t>
           <!--
           <t hangText='Publisher:'>The XMPP term for a Provider.</t>
@@ -181,7 +180,7 @@
           <t>A Platform with a source of security data requests connection to the XMPP-Grid via a Controller.</t>
           <t>The Controller authenticates the Platform.</t>
           <t>The Platform establishes authorized privileges (e.g. privilege to publish and/or subscribe to  one or more Topics) with a Broker.</t>
-          <t>The Platform can publish security-relevant data to a Topic, subscribe to a Topic, query a Topic, or any combination of these operations.</t>
+          <t>The Platform can publish security incident reports and other security-relevant information to a Topic, subscribe to a Topic, query a Topic, or any combination of these operations.</t>
           <t>A Provider unicasts its Topic updates to the Grid in real time through a Broker.  The Broker handles replication and distribution of the Topic to Consumers.  A Provider can publish the same or different data to multiple Topics.</t>
           <t>Any Platform on the Grid can subscribe to any Topics published to the Grid (as permitted by authorization policy), and (as Consumers) will then receive a continual, real-time stream of updates from the Topics to which it is subscribed.</t>
         </list>
@@ -308,7 +307,7 @@
   </iq>
        ]]></artwork>
       </figure>
-<t>The Platform discovers the topics by obtaining the Broker's response and obtaining the namespaces returned in the "pubsub#type" field. </t>
+<t>The Platform discovers the topics by obtaining the Broker's response and obtaining the namespaces returned in the "pubsub#type" field (in the foregoing example, IODEF 2.0).</t>
     </section>
 
     <section title="Publish-Subscribe">
@@ -456,7 +455,7 @@
     </section>
 
     <section anchor="Security" title="Security Considerations">
-      <t>An XMPP-Grid Controller serves as an controlling broker for XMPP-Grid Platforms such as Enforcement Points, Policy Servers, CMDBs, and Sensors, using a publish-subscribe-search model of information exchange and lookup. By increasing the ability of XMPP-Grid Platforms to learn about and respond to security-relevant events and data, XMPP-Grid can improve the timeliness and utility of the security system. However, this integrated security system can also be exploited by attackers if they can compromise it. Therefore, strong security protections for XMPP-Grid are essential.</t>
+      <t>An XMPP-Grid Controller serves as an controlling broker for XMPP-Grid Platforms such as Enforcement Points, Policy Servers, CMDBs, and Sensors, using a publish-subscribe-search model of information exchange and lookup. By increasing the ability of XMPP-Grid Platforms to learn about and respond to security incident reports and other security-relevant information, XMPP-Grid can improve the timeliness and utility of the security system. However, this integrated security system can also be exploited by attackers if they can compromise it. Therefore, strong security protections for XMPP-Grid are essential.</t>
       <t>As XMPP is the core of this document, the security considerations of <xref target='RFC6120'/> applies.  In addition, as XMPP-Grid defines a specific instance, this section provides a security analysis of the XMPP-Grid data transfer protocol and the architectural elements that employ it, specifically with respect to their use of this protocol. Three subsections define the trust model (which elements are trusted to do what), the threat model (attacks that can be mounted on the system), and the countermeasures (ways to address or mitigate the threats previously identified).</t>
       <section title="Trust Model">
         <t>The first step in analyzing the security of the XMPP-Grid transport
@@ -545,8 +544,8 @@
         </section>
         <section title="Securing XMPP-Grid Controllers">
           <t>Because of the serious consequences of XMPP-Grid Controller compromise, XMPP-Grid Controllers need to be especially well hardened against attack and minimized to reduce their attack surface. They need to be well managed to minimize vulnerabilities in the underlying platform and in systems upon which the XMPP-Grid Controller depends. Network security measures such as firewalls or intrusion detection systems can be used to monitor and limit traffic to and from the XMPP-Grid Controller. Personnel with administrative access ought to be carefully screened and monitored to detect problems as soon as possible. Administrators SHOULD NOT use password-based authentication but SHOULD instead use non-reusable credentials and multi-factor authentication (where available). Physical security measures ought to be employed to prevent physical attacks on XMPP-Grid Controllers.</t>
-          <t>To ease detection of XMPP-Grid Controller compromise should it occur, XMPP-Grid Controller behavior should be monitored to detect unusual behavior (such as a reboot, a large increase in traffic, or different views of an information repository for similar XMPP-Grid Platforms). XMPP-Grid Platforms should log and/or notify administrators when peculiar XMPP-Grid Controller behavior is detected. To aid forensic investigation, permanent read-only audit logs of security-relevant information (especially administrative actions) SHOULD be maintained. If XMPP-Grid Controller compromise is detected, a careful analysis should be performed of the impact of this compromise. Any reusable credentials that can have been compromised should be reissued.</t>
-          <t>To address the potential for the XMPP-Grid controller to eavesdrop, modify or inject data, end-to-end encryption should be enabled between the provider and the consumer(s).</t>
+          <t>To ease detection of XMPP-Grid Controller compromise should it occur, XMPP-Grid Controller behavior should be monitored to detect unusual behavior (such as a reboot, a large increase in traffic, or different views of an information repository for similar XMPP-Grid Platforms). It is a matter of local policy whether XMPP-Grid Platforms log and/or notify administrators when peculiar XMPP-Grid Controller behavior is detected, and whether read-only audit logs of security-relevant information (especially administrative actions) are maintained; however, such behavior is encouraged to aid in forensic analysis. Furthermore, if compromise of an XMPP-Grid Controller is detected, a careful analysis should be performed and any reusable credentials that can have been compromised should be reissued.</t>
+          <t>To address the potential for the XMPP-Grid controller to eavesdrop, modify or inject data, it would be desirable to deploy end-to-end encryption between the provider and the consumer(s). Unfortunately, because there is no standardized method for encryption of one-to-many messages within XMPP, techniques for enforcing end-to-end encryption are out of scope for this specification.</t>
         </section>
         <section title="Broker Access Models for Topics">
           <t>The XMPP publish-subscribe specification <xref target='XEP-0060'/> defines five access models for subscribing to Topics at a Broker: open, presence, roster, authorize, and whitelist. The first model allows uncontrolled access and the next two models are appropriate only in instant-messaging applications. Therefore, a Broker SHOULD support only the authorize model (under which the Topic owner needs to approve all subscription requests and only subscribers can retrieve data items) and the whitelist model (under which only preconfigured Platforms can subscribe or retrieve data items). In order to ease the deployment burden, subscription approvals and whitelist management can be automated (e.g, the Topic "owner" can be a policy server). The choice between "authorize" and "whitelist" as the default access model is a matter for local service policy.</t>
@@ -592,6 +591,7 @@
   </middle>
   <back>
     <references title="Normative References">
+      &RFC2026;
       &RFC2119;
       &RFC8174;
       &RFC6120;
