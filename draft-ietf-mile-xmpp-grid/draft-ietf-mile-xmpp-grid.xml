@@ -7,6 +7,7 @@
   <!ENTITY RFC8446 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8446.xml">
   <!ENTITY RFC5802 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5802.xml">
   <!ENTITY RFC6120 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6120.xml">
+  <!ENTITY RFC6121 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6121.xml">
   <!ENTITY RFC7590 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7590.xml">
   <!ENTITY RFC7677 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7677.xml">
   <!ENTITY RFC7970 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7970.xml">
@@ -40,7 +41,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of popular PIs -->
-<rfc category="std" docName="draft-ietf-mile-xmpp-grid-10" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-mile-xmpp-grid-11" ipr="trust200902">
   <front>
     <title abbrev="XMPP Grid">Using XMPP for Security Information Exchange</title>
     <author fullname="Nancy Cam-Winget" initials="N" surname="Cam-Winget" role="editor">
@@ -448,6 +449,14 @@
   </message>
         ]]></artwork>
       </figure>
+    <!-- -->
+    <t> Note that <xref target='XEP-0060' /> uses the XMPP "&lt;message /&gt;" stanza for delivery of
+        content.  To ensure that messages are delivered to the Consumer even
+        if the Consumer is not online at the same time that the Publisher
+        generates the message, an XMPP-Grid Controller MUST support "offline
+        messaging" delivery semantics as specified in <xref target='RFC6121' />, best
+        practices for which are further explained in <xref target='XEP-0160' />. </t>
+     <!-- -->
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
@@ -479,7 +488,11 @@
         </section>
         <section title="XMPP-Grid Controller">
           <t>The XMPP-Grid Controller (including its associated Broker) is trusted to:
-            <list style="symbols"><t>Broker requests for data and enforce authorization of access to this data throughout its lifecycle </t><t>Perform service requests in a timely and accurate manner </t><t>Create and maintain accurate operational attributes </t><t>Only reveal data to and accept service requests from authorized parties </t></list></t>
+            <list style="symbols"><t>Broker requests for data and enforce authorization of access to this data throughout its lifecycle </t><t>Perform service requests in a timely and accurate manner </t><t>Create and maintain accurate operational attributes </t><t>Only reveal data to and accept service requests from authorized parties </t>
+                <t> Preserve the integrity (and
+                    confidentiality against unauthorized parties) of the data flowing through
+                    it.</t>
+            </list></t>
           <t>The XMPP-Grid Controller is not expected (trusted) to:
             <list style="symbols"><t>Verify the truth (correctness) of data</t></list></t>
         </section>
@@ -511,15 +524,25 @@
           <t>Here is a list of attacks that can be mounted by an authorized
             XMPP-Grid Platform:
             <list style="symbols"><t>	Cause many false alarms or otherwise overload the XMPP-Grid Controller or other elements in the network security system (including human administrators) leading to a denial of service or disabling parts of the network security system </t><t>	Omit important actions (such as posting incriminating data), resulting in incorrect access </t><t>	Use confidential information obtained from the XMPP-Grid Controller to enable further attacks (such as using endpoint health check results to exploit vulnerable endpoints) </t><t>	Advertise data crafted to exploit vulnerabilities in the XMPP-Grid Controller or in other XMPP-Grid Platforms, with a goal of compromising those systems </t><t>	Issue a search request or set up a subscription that matches an enormous result, leading to resource exhaustion on the XMPP-Grid Controller, the publishing XMPP-Grid Platform, and/or the network </t><t>	Establish a communication channel using another XMPP-Grid Platform's session-id
-              </t></list></t>
+              </t>
+            <t>Advertise false data that leads to incorrect (e.g., potentially attacker-controlled
+                or -induced) behavior of XMPP-Grid Platforms, by virtue of applying correct procdeures
+                to the falsified input.
+            </t></list></t>
           <t>Dependencies of or vulnerabilities of authorized XMPP-Grid Platforms can be exploited to effect these attacks. Another way to effect these attacks is to gain the ability to impersonate an XMPP-Grid Platform (through theft of the XMPP-Grid Platform's identity credentials or through other means).  Even a clock skew between the XMPP-Grid Platform and XMPP-Grid Controller can cause problems if the XMPP-Grid Platform assumes that old XMPP-Grid Platform data should be ignored.</t>
         </section>
         <section title=" XMPP-Grid Controllers">
           <t>An unauthorized XMPP-Grid Controller (one which is not trusted by XMPP-Grid Platforms) cannot mount any attacks other than those listed in the Network Attacks section above.</t>
           <t>An authorized XMPP-Grid Controller can mount many attacks. Similar to the XMPP-Grid Platform case described above, these attacks might occur because the XMPP-Grid Controller is controlled by a malicious, careless, or incompetent party (either an XMPP-Grid Controller administrator or an attacker who has seized control of the XMPP-Grid Controller). They might also occur because the XMPP-Grid Controller is running malicious software, because the XMPP-Grid Controller is running buggy software (which can fail in a state that corrupts data or floods the network with traffic), or because the XMPP-Grid Controller has been configured improperly. </t>
           <t>All of the attacks listed for XMPP-Grid Platform above can be mounted by the XMPP-Grid Controller. Detection of these attacks will be more difficult since the XMPP-Grid Controller can create false operational attributes and/or logs that imply some other party created any bad data. </t>
-          <t>Additional XMPP-Grid Controller attacks can include:
-            <list style="symbols"><t>	Expose different data to different XMPP-Grid Platforms to mislead investigators or cause inconsistent behavior </t><t>	Mount an even more effective denial of service attack than a single XMPP-Grid Platform could </t><t>	Obtain and cache XMPP-Grid Platform credentials so they can be used to impersonate XMPP-Grid Platforms even after a breach of the XMPP-Grid Controller is repaired </t><t>	Obtain and cache XMPP-Grid Controller administrator credentials so they can be used to regain control of the XMPP-Grid Controller after the breach of the XMPP-Grid Controller is repaired 
+          <t>Additional XMPP-Grid Controller attacks can be caused by misconfiguration of include:
+              <list style="symbols"><t>	Expose different data to different XMPP-Grid Platforms to mislead investigators or cause inconsistent behavior </t><t>	Mount an even more effective denial of service attack than a single XMPP-Grid Platform could; some mechanisms include inducing the
+                many platforms to perform the same operation in an amplification-style
+                attack, completely refusing to pass any traffic at all, or sending floods of
+                traffic to (certain) platforms or other targets.</t>
+                <t>
+                    Obtain and cache XMPP-Grid Platform credentials so they can be used to impersonate XMPP-Grid Platforms even after a breach of the XMPP-Grid Controller is repaired.  Some SASL mechanisms (including the mandatory-to-implement SCRAM and EXTERNAL with TLS mutual certificate-based authentication) do not admit this class of attack, but others (such as PLAIN) are susceptible.</t>
+                <t>	Obtain and cache XMPP-Grid Controller administrator credentials so they can be used to regain control of the XMPP-Grid Controller after the breach of the XMPP-Grid Controller is repaired.
               </t>
                 <t> Eavesdrop, inject or modify the data being transferred between provider and consumer </t></list></t>
           <t>Dependencies of or vulnerabilities of the XMPP-Grid Controller can be exploited to obtain control of the XMPP-Grid Controller and effect these attacks. </t>
@@ -534,7 +557,7 @@
       <section title="Countermeasures">
         <t>Below are countermeasures for specific attack scenarios to the XMPP-Grid infrastructure.</t>
         <section title="Securing the XMPP-Grid Data Transfer Protocol">
-            <t>To address network attacks, the XMPP-Grid data transfer protocol described in this document requires that the XMPP-Grid messages MUST be carried over TLS (minimally TLS 1.2 <xref target="RFC8446"/>) as described in <xref target="RFC6120"/> and updated by <xref target='RFC7590'/>. The XMPP-Grid Controller and XMPP-Grid Platforms SHOULD mutually authenticate. The XMPP-Grid Platform MUST verify the XMPP-Grid Controller's certificate and determine whether the XMPP-Grid Controller is trusted by this XMPP-Grid Platform before completing the TLS handshake. To ensure interoperability, implementations MUST implement at least one of either the SASL EXTERNAL mechanism <xref target='RFC4422'/> or the SASL SCRAM mechanism. When using the SASL SCRAM mechanism, the SCRAM-SHA-256-PLUS variant SHOULD be preferred over the SCRAM-SHA-256 variant; and SHA-256 variants <xref target='RFC7677'/> SHOULD be preferred over SHA-1 variants <xref target='RFC5802'/>). XMPP-Grid Platforms and XMPP-Grid Controllers using certificate-based authentication SHOULD each verify the revocation status of the other party's certificate.  The selection of which XMPP-Grid Platform authentication technique to use in any particular deployment is left to the administrator. </t>
+            <t>To address network attacks, the XMPP-Grid data transfer protocol described in this document requires that the XMPP-Grid messages MUST be carried over TLS (minimally TLS 1.2 and preferrably TLS 1.3 <xref target="RFC8446"/>) as described in <xref target="RFC6120"/> and updated by <xref target='RFC7590'/>. The XMPP-Grid Controller and XMPP-Grid Platforms SHOULD mutually authenticate. The XMPP-Grid Platform MUST verify the XMPP-Grid Controller's certificate and determine whether the XMPP-Grid Controller is trusted by this XMPP-Grid Platform before completing the TLS handshake. To ensure interoperability, implementations MUST implement at least one of either the SASL EXTERNAL mechanism <xref target='RFC4422'/> or the SASL SCRAM mechanism. When using the SASL SCRAM mechanism, the SCRAM-SHA-256-PLUS variant SHOULD be preferred over the SCRAM-SHA-256 variant; and SHA-256 variants <xref target='RFC7677'/> SHOULD be preferred over SHA-1 variants <xref target='RFC5802'/>). XMPP-Grid Platforms and XMPP-Grid Controllers using certificate-based authentication SHOULD each verify the revocation status of the other party's certificate.  The selection of which XMPP-Grid Platform authentication technique to use in any particular deployment is left to the administrator. </t>
           <t>These protocol security measures provide protection against all the network attacks listed in the above document section except denial of service attacks. If protection against these denial of service attacks is desired, ingress filtering, rate limiting per source IP address, and other denial of service mitigation measures can be employed. In addition, an XMPP-Grid Controller MAY automatically disable a misbehaving XMPP-Grid Platform.</t>
         </section>
         <section title="Securing XMPP-Grid Platforms">
@@ -561,6 +584,22 @@
           <t>As noted above, compromise of a Certification Authority (CA) trusted to issue certificates for the XMPP-Grid Controller and/or XMPP-Grid Platforms is a major security breach. Many guidelines for proper CA security have been developed: the CA/Browser Forum's Baseline Requirements, the AICPA/CICA Trust Service Principles, the IETF's Certificate Transparency <xref target='RFC6962' /> etc. The CA operator and relying parties should agree on an appropriately rigorous security practices to be used.</t>
           <t>Even with the most rigorous security practices, a CA can be compromised. If this compromise is detected quickly, relying parties can remove the CA from their list of trusted CAs, and other CAs can revoke any certificates issued to the CA. However, CA compromise may go undetected for some time, and there's always the possibility that a CA is being operated improperly or in a manner that is not in the interests of the relying parties. For this reason, relying parties may wish to "pin" a small number of particularly critical certificates (such as the certificate for the XMPP-Grid Controller). Once a certificate has been pinned, the relying party will not accept another certificate in its place unless the Administrator explicitly commands it to do so. This does not mean that the relying party will not check the revocation status of pinned certificates. However, the Administrator can still be consulted if a pinned certificate is revoked, since the CA and revocation process are not completely trusted. By "pinning" one or a small set of certificates, the relying party has the effective XMPP-Grid Controller(s) authorized to connect to.</t>
         </section>
+        <section title="End-to-End Encryption of Messages">
+          <t> Because it is expected that there will be a relatively large number
+            of Consumers for every Topic, for purposes of content discovery and
+            scaling this document specifies a "one-to-many" communications
+            pattern using the XMPP Publish-Subscribe extension.  Unfortunately,
+            there is no standardized technology for end-to-end encryption of one-
+            to-many messages in XMPP.  This implies that messages can be subject
+            to eavesdropping, data injection, and data modification attacks
+            within a Broker or Controller.  If it is necessary to mitigate
+            against such attacks, implementers would need to select a messaging
+            pattern other than <xref target='XEP-0060'/>, most likely the basic "instant
+            messaging" pattern specified in <xref target='RFC6121' /> with a suitable XMPP
+            extension for end-to-end encryption (such as <xref target='RFC3923' /> or a more
+            modern method such as <xref target='XEP-0384' />).  The description of such an
+            approach is out of scope for this document. </t>
+            </section>
       </section>
       <section title="Summary">
         <t>XMPP-Grid's considerable value as a broker for security-sensitive data exchange distribution also makes the protocol and the network security elements that implement it a target for attack. Therefore, strong security has been included as a basic design principle within the XMPP-Grid design process.</t>
@@ -595,10 +634,12 @@
       &RFC2119;
       &RFC8174;
       &RFC6120;
+      &RFC6121;
       &RFC7590;
       &RFC7677;
       &RFC4422;
             &RFC5802;
+            &RFC3923;
       <reference anchor="XEP-0004">
       <front>
       <title>Data Forms</title>
@@ -650,7 +691,15 @@
       <date month="December" year="2009"></date>
       </front>
       <seriesInfo name="XSF" value="XEP 0203"/>
-       </reference>
+      </reference>
+      <reference anchor="XEP-0384">
+      <front>
+      <title>Publish-Subscribe</title>
+      <author initials="A" surname="Straub"></author>
+      <date month="July" year="2018"></date>
+      </front>
+      <seriesInfo name="XSF" value="XEP 0384"/>
+      </reference>
     </references>
     <references title="Informative References">
       &RFC8446;
@@ -658,7 +707,15 @@
       &RFC7970;
       &RFC8274;
       &RFC2131;
-      &RFC6962;      
+      &RFC6962;
+      <reference anchor="XEP-0160">
+      <front>
+      <title>Publish-Subscribe</title>
+      <author initials="P" surname="Saint-Andre"></author>
+      <date month="October" year="2016"></date>
+      </front>
+      <seriesInfo name="XSF" value="XEP 0160"/>
+      </reference>
     </references>
   </back>
 </rfc>
